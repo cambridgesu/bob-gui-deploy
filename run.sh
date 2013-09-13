@@ -75,6 +75,8 @@ apacheLogFilesDirectory=/var/log/apache2
 apacheVhostsRoot=/srv/www/vhosts
 apacheUser=wwwrun
 apacheGroup=www
+apacheSslKeyDirectory=/etc/apache2/ssl.key
+apacheSslCrtDirectory=/etc/apache2/ssl.crt
 
 # Create a null vhost if it doesn't exist already, and restart
 nullVhostFile="${apacheVhostsConfigDirectory}/000-null-vhost.conf"
@@ -149,5 +151,21 @@ umask 0002
 if [ ! -d ${documentRoot}/bob ] ; then
 	cd "${documentRoot}"
 	git clone https://github.com/cusu/bob.git
+fi
+
+# Copy in the SSL key and certificate files if not already present
+if [ ! -r "${apacheSslKeyDirectory}/${domainName}.key" ] ; then
+	if [ ! -r "${sslCertificateKey}" ] ; then
+		echo "ERROR: The setup SSL key file is not present"
+		exit 1
+	fi
+	cp -pr "${sslCertificateKey}" "${apacheSslKeyDirectory}/${domainName}.key"
+fi
+if [ ! -r "${apacheSslCrtDirectory}/${domainName}.crt" ] ; then
+	if [ ! -r "${sslCertificateCrt}" ] ; then
+		echo "ERROR: The setup SSL certificate file is not present"
+		exit 1
+	fi
+	cp -pr "${sslCertificateCrt}" "${apacheSslCrtDirectory}/${domainName}.crt"
 fi
 
