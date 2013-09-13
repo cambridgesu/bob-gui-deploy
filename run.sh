@@ -39,19 +39,20 @@ echo "#	BOBGUI installation in progress, follow log file with: tail -f ${setupLo
 echo "#	BOBGUI installation $(date)" >> ${setupLogFile}
 
 # Basic system software
-zypper install -nl findutils-locate pico man >> ${setupLogFile}
+zypper -n install -l findutils-locate pico man
 
 # Ensure we have Git
-zypper install -nl git-core >> ${setupLogFile}
+zypper -n install -l git-core
 
 # Install LAMP
-zypper install -nl apache2 mysql mysql-tools php5 php5-suhosin php5-mysql apache2-mod_php5 >> ${setupLogFile}
+zypper -n install -l apache2 mysql-community-server php5 php5-suhosin php5-mysql apache2-mod_php5
 # Check versions using:
 # /usr/sbin/httpd2 -v (2.2.21)
 # /usr/bin/mysql -V (5.5.25)
 # /usr/bin/php -v (5.3.8)
 
 # Start services
+#!# SUSE doesn't complain if they are already started, but ideally these should check first
 /etc/init.d/apache2 start
 /etc/init.d/mysql start
 # Can check run levels 3 & 5 are started, with:
@@ -60,4 +61,3 @@ zypper install -nl apache2 mysql mysql-tools php5 php5-suhosin php5-mysql apache
 
 # Secure MySQL if not already
 mysqladmin -u root password "${mysqlRootPassword}"
-
