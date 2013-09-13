@@ -16,4 +16,5 @@ webEditorsGroup='website'
 # Path to SSL cert which will be copied in
 sslCertificateKey='/path/to/ssl.key'
 sslCertificateCrt='/path/to/ssl.crt'
+sslCertificateChain=''
 

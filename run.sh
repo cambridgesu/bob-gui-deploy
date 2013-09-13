@@ -108,7 +108,7 @@ vhostFile="${apacheVhostsConfigDirectory}/${domainName}.conf"
 documentRoot="${apacheVhostsRoot}/${domainName}"
 if [ ! -r ${vhostFile} ]; then
 	cat > ${vhostFile} << EOF
-# Voting website
+# Voting website (HTTP)
 NameVirtualHost *:80
 <VirtualHost *:80>
 	ServerAdmin ${serverAdmin}
@@ -168,4 +168,16 @@ if [ ! -r "${apacheSslCrtDirectory}/${domainName}.crt" ] ; then
 	fi
 	cp -pr "${sslCertificateCrt}" "${apacheSslCrtDirectory}/${domainName}.crt"
 fi
+
+# Also add support for an optional SSL chain file
+if [ "${sslCertificateChain}" ] ; then
+	if [ ! -r "${apacheSslCrtDirectory}/${domainName}.chain.crt" ] ; then
+		if [ ! -r "${sslCertificateChain}" ] ; then
+			echo "ERROR: The setup SSL chain file is not present"
+			exit 1
+		fi
+		cp -pr "${sslCertificateChain}" "${apacheSslCrtDirectory}/${domainName}.chain.crt"
+	fi
+fi
+
 
