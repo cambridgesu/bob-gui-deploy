@@ -3,7 +3,10 @@
 # This is a template file, save as simply .config.sh and set your own values below. Make it executable.
 
 
+# Domain name of site
+domainName='?'
+serverAdmin='?'
+
 # MySQL root password
 mysqlRootPassword='?'
-
 

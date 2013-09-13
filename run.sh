@@ -72,6 +72,7 @@ fi
 apacheVhostsConfigDirectory=/etc/apache2/vhosts.d
 apacheDefaultDocumentRoot=/srv/www/htdocs
 apacheLogFilesDirectory=/var/log/apache2
+apacheVhostsRoot=/srv/www/vhosts
 
 # Create a null vhost if it doesn't exist already, and restart
 nullVhostFile="${apacheVhostsConfigDirectory}/000-null-vhost.conf"
@@ -96,4 +97,31 @@ if [ ! -r ${nullVhostFile} ]; then
 </VirtualHost>
 EOF
 fi
+sudo /etc/init.d/apache2 restart
+
+# Create a vhost for the website if it doesn't exist already, and restart
+vhostFile="${apacheVhostsConfigDirectory}/${domainName}.conf"
+if [ ! -r ${vhostFile} ]; then
+	cat > ${vhostFile} << EOF
+# Voting website
+NameVirtualHost *:80
+<VirtualHost *:80>
+	ServerAdmin ${serverAdmin}
+	ServerName ${domainName}
+	DocumentRoot ${apacheVhostsRoot}/${domainName}
+	CustomLog /var/log/apache2/${domainName}-access_log combined
+	ErrorLog /var/log/apache2/${domainName}-error_log
+	HostnameLookups Off
+	UseCanonicalName Off
+	ServerSignature Off
+	<Directory /srv/www/vhosts/${domainName}>
+		Options -Indexes
+		AllowOverride None
+		Order allow,deny
+		Allow from all
+	</Directory>
+</VirtualHost>
+EOF
+fi
+mkdir -p "${apacheVhostsRoot}/${domainName}"
 sudo /etc/init.d/apache2 restart
