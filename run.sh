@@ -39,9 +39,14 @@ echo "#	BOBGUI installation in progress, follow log file with: tail -f ${setupLo
 echo "#	BOBGUI installation $(date)" >> ${setupLogFile}
 
 # Basic system software
-zypper install findutils-locate pico
+zypper install -nl findutils-locate pico man
 
 # Ensure we have Git
-zypper install git-core
+zypper install -nl git-core
 
-
+# Install LAMP
+zypper install -nl apache2 mysql mysql-tools php5 php5-suhosin php5-mysql apache2-mod_php5
+# Check versions using:
+# /usr/sbin/httpd2 -v (2.2.21)
+# /usr/bin/mysql -V (5.5.25)
+# /usr/bin/php -v (5.3.8)
