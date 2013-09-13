@@ -143,3 +143,11 @@ fi
 mkdir -p "${documentRoot}"
 chown nobody."${webEditorsGroup}" "${documentRoot}"
 chmod g+ws "${documentRoot}"
+umask 0002
+
+# Add the BOB software (the native voting component, without any setup management)
+if [ ! -d ${documentRoot}/bob ] ; then
+	cd "${documentRoot}"
+	git clone https://github.com/cusu/bob.git
+fi
+
