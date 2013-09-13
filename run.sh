@@ -45,7 +45,7 @@ zypper -n install -l findutils-locate pico man
 zypper -n install -l git-core
 
 # Install LAMP stack
-zypper -n install -l apache2 mysql-community-server php5 php5-suhosin php5-mysql apache2-mod_php5
+zypper -n install -l apache2 apache2-devel mysql-community-server php5 php5-suhosin php5-mysql apache2-mod_php5
 # Check versions using:
 # /usr/sbin/httpd2 -v (2.2.21)
 # /usr/bin/mysql -V (5.5.25)
@@ -77,6 +77,17 @@ apacheUser=wwwrun
 apacheGroup=www
 apacheSslKeyDirectory=/etc/apache2/ssl.key
 apacheSslCrtDirectory=/etc/apache2/ssl.crt
+
+# Add Raven authentication support; see: https://raven.cam.ac.uk/project/apache/INSTALL
+latestUcamwebauthVersion='2.0.0'
+cd /tmp
+wget https://raven.cam.ac.uk/project/apache/files/mod_ucam_webauth-${latestUcamwebauthVersion}.tar.gz
+tar zxf mod_ucam_webauth-${latestUcamwebauthVersion}.tar.gz
+cd mod_ucam_webauth-${latestUcamwebauthVersion}/
+/usr/sbin/apxs2-prefork -c -i -lcrypto mod_ucam_webauth.c
+cd /tmp
+rm -rf mod_ucam_webauth-${latestUcamwebauthVersion}/
+cd "${SCRIPTDIRECTORY}"
 
 # Create a null vhost if it doesn't exist already, and restart
 nullVhostFile="${apacheVhostsConfigDirectory}/000-null-vhost.conf"
