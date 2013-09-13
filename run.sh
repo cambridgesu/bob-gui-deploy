@@ -139,3 +139,7 @@ if ! groups ${currentActualUser} | grep "\b${webEditorsGroup}\b" > /dev/null 2>&
 	usermod -A "${webEditorsGroup}" "${currentActualUser}"
 fi
 
+# Create the document root and let the web group write to it
+mkdir -p "${documentRoot}"
+chown nobody."${webEditorsGroup}" "${documentRoot}"
+chmod g+ws "${documentRoot}"
