@@ -103,11 +103,69 @@ EOF
 fi
 sudo /etc/init.d/apache2 restart
 
+# Copy in the SSL key and certificate files if not already present
+# For testing, create a self-signed key without a password using:
+#  openssl req -nodes -new -x509 -keyout www.vote.geog.private.cam.ac.uk.key -out www.vote.geog.private.cam.ac.uk.crt
+if [ ! -r "${apacheSslKeyDirectory}/${domainName}.key" ] ; then
+	if [ ! -r "${sslCertificateKey}" ] ; then
+		echo "ERROR: The setup SSL key file is not present"
+		exit 1
+	fi
+	cp -pr "${sslCertificateKey}" "${apacheSslKeyDirectory}/${domainName}.key"
+fi
+if [ ! -r "${apacheSslCrtDirectory}/${domainName}.crt" ] ; then
+	if [ ! -r "${sslCertificateCrt}" ] ; then
+		echo "ERROR: The setup SSL certificate file is not present"
+		exit 1
+	fi
+	cp -pr "${sslCertificateCrt}" "${apacheSslCrtDirectory}/${domainName}.crt"
+fi
+
+# Also add support for an optional SSL chain file
+apacheSslCertificateChainCommand=''
+if [ "${sslCertificateChain}" ] ; then
+	if [ ! -r "${apacheSslCrtDirectory}/${domainName}.chain.crt" ] ; then
+		if [ ! -r "${sslCertificateChain}" ] ; then
+			echo "ERROR: The setup SSL chain file is not present"
+			exit 1
+		fi
+		cp -pr "${sslCertificateChain}" "${apacheSslCrtDirectory}/${domainName}.chain.crt"
+	fi
+	apacheSslCertificateChainCommand="SSLCertificateChainFile  ${apacheSslCrtDirectory}/${domainName}.chain.crt"
+fi
+
 # Create a vhost for the website if it doesn't exist already, and restart
 vhostFile="${apacheVhostsConfigDirectory}/${domainName}.conf"
 documentRoot="${apacheVhostsRoot}/${domainName}"
 if [ ! -r ${vhostFile} ]; then
 	cat > ${vhostFile} << EOF
+# Voting website (HTTPS)
+Listen 443
+NameVirtualHost *:443
+<VirtualHost *:443>
+	ServerAdmin ${serverAdmin}
+	ServerName ${domainName}
+	DocumentRoot ${documentRoot}
+	CustomLog /var/log/apache2/${domainName}_SSL-access_log combined
+	ErrorLog /var/log/apache2/${domainName}_SSL-error_log
+	HostnameLookups Off
+	UseCanonicalName Off
+	ServerSignature Off
+	<Directory /srv/www/vhosts/${domainName}>
+		Options -Indexes
+		AllowOverride None
+		Order allow,deny
+		Allow from all
+	</Directory>
+	
+	# SSL
+	SSLEngine on
+	SSLCertificateFile       ${apacheSslCrtDirectory}/${domainName}.crt
+	SSLCertificateKeyFile    ${apacheSslKeyDirectory}/${domainName}.key
+	${apacheSslCertificateChainCommand}
+	
+</VirtualHost>
+
 # Voting website (HTTP)
 NameVirtualHost *:80
 <VirtualHost *:80>
@@ -152,32 +210,4 @@ if [ ! -d ${documentRoot}/bob ] ; then
 	cd "${documentRoot}"
 	git clone https://github.com/cusu/bob.git
 fi
-
-# Copy in the SSL key and certificate files if not already present
-if [ ! -r "${apacheSslKeyDirectory}/${domainName}.key" ] ; then
-	if [ ! -r "${sslCertificateKey}" ] ; then
-		echo "ERROR: The setup SSL key file is not present"
-		exit 1
-	fi
-	cp -pr "${sslCertificateKey}" "${apacheSslKeyDirectory}/${domainName}.key"
-fi
-if [ ! -r "${apacheSslCrtDirectory}/${domainName}.crt" ] ; then
-	if [ ! -r "${sslCertificateCrt}" ] ; then
-		echo "ERROR: The setup SSL certificate file is not present"
-		exit 1
-	fi
-	cp -pr "${sslCertificateCrt}" "${apacheSslCrtDirectory}/${domainName}.crt"
-fi
-
-# Also add support for an optional SSL chain file
-if [ "${sslCertificateChain}" ] ; then
-	if [ ! -r "${apacheSslCrtDirectory}/${domainName}.chain.crt" ] ; then
-		if [ ! -r "${sslCertificateChain}" ] ; then
-			echo "ERROR: The setup SSL chain file is not present"
-			exit 1
-		fi
-		cp -pr "${sslCertificateChain}" "${apacheSslCrtDirectory}/${domainName}.chain.crt"
-	fi
-fi
-
 
