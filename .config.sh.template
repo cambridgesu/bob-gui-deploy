@@ -10,3 +10,6 @@ serverAdmin='?'
 # MySQL root password
 mysqlRootPassword='?'
 
+# Website editors' group
+webEditorsGroup='website'
+

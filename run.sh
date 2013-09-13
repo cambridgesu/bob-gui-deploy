@@ -73,6 +73,8 @@ apacheVhostsConfigDirectory=/etc/apache2/vhosts.d
 apacheDefaultDocumentRoot=/srv/www/htdocs
 apacheLogFilesDirectory=/var/log/apache2
 apacheVhostsRoot=/srv/www/vhosts
+apacheUser=wwwrun
+apacheGroup=www
 
 # Create a null vhost if it doesn't exist already, and restart
 nullVhostFile="${apacheVhostsConfigDirectory}/000-null-vhost.conf"
@@ -101,6 +103,7 @@ sudo /etc/init.d/apache2 restart
 
 # Create a vhost for the website if it doesn't exist already, and restart
 vhostFile="${apacheVhostsConfigDirectory}/${domainName}.conf"
+documentRoot="${apacheVhostsRoot}/${domainName}"
 if [ ! -r ${vhostFile} ]; then
 	cat > ${vhostFile} << EOF
 # Voting website
@@ -108,7 +111,7 @@ NameVirtualHost *:80
 <VirtualHost *:80>
 	ServerAdmin ${serverAdmin}
 	ServerName ${domainName}
-	DocumentRoot ${apacheVhostsRoot}/${domainName}
+	DocumentRoot ${documentRoot}
 	CustomLog /var/log/apache2/${domainName}-access_log combined
 	ErrorLog /var/log/apache2/${domainName}-error_log
 	HostnameLookups Off
@@ -123,5 +126,16 @@ NameVirtualHost *:80
 </VirtualHost>
 EOF
 fi
-mkdir -p "${apacheVhostsRoot}/${domainName}"
 sudo /etc/init.d/apache2 restart
+
+# Create a group for web editors, who can edit the files
+if ! grep -i "^${webEditorsGroup}\b" /etc/group > /dev/null 2>&1 ; then
+	groupadd "${webEditorsGroup}"
+fi
+
+# Add the current user to the web editors' group, if not already in it
+currentActualUser=`who am i | awk '{print $1}'`
+if ! groups ${currentActualUser} | grep "\b${webEditorsGroup}\b" > /dev/null 2>&1 ; then
+	usermod -A "${webEditorsGroup}" "${currentActualUser}"
+fi
+
