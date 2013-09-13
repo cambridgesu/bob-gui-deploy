@@ -44,7 +44,7 @@ zypper -n install -l findutils-locate pico man
 # Ensure we have Git
 zypper -n install -l git-core
 
-# Install LAMP
+# Install LAMP stack
 zypper -n install -l apache2 mysql-community-server php5 php5-suhosin php5-mysql apache2-mod_php5
 # Check versions using:
 # /usr/sbin/httpd2 -v (2.2.21)
@@ -60,10 +60,11 @@ zypper -n install -l apache2 mysql-community-server php5 php5-suhosin php5-mysql
 # sudo /sbin/chkconfig -a mysql
 
 # Secure MySQL, by setting the root password if no password is currently set
+set +e
 mysql -u root --password='' -e ';' 2>/dev/null
 dbstatus=`echo $?`
+set -e
 if [ $dbstatus -eq 0 ]; then
         mysqladmin -u root password "${mysqlRootPassword}"
 fi
-
 
