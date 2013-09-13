@@ -59,5 +59,11 @@ zypper -n install -l apache2 mysql-community-server php5 php5-suhosin php5-mysql
 # sudo /sbin/chkconfig -a apache2
 # sudo /sbin/chkconfig -a mysql
 
-# Secure MySQL if not already
-mysqladmin -u root password "${mysqlRootPassword}"
+# Secure MySQL, by setting the root password if no password is currently set
+mysql -u root --password='' -e ';' 2>/dev/null
+dbstatus=`echo $?`
+if [ $dbstatus -eq 0 ]; then
+        mysqladmin -u root password "${mysqlRootPassword}"
+fi
+
+
