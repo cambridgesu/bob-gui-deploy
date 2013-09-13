@@ -164,6 +164,11 @@ NameVirtualHost *:443
 	SSLCertificateKeyFile    ${apacheSslKeyDirectory}/${domainName}.key
 	${apacheSslCertificateChainCommand}
 	
+	# Lock down PHP environment
+	php_admin_value output_buffering 0
+	php_admin_value expose_php 0
+	php_admin_value file_uploads 0
+
 </VirtualHost>
 
 # Voting website (HTTP)
