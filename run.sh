@@ -39,14 +39,25 @@ echo "#	BOBGUI installation in progress, follow log file with: tail -f ${setupLo
 echo "#	BOBGUI installation $(date)" >> ${setupLogFile}
 
 # Basic system software
-zypper install -nl findutils-locate pico man
+zypper install -nl findutils-locate pico man >> ${setupLogFile}
 
 # Ensure we have Git
-zypper install -nl git-core
+zypper install -nl git-core >> ${setupLogFile}
 
 # Install LAMP
-zypper install -nl apache2 mysql mysql-tools php5 php5-suhosin php5-mysql apache2-mod_php5
+zypper install -nl apache2 mysql mysql-tools php5 php5-suhosin php5-mysql apache2-mod_php5 >> ${setupLogFile}
 # Check versions using:
 # /usr/sbin/httpd2 -v (2.2.21)
 # /usr/bin/mysql -V (5.5.25)
 # /usr/bin/php -v (5.3.8)
+
+# Start services
+/etc/init.d/apache2 start
+/etc/init.d/mysql start
+# Can check run levels 3 & 5 are started, with:
+# sudo /sbin/chkconfig -a apache2
+# sudo /sbin/chkconfig -a mysql
+
+# Secure MySQL if not already
+mysqladmin -u root password "${mysqlRootPassword}"
+
