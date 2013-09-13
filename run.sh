@@ -183,6 +183,10 @@ NameVirtualHost *:80
 		Order allow,deny
 		Allow from all
 	</Directory>
+	
+	# Redirect all traffic to the SSL vhost
+	Redirect permanent / https://${domainName}/
+	
 </VirtualHost>
 EOF
 fi
