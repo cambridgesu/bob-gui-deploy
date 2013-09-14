@@ -122,7 +122,7 @@ if [ ! -r "${apacheSslCrtDirectory}/${domainName}.crt" ] ; then
 fi
 
 # Also add support for an optional SSL chain file
-apacheSslCertificateChainCommand=''
+apacheSslCertificateChainDirective=''
 if [ "${sslCertificateChain}" ] ; then
 	if [ ! -r "${apacheSslCrtDirectory}/${domainName}.chain.crt" ] ; then
 		if [ ! -r "${sslCertificateChain}" ] ; then
@@ -131,25 +131,51 @@ if [ "${sslCertificateChain}" ] ; then
 		fi
 		cp -pr "${sslCertificateChain}" "${apacheSslCrtDirectory}/${domainName}.chain.crt"
 	fi
-	apacheSslCertificateChainCommand="SSLCertificateChainFile  ${apacheSslCrtDirectory}/${domainName}.chain.crt"
+	apacheSslCertificateChainDirective="SSLCertificateChainFile  ${apacheSslCrtDirectory}/${domainName}.chain.crt"
 fi
 
-# Add Raven authentication support; see: https://raven.cam.ac.uk/project/apache/INSTALL
-zypper install -t pattern devel_basis
-zypper install -t pattern devel_C_C++
-latestUcamwebauthVersion='2.0.0'
-cd /tmp
-get https://raven.cam.ac.uk/project/apache/files/mod_ucam_webauth-${latestUcamwebauthVersion}.tar.gz
-tar zxf mod_ucam_webauth-${latestUcamwebauthVersion}.tar.gz
-cd mod_ucam_webauth-${latestUcamwebauthVersion}/
-usr/sbin/apxs2-prefork -c -i -lcrypto mod_ucam_webauth.c
-cd /tmp
-rm -rf mod_ucam_webauth-${latestUcamwebauthVersion}/
-cd "${SCRIPTDIRECTORY}"
+# Add authencation support, either Raven or Basic Auth
+ravenModuleDirective=''
+if [ "${ravenAuth}" == 'true' ] ; then
+	# Add Raven authentication support; see: https://raven.cam.ac.uk/project/apache/INSTALL
+	# Compile the Ucam-webauth Apache module
+#	zypper -n install -l -t pattern devel_basis
+#	zypper -n install -l -t pattern devel_C_C++
+#	latestUcamwebauthVersion='2.0.0'
+#	cd /tmp
+#	wget https://raven.cam.ac.uk/project/apache/files/mod_ucam_webauth-${latestUcamwebauthVersion}.tar.gz
+#	tar zxf mod_ucam_webauth-${latestUcamwebauthVersion}.tar.gz
+#	cd mod_ucam_webauth-${latestUcamwebauthVersion}/
+#	/usr/sbin/apxs2 -c -i -lcrypto mod_ucam_webauth.c
+#	cd /tmp
+#	rm -rf mod_ucam_webauth-${latestUcamwebauthVersion}/
+#	cd "${SCRIPTDIRECTORY}"
+	
+	# Define a directive to include the module in the Apache configuration
+	ravenModuleDirective=$'\n# Raven\nLoadModule ucam_webauth_module /usr/lib64/apache2/mod_ucam_webauth.so'
 
-# Generate a cookie key for Raven auth; see: http://www.howtogeek.com/howto/30184/
-randpw(){ < /dev/urandom tr -dc A-Za-z0-9 | head -c${1:-16};echo;}
-cookieKey=`randpw`
+	# Generate a cookie key for Raven auth; see: http://www.howtogeek.com/howto/30184/
+	randpw(){ < /dev/urandom tr -dc A-Za-z0-9 | head -c${1:-16};echo;}
+	cookieKey=`randpw`
+	
+	# Generate the auth config
+	authConfig='AADescription "Online voting"
+		AACookieKey "'"${cookieKey}"'"
+		AuthType Ucam-WebAuth
+		AAForceInteract On'
+else
+	# Create an auth file; users need to be added manually
+	authFile="${apacheVhostsConfigDirectory}/${domainName}.htpasswd"
+	if [ ! -r ${authFile} ]; then
+		touch $authFile
+		echo "Add users here by running:   sudo /usr/bin/htpasswd2 ${authFile} username" >> ${authFile}
+	fi
+	
+	# Generate the auth config
+	authConfig='AuthName "Online voting"
+		AuthType Basic
+		AuthUserFile "'"${authFile}"'"'
+fi
 
 # Create a vhost for the website if it doesn't exist already, and restart
 vhostFile="${apacheVhostsConfigDirectory}/${domainName}.conf"
@@ -159,7 +185,13 @@ if [ ! -r ${vhostFile} ]; then
 ## Voting website
 
 # General server configuration
-LoadModule ucam_webauth_module /usr/lib64/apache2/mod_ucam_webauth.so
+${ravenModuleDirective}
+
+# Lock down PHP environment
+php_admin_value output_buffering 0
+php_admin_value expose_php 0
+php_admin_value file_uploads 0
+
 
 # Voting website (HTTPS)
 Listen 443
@@ -173,7 +205,7 @@ NameVirtualHost *:443
 	HostnameLookups Off
 	UseCanonicalName Off
 	ServerSignature Off
-	<Directory /srv/www/vhosts/${domainName}>
+	<Directory />
 		Options -Indexes
 		AllowOverride None
 		Order allow,deny
@@ -184,20 +216,12 @@ NameVirtualHost *:443
 	SSLEngine on
 	SSLCertificateFile       ${apacheSslCrtDirectory}/${domainName}.crt
 	SSLCertificateKeyFile    ${apacheSslKeyDirectory}/${domainName}.key
-	${apacheSslCertificateChainCommand}
+	${apacheSslCertificateChainDirective}
 	
-	# Lock down PHP environment
-	php_admin_value output_buffering 0
-	php_admin_value expose_php 0
-	php_admin_value file_uploads 0
-
 	# Authentication
 	<Directory />
-		AADescription "Online voting"
-		AACookieKey "${cookieKey}"
-		AuthType Ucam-WebAuth
+		${authConfig}
 		Require valid-user
-		AAForceInteract On
 	</Directory>
 	<Files logout.html>
 		SetHandler AALogout

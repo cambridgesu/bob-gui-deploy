@@ -18,3 +18,6 @@ sslCertificateKey='/path/to/ssl.key'
 sslCertificateCrt='/path/to/ssl.crt'
 sslCertificateChain=''
 
+# Authentication; whether to use Raven (string true) or basic auth (string false)
+ravenAuth=true
+
