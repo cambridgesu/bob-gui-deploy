@@ -41,11 +41,18 @@ echo "#	BOBGUI installation $(date)" >> ${setupLogFile}
 # Basic system software
 zypper -n install -l findutils-locate pico man wget
 
-# NTP
-zypper -n install -l ntp
-
 # Ensure we have Git
 zypper -n install -l git-core
+
+# NTP
+zypper -n install -l ntp
+systemctl enable ntp.service
+if ! grep -v -q "${timeServer1}" /etc/ntp.conf ; then
+	echo "server ${timeServer1}" >> /etc/ntp.conf
+	echo "server ${timeServer2}" >> /etc/ntp.conf
+	echo "server ${timeServer3}" >> /etc/ntp.conf
+fi
+sudo /etc/init.d/ntp restart
 
 # Install LAMP stack
 zypper -n install -l apache2 apache2-devel mysql-community-server php5 php5-suhosin php5-mysql apache2-mod_php5

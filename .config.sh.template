@@ -21,3 +21,8 @@ sslCertificateChain=''
 # Authentication; whether to use Raven (string true) or basic auth (string false)
 ravenAuth=true
 
+# NTP servers
+timeServer1=1.uk.pool.ntp.org
+timeServer2=2.uk.pool.ntp.org
+timeServer3=3.uk.pool.ntp.org
+
