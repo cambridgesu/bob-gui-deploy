@@ -30,7 +30,7 @@ timeServer3=3.uk.pool.ntp.org
 bobDbDatabase='votes'
 bobDbUsername='testvote'
 bobDbSetupUsername='testvotesetup'
-bobDbPassword='martintesting'
+bobDbPassword='thepassword'
 
 # Sample ballot setup
 sampleBallotUsername='someusername'
