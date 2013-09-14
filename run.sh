@@ -41,6 +41,9 @@ echo "#	BOBGUI installation $(date)" >> ${setupLogFile}
 # Basic system software
 zypper -n install -l findutils-locate pico man wget
 
+# NTP
+zypper -n install -l ntp
+
 # Ensure we have Git
 zypper -n install -l git-core
 
