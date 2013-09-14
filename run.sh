@@ -139,17 +139,17 @@ ravenModuleDirective=''
 if [ "${ravenAuth}" == 'true' ] ; then
 	# Add Raven authentication support; see: https://raven.cam.ac.uk/project/apache/INSTALL
 	# Compile the Ucam-webauth Apache module
-#	zypper -n install -l -t pattern devel_basis
-#	zypper -n install -l -t pattern devel_C_C++
-#	latestUcamwebauthVersion='2.0.0'
-#	cd /tmp
-#	wget https://raven.cam.ac.uk/project/apache/files/mod_ucam_webauth-${latestUcamwebauthVersion}.tar.gz
-#	tar zxf mod_ucam_webauth-${latestUcamwebauthVersion}.tar.gz
-#	cd mod_ucam_webauth-${latestUcamwebauthVersion}/
-#	/usr/sbin/apxs2 -c -i -lcrypto mod_ucam_webauth.c
-#	cd /tmp
-#	rm -rf mod_ucam_webauth-${latestUcamwebauthVersion}/
-#	cd "${SCRIPTDIRECTORY}"
+	zypper -n install -l -t pattern devel_basis
+	zypper -n install -l -t pattern devel_C_C++
+	latestUcamwebauthVersion='2.0.0'
+	cd /tmp
+	wget https://raven.cam.ac.uk/project/apache/files/mod_ucam_webauth-${latestUcamwebauthVersion}.tar.gz
+	tar zxf mod_ucam_webauth-${latestUcamwebauthVersion}.tar.gz
+	cd mod_ucam_webauth-${latestUcamwebauthVersion}/
+	/usr/sbin/apxs2 -c -i -lcrypto mod_ucam_webauth.c
+	cd /tmp
+	rm -rf mod_ucam_webauth-${latestUcamwebauthVersion}/
+	cd "${SCRIPTDIRECTORY}"
 	
 	# Define a directive to include the module in the Apache configuration
 	ravenModuleDirective=$'\n# Raven\nLoadModule ucam_webauth_module /usr/lib64/apache2/mod_ucam_webauth.so'
