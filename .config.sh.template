@@ -26,3 +26,12 @@ timeServer1=1.uk.pool.ntp.org
 timeServer2=2.uk.pool.ntp.org
 timeServer3=3.uk.pool.ntp.org
 
+# Database connection details
+bobDbDatabase='votes'
+bobDbUsername='testvote'
+bobDbSetupUsername='testvotesetup'
+bobDbPassword='martintesting'
+
+# Sample ballot setup
+sampleBallotUsername='someusername'
+
