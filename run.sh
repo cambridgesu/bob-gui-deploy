@@ -39,7 +39,7 @@ echo "#	BOBGUI installation in progress, follow log file with: tail -f ${setupLo
 echo "#	BOBGUI installation $(date)" >> ${setupLogFile}
 
 # Basic system software
-zypper -n install -l findutils-locate pico man
+zypper -n install -l findutils-locate pico man wget
 
 # Ensure we have Git
 zypper -n install -l git-core
@@ -77,17 +77,6 @@ apacheUser=wwwrun
 apacheGroup=www
 apacheSslKeyDirectory=/etc/apache2/ssl.key
 apacheSslCrtDirectory=/etc/apache2/ssl.crt
-
-# Add Raven authentication support; see: https://raven.cam.ac.uk/project/apache/INSTALL
-latestUcamwebauthVersion='2.0.0'
-cd /tmp
-wget https://raven.cam.ac.uk/project/apache/files/mod_ucam_webauth-${latestUcamwebauthVersion}.tar.gz
-tar zxf mod_ucam_webauth-${latestUcamwebauthVersion}.tar.gz
-cd mod_ucam_webauth-${latestUcamwebauthVersion}/
-/usr/sbin/apxs2-prefork -c -i -lcrypto mod_ucam_webauth.c
-cd /tmp
-rm -rf mod_ucam_webauth-${latestUcamwebauthVersion}/
-cd "${SCRIPTDIRECTORY}"
 
 # Create a null vhost if it doesn't exist already, and restart
 nullVhostFile="${apacheVhostsConfigDirectory}/000-null-vhost.conf"
@@ -145,11 +134,33 @@ if [ "${sslCertificateChain}" ] ; then
 	apacheSslCertificateChainCommand="SSLCertificateChainFile  ${apacheSslCrtDirectory}/${domainName}.chain.crt"
 fi
 
+# Add Raven authentication support; see: https://raven.cam.ac.uk/project/apache/INSTALL
+zypper install -t pattern devel_basis
+zypper install -t pattern devel_C_C++
+latestUcamwebauthVersion='2.0.0'
+cd /tmp
+get https://raven.cam.ac.uk/project/apache/files/mod_ucam_webauth-${latestUcamwebauthVersion}.tar.gz
+tar zxf mod_ucam_webauth-${latestUcamwebauthVersion}.tar.gz
+cd mod_ucam_webauth-${latestUcamwebauthVersion}/
+usr/sbin/apxs2-prefork -c -i -lcrypto mod_ucam_webauth.c
+cd /tmp
+rm -rf mod_ucam_webauth-${latestUcamwebauthVersion}/
+cd "${SCRIPTDIRECTORY}"
+
+# Generate a cookie key for Raven auth; see: http://www.howtogeek.com/howto/30184/
+randpw(){ < /dev/urandom tr -dc A-Za-z0-9 | head -c${1:-16};echo;}
+cookieKey=`randpw`
+
 # Create a vhost for the website if it doesn't exist already, and restart
 vhostFile="${apacheVhostsConfigDirectory}/${domainName}.conf"
 documentRoot="${apacheVhostsRoot}/${domainName}"
 if [ ! -r ${vhostFile} ]; then
 	cat > ${vhostFile} << EOF
+## Voting website
+
+# General server configuration
+LoadModule ucam_webauth_module /usr/lib64/apache2/mod_ucam_webauth.so
+
 # Voting website (HTTPS)
 Listen 443
 NameVirtualHost *:443
@@ -179,6 +190,26 @@ NameVirtualHost *:443
 	php_admin_value output_buffering 0
 	php_admin_value expose_php 0
 	php_admin_value file_uploads 0
+
+	# Authentication
+	<Directory />
+		AADescription "Online voting"
+		AACookieKey "${cookieKey}"
+		AuthType Ucam-WebAuth
+		Require valid-user
+		AAForceInteract On
+	</Directory>
+	<Files logout.html>
+		SetHandler AALogout
+	</Files>
+	
+	# Deny technical files being retrieved via a browser
+	<Files ".ht*">
+		deny from all
+	</Files>
+	<Files "dbpass">
+		deny from all
+	</Files>
 
 </VirtualHost>
 
