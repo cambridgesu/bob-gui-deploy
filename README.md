@@ -8,7 +8,7 @@ https://github.com/cusu/bob
 
 ## Using this repository
 
-Clone the repository, make the scripts executable, and create a .config.sh file based on the template.
+Clone the repository, make the scripts executable, and create a .config.sh file based on the template. Then do `sudo ./run.sh`
 
 
 ## Credits
