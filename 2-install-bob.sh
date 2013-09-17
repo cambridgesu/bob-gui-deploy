@@ -12,9 +12,6 @@ if [ ! -d ${documentRoot}/bob ] ; then
 	git clone https://github.com/cusu/bob.git
 fi
 
-# Create a database binding
-mysql="mysql -u root -p${mysqlRootPassword} -h localhost"
-
 # Use the database version of the boostrap file rather than the manual bootstap file
 if [ -r "${documentRoot}"/bob/index-dbconfig.php ]; then
 	mv "${documentRoot}"/bob/index-dbconfig.php "${documentRoot}"/bob/index.php
@@ -65,7 +62,7 @@ EOF
 ${mysql} ${bobDbDatabase} < /tmp/instances.sql
 rm /tmp/instances.sql
 
-# Add a sample ballot
+# Define a sample ballot
 cat > /tmp/sampleballot.sql << EOF
 
 # Create the instance
@@ -87,6 +84,8 @@ CREATE TABLE IF NOT EXISTS testelection_voter (username VARCHAR(16) collate utf8
 INSERT IGNORE INTO testelection_voter VALUES ('${sampleBallotUsername}', 0, 'Forename', 'Surname', 'My college');
 
 EOF
+
+# Create the ballot
 ${mysql} ${bobDbDatabase} < /tmp/sampleballot.sql
 rm /tmp/sampleballot.sql
 

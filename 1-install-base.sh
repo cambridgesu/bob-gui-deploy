@@ -45,6 +45,9 @@ if [ $dbstatus -eq 0 ]; then
         mysqladmin -u root password "${mysqlRootPassword}"
 fi
 
+# Create a database binding for convenience
+mysql="mysql -u root -p${mysqlRootPassword} -h localhost"
+
 # Define the Apache layout norms for the distribution
 apacheConfDirectory=/etc/apache2
 apacheVhostsConfigDirectory=/etc/apache2/vhosts.d
