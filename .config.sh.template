@@ -19,7 +19,7 @@ sslCertificateCrt='/path/to/ssl.crt'
 sslCertificateChain=''
 
 # Authentication; whether to use Raven (string true) or basic auth (string false)
-ravenAuth=true
+ravenAuth='true'
 
 # NTP servers
 timeServer1=1.uk.pool.ntp.org

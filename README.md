@@ -6,6 +6,11 @@ For more details of BOB, see
 https://github.com/cusu/bob
 
 
+## Using this repository
+
+Clone the repository, make the scripts executable, and create a .config.sh file based on the template.
+
+
 ## Credits
 
 * Martin Lucas-Smith, Department of Geography, University of Cambridge
@@ -14,4 +19,5 @@ https://github.com/cusu/bob
 ## License
 
 The code is licensed under the version 2 of the GPL.
+
 

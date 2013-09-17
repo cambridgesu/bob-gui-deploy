@@ -1,7 +1,12 @@
 #!/bin/bash
 # Script to install BOB and its delegated management GUI on Ubuntu
-# Tested on openSUSE 12.1
+# Tested on SLES 12.0 with SDK installed
 # This script is idempotent - it can be safely re-run without destroying existing data
+
+# SLES SDK is required; basically:
+# 1) Download the SDK DVD1 .iso to /tmp/
+# 2) Run yast (as root), and go to Software -> Add-On Products, then add the local path
+
 
 
 # Narrate
@@ -39,23 +44,22 @@ echo "#	BOBGUI installation in progress, follow log file with: tail -f ${setupLo
 echo "#	BOBGUI installation $(date)" >> ${setupLogFile}
 
 # Basic system software
-zypper -n install -l findutils-locate pico man wget
+zypper -n install -l findutils-locate man wget
 
 # Ensure we have Git
 zypper -n install -l git-core
 
 # NTP
 zypper -n install -l ntp
-systemctl enable ntp.service
 if ! grep -v -q "${timeServer1}" /etc/ntp.conf ; then
 	echo "server ${timeServer1}" >> /etc/ntp.conf
 	echo "server ${timeServer2}" >> /etc/ntp.conf
 	echo "server ${timeServer3}" >> /etc/ntp.conf
 fi
-sudo /etc/init.d/ntp restart
+/etc/init.d/ntp restart
 
 # Install LAMP stack
-zypper -n install -l apache2 apache2-devel mysql-community-server php5 php5-suhosin php5-mysql apache2-mod_php5
+zypper -n install -l apache2 apache2-devel mysql mysql-client php5 php5-suhosin php5-mysql apache2-mod_php5
 # Check versions using:
 # /usr/sbin/httpd2 -v (2.2.21)
 # /usr/bin/mysql -V (5.5.25)
@@ -83,6 +87,7 @@ apacheVhostsConfigDirectory=/etc/apache2/vhosts.d
 apacheDefaultDocumentRoot=/srv/www/htdocs
 apacheLogFilesDirectory=/var/log/apache2
 apacheVhostsRoot=/srv/www/vhosts
+apacheModulesDirectory=/usr/lib64/apache2
 apacheUser=wwwrun
 apacheGroup=www
 apacheSslKeyDirectory=/etc/apache2/ssl.key
@@ -115,7 +120,7 @@ sudo /etc/init.d/apache2 restart
 
 # Copy in the SSL key and certificate files if not already present
 # For testing, create a self-signed key without a password using:
-#  openssl req -nodes -new -x509 -keyout www.vote.geog.private.cam.ac.uk.key -out www.vote.geog.private.cam.ac.uk.crt
+#  openssl req -nodes -new -x509 -keyout vote.example.com.key -out vote.example.com.crt
 if [ ! -r "${apacheSslKeyDirectory}/${domainName}.key" ] ; then
 	if [ ! -r "${sslCertificateKey}" ] ; then
 		echo "ERROR: The setup SSL key file is not present"
@@ -145,24 +150,25 @@ if [ "${sslCertificateChain}" ] ; then
 fi
 
 # Add authentication support, either Raven or Basic Auth
-ravenModuleDirective=''
+# For Raven, see: https://raven.cam.ac.uk/project/apache/INSTALL
+authModuleDirective=''
 if [ "${ravenAuth}" == 'true' ] ; then
-	# Add Raven authentication support; see: https://raven.cam.ac.uk/project/apache/INSTALL
-	# Compile the Ucam-webauth Apache module
-	zypper -n install -l -t pattern devel_basis
-	zypper -n install -l -t pattern devel_C_C++
-	latestUcamwebauthVersion='2.0.0'
-	cd /tmp
-	wget https://raven.cam.ac.uk/project/apache/files/mod_ucam_webauth-${latestUcamwebauthVersion}.tar.gz
-	tar zxf mod_ucam_webauth-${latestUcamwebauthVersion}.tar.gz
-	cd mod_ucam_webauth-${latestUcamwebauthVersion}/
-	/usr/sbin/apxs2 -c -i -lcrypto mod_ucam_webauth.c
-	cd /tmp
-	rm -rf mod_ucam_webauth-${latestUcamwebauthVersion}/
-	cd "${SCRIPTDIRECTORY}"
+	
+	# Compile the Ucam-webauth Apache module if required
+	if [ ! -r ${apacheModulesDirectory}/mod_ucam_webauth.so ]; then
+		latestUcamwebauthVersion='2.0.0'
+		cd /tmp
+		wget https://raven.cam.ac.uk/project/apache/files/mod_ucam_webauth-${latestUcamwebauthVersion}.tar.gz
+		tar zxf mod_ucam_webauth-${latestUcamwebauthVersion}.tar.gz
+		cd mod_ucam_webauth-${latestUcamwebauthVersion}/
+		/usr/sbin/apxs2 -c -i -lcrypto mod_ucam_webauth.c
+		cd /tmp
+		rm -rf mod_ucam_webauth-${latestUcamwebauthVersion}/
+		cd "${SCRIPTDIRECTORY}"
+	fi
 	
 	# Define a directive to include the module in the Apache configuration
-	ravenModuleDirective=$'\n# Raven\nLoadModule ucam_webauth_module /usr/lib64/apache2/mod_ucam_webauth.so'
+	authModuleDirective=$'\n# Raven\nLoadModule ucam_webauth_module /usr/lib64/apache2/mod_ucam_webauth.so'
 
 	# Generate a cookie key for Raven auth; see: http://www.howtogeek.com/howto/30184/
 	randpw(){ < /dev/urandom tr -dc A-Za-z0-9 | head -c${1:-16};echo;}
@@ -195,7 +201,7 @@ if [ ! -r ${vhostFile} ]; then
 ## Voting website
 
 # General server configuration
-${ravenModuleDirective}
+${authModuleDirective}
 
 # Lock down PHP environment
 php_admin_value output_buffering 0
@@ -271,7 +277,6 @@ NameVirtualHost *:80
 </VirtualHost>
 EOF
 fi
-sudo /etc/init.d/apache2 restart
 
 # Create a group for web editors, who can edit the files
 if ! grep -i "^${webEditorsGroup}\b" /etc/group > /dev/null 2>&1 ; then
@@ -289,6 +294,9 @@ mkdir -p "${documentRoot}"
 chown nobody."${webEditorsGroup}" "${documentRoot}"
 chmod g+ws "${documentRoot}"
 umask 0002
+
+# Restart the webserver
+sudo /etc/init.d/apache2 restart
 
 # Add the BOB software (the native voting component, without any setup management)
 if [ ! -d ${documentRoot}/bob ] ; then
