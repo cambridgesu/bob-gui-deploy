@@ -46,5 +46,23 @@ echo "#	BOBGUI installation $(date)" >> ${setupLogFile}
 # Install the base system
 source ./1-install-base.sh
 
-# Install the voting component (BOB)
-source ./2-install-bob.sh
+# Install the voting component (BOB), if required
+if $installBob ; then
+	source ./2-install-bob.sh
+fi
+
+# Install the GUI listing component, if required
+if $installBobGuiListing ; then
+	source ./3-install-bob-gui-listing.sh
+fi
+
+# Install the GUI control panel component, if required
+if $installBobGuiControlpanel ; then
+	source ./4-install-bob-gui-controlpanel.sh
+fi
+
+# Install the GUI ingesting (config transfer) component, if required
+if $installBobGuiIngest ; then
+	source ./5-install-bob-gui-ingest.sh
+fi
+

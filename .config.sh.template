@@ -3,6 +3,12 @@
 # This is a template file, save as simply .config.sh and set your own values below. Make it executable.
 
 
+# Specify components to install for this machine's role (bool true/false)
+installBob=true
+installBobGuiListing=true
+installBobGuiControlpanel=true
+installBobGuiIngest=true
+
 # Domain name of site
 domainName='?'
 serverAdmin='?'
@@ -18,8 +24,8 @@ sslCertificateKey='/path/to/ssl.key'
 sslCertificateCrt='/path/to/ssl.crt'
 sslCertificateChain=''
 
-# Authentication; whether to use Raven (string true) or basic auth (string false)
-ravenAuth='true'
+# Authentication; whether to use Raven (bool true/false)
+ravenAuth=true
 
 # NTP servers
 timeServer1=1.uk.pool.ntp.org
