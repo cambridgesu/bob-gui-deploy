@@ -83,6 +83,7 @@ if [ $dbstatus -eq 0 ]; then
 fi
 
 # Define the Apache layout norms for the distribution
+apacheConfDirectory=/etc/apache2
 apacheVhostsConfigDirectory=/etc/apache2/vhosts.d
 apacheDefaultDocumentRoot=/srv/www/htdocs
 apacheLogFilesDirectory=/var/log/apache2
@@ -167,17 +168,26 @@ if [ "${ravenAuth}" == 'true' ] ; then
 		cd "${SCRIPTDIRECTORY}"
 	fi
 	
-	# Define a directive to include the module in the Apache configuration
-	authModuleDirective=$'\n# Raven\nLoadModule ucam_webauth_module /usr/lib64/apache2/mod_ucam_webauth.so'
-
+	# Install Raven public key if not already present
+	if [ ! -r ${apacheConfDirectory}/webauth_keys/pubkey2 ]; then
+		mkdir -p ${apacheConfDirectory}/webauth_keys/
+		wget -P ${apacheConfDirectory}/webauth_keys/ https://raven.cam.ac.uk/project/keys/pubkey2
+	fi
+	
 	# Generate a cookie key for Raven auth; see: http://www.howtogeek.com/howto/30184/
 	randpw(){ < /dev/urandom tr -dc A-Za-z0-9 | head -c${1:-16};echo;}
 	cookieKey=`randpw`
 	
+	# Define a directive to include the module in the Apache configuration
+	authModuleDirective=$'\n# Raven\n'
+	authModuleDirective+=$'LoadModule ucam_webauth_module /usr/lib64/apache2/mod_ucam_webauth.so\n'
+	authModuleDirective+='AAKeyDir '"${apacheConfDirectory}/webauth_keys/"$'\n'
+	authModuleDirective+='AACookieKey "'"${cookieKey}"$'"\n'
+	authModuleDirective+='AAClockSkew 30'
+
 	# Generate the auth config
-	authConfig='AADescription "Online voting"
-		AACookieKey "'"${cookieKey}"'"
-		AuthType Ucam-WebAuth
+	authConfig='AuthType Ucam-WebAuth
+		AADescription "Online voting"
 		AAForceInteract On'
 else
 	# Create an auth file; users need to be added manually
@@ -271,7 +281,7 @@ NameVirtualHost *:80
 		Allow from all
 	</Directory>
 	
-	# Redirect all traffic to the SSL vhost
+	# Redirect all traffic to the SSL vhost (at which point authentication will occur)
 	Redirect permanent / https://${domainName}/
 	
 </VirtualHost>
