@@ -24,6 +24,7 @@ set -e
 # The second single line solution from that page is probably good enough as it is unlikely that this script itself will be symlinked.
 DIR="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 SCRIPTDIRECTORY=$DIR
+cd "${SCRIPTDIRECTORY}"
 
 # Load the config file
 configFile=./.config.sh
