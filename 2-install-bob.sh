@@ -24,7 +24,7 @@ sed -i \
 -e "s/.*'dbSetupUsername'.*/\$config['dbSetupUsername'] = '${bobDbSetupUsername}';/" \
 	"${documentRoot}"/bob/index.php
 
-# Put the password into the password file
+# Put the database password into the password file
 echo -n "${bobDbPassword}" > "${documentRoot}"/bob/dbpass
 
 # Create the voting database

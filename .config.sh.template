@@ -37,6 +37,8 @@ bobDbDatabase='votes'
 bobDbUsername='testvote'
 bobDbSetupUsername='testvotesetup'
 bobDbPassword='thepassword'
+bobDbListingUsername='bobguiListing'
+bobDbListingPassword='somepassword'
 
 # Sample ballot setup
 sampleBallotUsername='someusername'

@@ -175,6 +175,9 @@ if [ ! -r ${vhostFile} ]; then
 	cat > ${vhostFile} << EOF
 ## Voting website
 
+# Enable mod_rewrite
+LoadModule rewrite_module /usr/lib64/apache2/mod_rewrite.so
+
 # General server configuration
 ${authModuleDirective}
 
@@ -190,7 +193,7 @@ NameVirtualHost *:443
 <VirtualHost *:443>
 	ServerAdmin ${serverAdmin}
 	ServerName ${domainName}
-	DocumentRoot ${documentRoot}
+	DocumentRoot ${documentRoot}/bob-gui
 	CustomLog /var/log/apache2/${domainName}_SSL-access_log combined
 	ErrorLog /var/log/apache2/${domainName}_SSL-error_log
 	HostnameLookups Off
@@ -202,6 +205,9 @@ NameVirtualHost *:443
 		Order allow,deny
 		Allow from all
 	</Directory>
+	
+	# Prevent file listings
+	DirectoryIndex index.html index.php
 	
 	# SSL
 	SSLEngine on
@@ -226,6 +232,13 @@ NameVirtualHost *:443
 		deny from all
 	</Files>
 
+	# Allow .htaccess file usage and mod_rewrite directives
+	<Directory />
+		AllowOverride FileInfo
+		# FollowSymLinks is needed to enable mod_rewrite
+		Options FollowSymLinks
+	</Directory>
+
 </VirtualHost>
 
 # Voting website (HTTP)
@@ -233,7 +246,7 @@ NameVirtualHost *:80
 <VirtualHost *:80>
 	ServerAdmin ${serverAdmin}
 	ServerName ${domainName}
-	DocumentRoot ${documentRoot}
+	DocumentRoot ${documentRoot}/bob-gui
 	CustomLog /var/log/apache2/${domainName}-access_log combined
 	ErrorLog /var/log/apache2/${domainName}-error_log
 	HostnameLookups Off
