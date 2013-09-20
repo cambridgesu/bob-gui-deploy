@@ -291,5 +291,7 @@ if [ "${faviconObtainFromUrl}" ] ; then
 	faviconFile="${documentRoot}"/bob-gui/favicon.ico
 	if [ ! -r "${faviconFile}" ]; then
 		wget -O "${faviconFile}" "${faviconObtainFromUrl}"
+		chown nobody."${webEditorsGroup}" "${faviconFile}"
+		chmod g+w "${faviconFile}"
 	fi
 fi
