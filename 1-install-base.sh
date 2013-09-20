@@ -22,7 +22,7 @@ fi
 /etc/init.d/ntp restart
 
 # Install LAMP stack
-zypper -n install -l apache2 apache2-devel mysql mysql-client php5 php5-suhosin php5-mysql apache2-mod_php5
+zypper -n install -l apache2 apache2-devel mysql mysql-client php5 php5-suhosin php5-mbstring php5-mysql apache2-mod_php5
 # Check versions using:
 # /usr/sbin/httpd2 -v (2.2.21)
 # /usr/bin/mysql -V (5.5.25)
