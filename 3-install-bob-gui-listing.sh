@@ -12,9 +12,13 @@ if [ ! -d ${documentRoot}/bob-gui ] ; then
         git clone https://github.com/cusu/bob-gui.git
 fi
 
-# Put the database password into the password file
+# Put the database password into the password file, based on the template
+mv "${documentRoot}"/bob-gui/listing/dbpass-listing.template "${documentRoot}"/bob-gui/listing/dbpass-listing
 echo -n "${bobDbListingPassword}" > "${documentRoot}"/bob-gui/listing/dbpass-listing
 
 # Create database user privileges (which will create the users if they do not exist)
 ${mysql} -e "GRANT SELECT ON ${bobDbDatabase}.instances TO '${bobDbListingUsername}'@'localhost' IDENTIFIED BY '${bobDbListingPassword}';"
+
+# Create the bootstrap file
+mv "${documentRoot}"/bob-gui/listing/bobguiListingWrapper.php.template "${documentRoot}"/bob-gui/listing/bobguiListingWrapper.php
 
