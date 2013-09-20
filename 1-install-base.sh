@@ -60,7 +60,7 @@ apacheGroup=www
 apacheSslKeyDirectory=/etc/apache2/ssl.key
 apacheSslCrtDirectory=/etc/apache2/ssl.crt
 
-# Create a null vhost if it doesn't exist already, and restart
+# Create a null vhost if it doesn't exist already
 nullVhostFile="${apacheVhostsConfigDirectory}/000-null-vhost.conf"
 if [ ! -r ${nullVhostFile} ]; then
         cat > ${nullVhostFile} << EOF
@@ -83,7 +83,6 @@ if [ ! -r ${nullVhostFile} ]; then
 </VirtualHost>
 EOF
 fi
-sudo /etc/init.d/apache2 restart
 
 # Copy in the SSL key and certificate files if not already present
 # For testing, create a self-signed key without a password using:
@@ -169,7 +168,7 @@ else
 		AuthUserFile "'"${authFile}"'"'
 fi
 
-# Create a vhost for the website if it doesn't exist already, and restart
+# Create a vhost for the website if it doesn't exist already
 vhostFile="${apacheVhostsConfigDirectory}/${domainName}.conf"
 documentRoot="${apacheVhostsRoot}/${domainName}"
 if [ ! -r ${vhostFile} ]; then
@@ -271,6 +270,6 @@ chown nobody."${webEditorsGroup}" "${documentRoot}"
 chmod g+ws "${documentRoot}"
 umask 0002
 
-# Restart the webserver
+# Restart the webserver to pick up the changes
 sudo /etc/init.d/apache2 restart
 
