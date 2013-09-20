@@ -32,6 +32,9 @@ timeServer1=1.uk.pool.ntp.org
 timeServer2=2.uk.pool.ntp.org
 timeServer3=3.uk.pool.ntp.org
 
+# Favicon - URL to obtain a copy from (or empty string)
+faviconObtainFromUrl=''
+
 # Database connection details
 bobDbDatabase='votes'
 bobDbUsername='testvote'
