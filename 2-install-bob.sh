@@ -12,6 +12,16 @@ if [ ! -d ${documentRoot}/bob ] ; then
 	git clone https://github.com/cusu/bob.git
 fi
 
+# Install (download) OpenSTV
+if [ ! -d ${documentRoot}/openstv ] ; then
+	cd "${documentRoot}"
+	wget https://github.com/cusu/openSTV/blob/master/SourceCode/OpenSTV-1.6-2_original.tar.gz?raw=true
+	tar xvzf OpenSTV-1.6-2_original.tar.gz
+	mv OpenSTV-1.6/openstv .
+	rm -rf OpenSTV-1.6
+	rm OpenSTV-1.6-2_original.tar.gz
+fi
+
 # Use the database version of the boostrap file rather than the manual bootstap file
 if [ -r "${documentRoot}"/bob/index-dbconfig.php ]; then
 	mv "${documentRoot}"/bob/index-dbconfig.php "${documentRoot}"/bob/index.php
