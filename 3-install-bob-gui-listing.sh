@@ -93,11 +93,13 @@ THATCHER, Margaret
 );
 
 # Create the votes table
+DROP TABLE IF EXISTS ${backquote}${electionId}_votes${backquote};
 CREATE TABLE IF NOT EXISTS ${backquote}${electionId}_votes${backquote} (token VARCHAR(32) collate utf8_unicode_ci NOT NULL PRIMARY KEY, v1p1 TINYINT(4), v1p2 TINYINT(4), v1p3 TINYINT(4)) ENGINE=InnoDB CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 # Create the voter table and insert one voter
+DROP TABLE IF EXISTS ${backquote}${electionId}_voter${backquote};
 CREATE TABLE IF NOT EXISTS ${backquote}${electionId}_voter${backquote} (username VARCHAR(16) collate utf8_unicode_ci NOT NULL PRIMARY KEY, voted TINYINT(4) DEFAULT 0, forename VARCHAR(255) collate utf8_unicode_ci, surname VARCHAR(255) collate utf8_unicode_ci, unit VARCHAR(255) collate utf8_unicode_ci) ENGINE=InnoDB CHARACTER SET utf8 COLLATE utf8_unicode_ci;
-INSERT IGNORE INTO ${backquote}${electionId}_voter${backquote} VALUES ('${sampleBallotUsername}', 0, 'Forename', 'Surname', 'My college');
+INSERT INTO ${backquote}${electionId}_voter${backquote} VALUES ('${sampleBallotUsername}', 0, 'Forename', 'Surname', 'My college');
 
 EOF
 
