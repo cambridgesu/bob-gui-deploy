@@ -29,8 +29,14 @@ cd "${SCRIPTDIRECTORY}"
 # Load the config file
 configFile=./.config.sh
 if [ ! -x ./${configFile} ]; then
-    echo "# The config file, ${configFile}, does not exist or is not excutable - copy your own based on the ${configFile}.template file." 1>&2
-    exit 1
+	echo "ERROR: The config file, ${configFile}, does not exist or is not excutable - copy your own based on the ${configFile}.template file." 1>&2
+	exit 1
+fi
+
+# Ensure the config file has no placeholders left
+if grep -qF "'?'" ./${configFile} ; then
+	echo "ERROR: The config file, ${configFile}, still contains '?' placeholders." 1>&2
+	exit 1
 fi
 
 # Load the credentials
