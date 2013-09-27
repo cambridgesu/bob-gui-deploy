@@ -12,6 +12,16 @@ if [ ! -d ${documentRoot}/bob-gui ] ; then
         git clone https://github.com/cusu/bob-gui.git
 fi
 
+# Add the favicon, if required
+if [ "${faviconObtainFromUrl}" ] ; then
+	faviconFile="${documentRoot}"/bob-gui/favicon.ico
+	if [ ! -r "${faviconFile}" ]; then
+		wget -O "${faviconFile}" "${faviconObtainFromUrl}"
+		chown nobody."${webEditorsGroup}" "${faviconFile}"
+		chmod g+w "${faviconFile}"
+	fi
+fi
+
 # Create the listing bootstrap file
 if [ ! -e "${documentRoot}"/bob-gui/listing/bobguiListingWrapper.php ] ; then
 	mv "${documentRoot}"/bob-gui/listing/bobguiListingWrapper.php.template "${documentRoot}"/bob-gui/listing/bobguiListingWrapper.php

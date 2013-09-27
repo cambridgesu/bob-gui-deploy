@@ -307,12 +307,3 @@ umask 0002
 # Restart the webserver to pick up the changes
 sudo /etc/init.d/apache2 restart
 
-# Add the favicon, if required
-if [ "${faviconObtainFromUrl}" ] ; then
-	faviconFile="${documentRoot}"/bob-gui/favicon.ico
-	if [ ! -r "${faviconFile}" ]; then
-		wget -O "${faviconFile}" "${faviconObtainFromUrl}"
-		chown nobody."${webEditorsGroup}" "${faviconFile}"
-		chmod g+w "${faviconFile}"
-	fi
-fi
