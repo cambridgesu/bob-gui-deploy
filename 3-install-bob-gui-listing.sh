@@ -13,7 +13,9 @@ if [ ! -d ${documentRoot}/bob-gui ] ; then
 fi
 
 # Create the listing bootstrap file
-mv "${documentRoot}"/bob-gui/listing/bobguiListingWrapper.php.template "${documentRoot}"/bob-gui/listing/bobguiListingWrapper.php
+if [ ! -e "${documentRoot}"/bob-gui/listing/bobguiListingWrapper.php ] ; then
+	mv "${documentRoot}"/bob-gui/listing/bobguiListingWrapper.php.template "${documentRoot}"/bob-gui/listing/bobguiListingWrapper.php
+fi
 
 # Add the database credentials to the listing bootstrap file (replace the lines matching on the left with the whole config string on the right)
 sed -i \
@@ -23,7 +25,9 @@ sed -i \
 	"${documentRoot}"/bob-gui/bob/index.php
 
 # Put the database password into the listing password file, based on the template
-mv "${documentRoot}"/bob-gui/listing/dbpass-listing.template "${documentRoot}"/bob-gui/listing/dbpass-listing
+if [ ! -e "${documentRoot}"/bob-gui/listing/dbpass-listing ] ; then
+	mv "${documentRoot}"/bob-gui/listing/dbpass-listing.template "${documentRoot}"/bob-gui/listing/dbpass-listing
+fi
 echo -n "${bobDbListingPassword}" > "${documentRoot}"/bob-gui/listing/dbpass-listing
 
 # Create database user privileges (which will create the users if they do not exist)
