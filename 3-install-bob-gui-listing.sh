@@ -69,7 +69,7 @@ ${mysql} ${bobDbDatabase} < /tmp/instances.sql
 rm /tmp/instances.sql
 
 # Define a sample ballot
-electionId='test-13-14-testelectionxxxx'
+electionId='test-13-14-testelection'
 backquote='`'
 cat > /tmp/sampleballot.sql << EOF
 
@@ -80,18 +80,20 @@ INSERT INTO instances VALUES (
 '1
 President
 BLAIR, Tony
+LUCAS, Caroline
 THATCHER, Margaret
 ',
 '1
 President
 BLAIR, Tony
+LUCAS, Caroline
 THATCHER, Margaret
 ',
 '10', NOW(), NOW() + INTERVAL 1 HOUR, NOW() + INTERVAL 1 HOUR
 );
 
 # Create the votes table
-CREATE TABLE IF NOT EXISTS ${backquote}${electionId}_votes${backquote} (token VARCHAR(32) collate utf8_unicode_ci NOT NULL PRIMARY KEY, v1p1 TINYINT(4), v1p2 TINYINT(4)) ENGINE=InnoDB CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+CREATE TABLE IF NOT EXISTS ${backquote}${electionId}_votes${backquote} (token VARCHAR(32) collate utf8_unicode_ci NOT NULL PRIMARY KEY, v1p1 TINYINT(4), v1p2 TINYINT(4), v1p3 TINYINT(4)) ENGINE=InnoDB CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 # Create the voter table and insert one voter
 CREATE TABLE IF NOT EXISTS ${backquote}${electionId}_voter${backquote} (username VARCHAR(16) collate utf8_unicode_ci NOT NULL PRIMARY KEY, voted TINYINT(4) DEFAULT 0, forename VARCHAR(255) collate utf8_unicode_ci, surname VARCHAR(255) collate utf8_unicode_ci, unit VARCHAR(255) collate utf8_unicode_ci) ENGINE=InnoDB CHARACTER SET utf8 COLLATE utf8_unicode_ci;
