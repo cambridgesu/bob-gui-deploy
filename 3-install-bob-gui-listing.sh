@@ -69,7 +69,7 @@ ${mysql} ${bobDbDatabase} < /tmp/instances.sql
 rm /tmp/instances.sql
 
 # Define a sample ballot
-electionId='test-13-14-testelection'
+electionId='test-13-14-testelectionxxxx'
 backquote='`'
 cat > /tmp/sampleballot.sql << EOF
 
@@ -87,7 +87,7 @@ President
 BLAIR, Tony
 THATCHER, Margaret
 ',
-'10', '2013-09-01', '2013-09-02', '2013-09-02'
+'10', NOW(), NOW() + INTERVAL 1 HOUR, NOW() + INTERVAL 1 HOUR
 );
 
 # Create the votes table
