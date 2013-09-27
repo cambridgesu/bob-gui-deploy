@@ -30,6 +30,7 @@ fi
 # Add the database credentials to the listing bootstrap file (replace the lines matching on the left with the whole config string on the right)
 sed -i \
 -e "s/.*'dbDatabase'.*/\$config['dbDatabase'] = '${bobDbDatabase}';/" \
+-e "s/.*'dbPassword'.*/\$config['dbPassword'] = '${bobDbPassword}';/" \
 -e "s/.*'dbUsername'.*/\$config['dbUsername'] = '${bobDbUsername}';/" \
 -e "s/.*'dbSetupUsername'.*/\$config['dbSetupUsername'] = '${bobDbSetupUsername}';/" \
 	"${documentRoot}"/bob-gui/bob/index.php

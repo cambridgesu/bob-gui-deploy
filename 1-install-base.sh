@@ -249,9 +249,6 @@ NameVirtualHost *:443
 	<Files ".ht*">
 		deny from all
 	</Files>
-	<Files "dbpass">
-		deny from all
-	</Files>
 
 	# Allow .htaccess file usage and mod_rewrite directives
 	<Directory />

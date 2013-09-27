@@ -34,10 +34,6 @@ fi
 postmap /etc/postfix/canonical
 postfix reload
 
-# Put the database password into the BOB native password file
-#!# This should be supplied as an option rather than require a file to be loaded
-echo -n "${bobDbPassword}" > "${documentRoot}"/bob/dbpass
-
 # Create the voting database
 ${mysql} -e "CREATE DATABASE IF NOT EXISTS ${bobDbDatabase} DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;"
 
