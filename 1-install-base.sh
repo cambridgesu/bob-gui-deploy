@@ -14,7 +14,7 @@ zypper -n install -l git-core
 
 # NTP
 zypper -n install -l ntp
-if ! grep -qe "${timeServer1}" /etc/ntp.conf ; then
+if ! grep -qF "${timeServer1}" /etc/ntp.conf ; then
 	echo "server ${timeServer1}" >> /etc/ntp.conf
 	echo "server ${timeServer2}" >> /etc/ntp.conf
 	echo "server ${timeServer3}" >> /etc/ntp.conf
