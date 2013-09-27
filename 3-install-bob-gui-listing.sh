@@ -76,7 +76,7 @@ cat > /tmp/sampleballot.sql << EOF
 # Create a test instance
 DELETE FROM instances WHERE id = '${electionId}' LIMIT 1;
 INSERT INTO instances VALUES (
-	'${electionId}', '/test/13-14/testelection/', '13-14', 'testelection', 'provider', 'test', 'Test election', NULL, NULL, NULL, '${serverAdmin}', '${serverAdmin}', '${sampleBallotUsername}', 'Candidate order has been automatically randomised', '0', 'My organisation', NULL, NULL, '', '',
+	'${electionId}', '/test/13-14/testelection/', '13-14', 'testelection', 'provider', 'test', 'Test election', NULL, NULL, NULL, '${voteAdmin}', '${voteAdmin}', '${sampleBallotUsername}', 'Candidate order has been automatically randomised', '0', 'My organisation', NULL, NULL, '', '',
 '1
 President
 BLAIR, Tony
