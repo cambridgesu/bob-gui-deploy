@@ -12,6 +12,28 @@ if [ ! -d ${documentRoot}/bob ] ; then
 	git clone git@github.com:cusu/bob.git
 fi
 
+
+# MTA (mail sending)
+# Useful guides for Postfix at: http://www-uxsup.csx.cam.ac.uk/~fanf2/hermes/doc/misc/postfix.html and http://www-co.ch.cam.ac.uk/facilities/clusters/theory/heartofgold/heartofgold-postfix.html
+
+zypper -n install -l postfix
+if [ "${mtaRelayhost}" ] ; then
+	if ! grep -qF "${mtaRelayhost}" /etc/postfix/main.cf ; then
+	        echo $'\nrelayhost = '"${mtaRelayhost}" >> /etc/postfix/main.cf
+	fi
+fi
+# The canonical config should be something like the following (uncommented) :
+# wwwrun         vote.admin@example.com
+# @machinename   @example.com
+if ! grep -qF "${apacheUser}" /etc/postfix/canonical ; then
+	echo $'\n'"${apacheUser}	${voteAdmin}" >> /etc/postfix/canonical
+fi
+if ! grep -qF "@${HOSTNAME}" /etc/postfix/canonical ; then
+	echo $'\n'"@${HOSTNAME}	@${mtaUserMailDomain}" >> /etc/postfix/canonical
+fi
+postmap /etc/postfix/canonical
+postfix reload
+
 # Put the database password into the BOB native password file
 #!# This should be supplied as an option rather than require a file to be loaded
 echo -n "${bobDbPassword}" > "${documentRoot}"/bob/dbpass

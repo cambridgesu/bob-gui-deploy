@@ -12,6 +12,7 @@ installBobGuiIngest=true
 # Domain name of site
 domainName='?'
 serverAdmin='?'
+voteAdmin='?'
 
 # MySQL root password
 mysqlRootPassword='?'
@@ -31,6 +32,10 @@ ravenAuth=true
 timeServer1=1.uk.pool.ntp.org
 timeServer2=2.uk.pool.ntp.org
 timeServer3=3.uk.pool.ntp.org
+
+# MTA settings
+mtaRelayhost=''
+mtaUserMailDomain=''   # e.g. 'example.com' for username@example.com
 
 # Favicon - URL to obtain a copy from (or empty string)
 faviconObtainFromUrl=''
