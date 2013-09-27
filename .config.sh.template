@@ -44,9 +44,9 @@ faviconObtainFromUrl=''
 bobDbDatabase='votes'
 bobDbUsername='testvote'
 bobDbSetupUsername='testvotesetup'
-bobDbPassword='thepassword'
+bobDbPassword='?'
 bobDbListingUsername='bobguiListing'
-bobDbListingPassword='somepassword'
+bobDbListingPassword='?'
 
 # Sample ballot setup
 sampleBallotUsername='someusername'
