@@ -47,6 +47,7 @@ fi
 sed -i \
 -e "s/.*'username'.*/\$config['username'] = '${bobDbListingUsername}';/" \
 -e "s/.*'password'.*/\$config['password'] = '${bobDbListingPassword}';/" \
+-e "s/.*'administratorEmail'.*/\$config['administratorEmail'] = '${serverAdmin}';/" \
 	"${documentRoot}"/bob-gui/listing/bobguiListingWrapper.php
 
 # Add the database credentials to the BOB bootstrap file (replace the lines matching on the left with the whole config string on the right)
