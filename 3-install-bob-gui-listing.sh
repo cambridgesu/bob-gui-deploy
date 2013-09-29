@@ -12,6 +12,22 @@ if [ ! -d ${documentRoot}/bob-gui ] ; then
         git clone https://github.com/cusu/bob-gui.git
 fi
 
+# Install the house style if not already present; note that the "--strip 1" will remove the top-level directory in the .tgz
+if [ ! -r "${documentRoot}"/bob-gui/style/header.html ] ; then
+	if [ ! -r "${houseStylePackage}" ] ; then
+		echo "ERROR: The house style package file specified in the deployment config is not present"
+		exit 1
+	fi
+	tar -xvf "${houseStylePackage}" --strip 1 -C ${documentRoot}/bob-gui/style/
+	if [ ! -r "${documentRoot}"/bob-gui/style/header.html ] || [ ! -r "${documentRoot}"/bob-gui/style/footer.html ] ; then
+		echo "ERROR: The house style package does not include a header file"
+		rm ${documentRoot}/bob-gui/style/*
+		exit
+	fi
+	chown nobody."${webEditorsGroup}" "${documentRoot}"/bob-gui/style/
+	chmod g+w "${documentRoot}"/bob-gui/style/
+fi
+
 # Add the favicon, if required
 if [ "${faviconObtainFromUrl}" ] ; then
 	faviconFile="${documentRoot}"/bob-gui/favicon.ico
