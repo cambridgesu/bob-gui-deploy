@@ -37,7 +37,7 @@ timeServer3=3.uk.pool.ntp.org
 mtaRelayhost=''
 mtaUserMailDomain=''   # e.g. 'example.com' for username@example.com
 
-# House style package; must be a tgz which, when unpacked, contains a single folder containing header.html footer.html and any associated assets
+# House style package; must be the full path to a .tgz which, when unpacked, contains a single folder containing header.html footer.html and any associated assets
 houseStylePackage='?'
 
 # Favicon - URL to obtain a copy from (or empty string)
