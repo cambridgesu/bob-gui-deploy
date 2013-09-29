@@ -42,6 +42,7 @@ ${mysql} -e "GRANT SELECT,INSERT,UPDATE ON ${bobDbDatabase}.* TO '${bobDbUsernam
 ${mysql} -e "GRANT SELECT,CREATE        ON ${bobDbDatabase}.* TO '${bobDbSetupUsername}'@'localhost' IDENTIFIED BY '${bobDbPassword}';"
 
 # Install (download) OpenSTV, the STV counting program
+zypper -n install -l python
 if [ ! -d ${documentRoot}/openstv ] ; then
 	cd "${documentRoot}"
 	wget https://github.com/cusu/openSTV/blob/master/SourceCode/OpenSTV-1.6-2_original.tar.gz?raw=true
