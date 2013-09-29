@@ -44,10 +44,12 @@ if [ ! -e "${documentRoot}"/bob-gui/listing/bobguiListingWrapper.php ] ; then
 fi
 
 # Add the database credentials to the BOB listing file (replace the lines matching on the left with the whole config string on the right)
+#!# Inconsistent namings here would be good to clear up
 sed -i \
 -e "s/.*'username'.*/\$config['username'] = '${bobDbListingUsername}';/" \
 -e "s/.*'password'.*/\$config['password'] = '${bobDbListingPassword}';/" \
 -e "s/.*'administratorEmail'.*/\$config['administratorEmail'] = '${serverAdmin}';/" \
+-e "s/.*'mailDomain'.*/\$config['mailDomain'] = '${mtaUserMailDomain}';/" \
 	"${documentRoot}"/bob-gui/listing/bobguiListingWrapper.php
 
 # Add the database credentials to the BOB bootstrap file (replace the lines matching on the left with the whole config string on the right)
