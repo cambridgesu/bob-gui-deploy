@@ -6,8 +6,8 @@
 # Specify components to install for this machine's role (bool true/false)
 installBob=true
 installBobGuiListing=true
-installBobGuiControlpanel=true
 installBobGuiIngest=true
+installBobGuiControlpanel=true
 
 # Domain name of site
 domainName='?'

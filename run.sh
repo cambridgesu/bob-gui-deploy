@@ -63,13 +63,14 @@ if $installBobGuiListing ; then
 	source ./3-install-bob-gui-listing.sh
 fi
 
-# Install the GUI control panel component, if required
-if $installBobGuiControlpanel ; then
-	source ./4-install-bob-gui-controlpanel.sh
-fi
-
 # Install the GUI ingesting (config transfer) component, if required
 if $installBobGuiIngest ; then
-	source ./5-install-bob-gui-ingest.sh
+	source ./4-install-bob-gui-ingest.sh
 fi
+
+# Install the GUI control panel component, if required
+if $installBobGuiControlpanel ; then
+	source ./5-install-bob-gui-controlpanel.sh
+fi
+
 
