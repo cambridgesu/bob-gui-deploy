@@ -9,3 +9,7 @@
 # Install prerequisites
 zypper -n install -l php-openssl
 
+# Create a user account which will do the ingesting
+id -u bobguiIngest &>/dev/null || useradd bobguiIngest
+
+
