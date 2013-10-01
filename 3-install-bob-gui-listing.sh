@@ -38,9 +38,9 @@ if [ "${faviconObtainFromUrl}" ] ; then
 	fi
 fi
 
-# Create the listing bootstrap file
+# Create the listing bootstrap file; it is harmless to leave the template in place
 if [ ! -e "${documentRoot}"/bob-gui/listing/bobguiListingWrapper.php ] ; then
-	mv "${documentRoot}"/bob-gui/listing/bobguiListingWrapper.php.template "${documentRoot}"/bob-gui/listing/bobguiListingWrapper.php
+	cp "${documentRoot}"/bob-gui/listing/bobguiListingWrapper.php.template "${documentRoot}"/bob-gui/listing/bobguiListingWrapper.php
 fi
 
 # Add the database credentials to the BOB listing file (replace the lines matching on the left with the whole config string on the right)
