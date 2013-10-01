@@ -6,4 +6,6 @@
 # Installation of the GUI ingesting (config transfer) component
 
 
-# todo
+# Install prerequisites
+zypper -n install -l php-openssl
+
