@@ -51,6 +51,9 @@ bobDbPassword='?'
 bobDbListingUsername='bobguiListing'
 bobDbListingPassword='?'
 
+# Organisation name
+organisationName=''
+
 # Sample ballot setup
 sampleBallotUsername='someusername'
 

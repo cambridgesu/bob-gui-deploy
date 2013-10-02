@@ -49,6 +49,7 @@ sed -i \
 -e "s/.*'username'.*/\$config['username'] = '${bobDbListingUsername}';/" \
 -e "s/.*'password'.*/\$config['password'] = '${bobDbListingPassword}';/" \
 -e "s/.*'administratorEmail'.*/\$config['administratorEmail'] = '${serverAdmin}';/" \
+-e "s/.*'organisationName'.*/\$config['organisationName'] = '${organisationName}';/" \
 -e "s/.*'mailDomain'.*/\$config['mailDomain'] = '${mtaUserMailDomain}';/" \
 	"${documentRoot}"/bob-gui/listing/bobguiListingWrapper.php
 
