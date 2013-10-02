@@ -40,7 +40,7 @@ fi
 
 # Create the listing bootstrap file; it is harmless to leave the template in place
 if [ ! -e "${documentRoot}"/bob-gui/listing/bobguiListingWrapper.php ] ; then
-	cp "${documentRoot}"/bob-gui/listing/bobguiListingWrapper.php.template "${documentRoot}"/bob-gui/listing/bobguiListingWrapper.php
+	cp -p "${documentRoot}"/bob-gui/listing/bobguiListingWrapper.php.template "${documentRoot}"/bob-gui/listing/bobguiListingWrapper.php
 fi
 
 # Add the database credentials to the BOB listing file (replace the lines matching on the left with the whole config string on the right)
