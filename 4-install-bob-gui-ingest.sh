@@ -32,6 +32,8 @@ fi
 #!# Inconsistent namings here would be good to clear up
 #!# Escaping needs to be dealt with properly
 sed -i \
+-e "s/.*'databaseStaging'.*/\$config['databaseStaging'] = '${bobDbIngestDatabase}';/" \
+-e "s/.*'databaseLive'.*/\$config['databaseLive'] = '${bobDbDatabase}';/" \
 -e "s/.*'username'.*/\$config['username'] = '${bobDbIngestUsername}';/" \
 -e "s/.*'password'.*/\$config['password'] = '${bobDbIngestPassword}';/" \
 -e "s/.*'administratorEmail'.*/\$config['administratorEmail'] = '${serverAdmin}';/" \
@@ -45,3 +47,4 @@ sed -i \
 # todo:
 
 # Install hourly cron job
+

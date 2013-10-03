@@ -50,6 +50,8 @@ bobDbSetupUsername='testvotesetup'
 bobDbPassword='?'
 bobDbListingUsername='bobguiListing'
 bobDbListingPassword='?'
+#!# Whole ingest module and naming should be called staging rather than ingest
+bobDbIngestDatabase='staging'
 bobDbIngestUsername='bobguiIngest'
 bobDbIngestPassword='?'
 
