@@ -63,7 +63,7 @@ sed -i \
 -e "s/.*'dbSetupUsername'.*/\$config['dbSetupUsername'] = '${bobDbSetupUsername}';/" \
 	"${documentRoot}"/bob-gui/bob/index.php
 
-# Create database user privileges (which will create the users if they do not exist)
+# Create database user privileges (which will create the user if it does not exist)
 ${mysql} -e "GRANT SELECT ON ${bobDbDatabase}.instances TO '${bobDbListingUsername}'@'localhost' IDENTIFIED BY '${bobDbListingPassword}';"
 
 # Set up the instances table

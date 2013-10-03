@@ -44,6 +44,15 @@ sed -i \
 -e "s|.*'liveServerUrl'.*|\$config['liveServerUrl'] = 'https://${domainName}';|" \
 	"${documentRoot}"/bob-gui/ingest/bobguiIngestWrapper.php
 
+# Create the staging database
+${mysql} -e "CREATE DATABASE IF NOT EXISTS ${bobDbIngestDatabase} DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;"
+
+# Create database user privileges (which will create the user if it does not exist)
+${mysql} -e "GRANT SELECT,INSERT,DELETE,CREATE,ALTER,DROP ON ${bobDbIngestDatabase}.* TO '${bobDbIngestUsername}'@'localhost' IDENTIFIED BY '${bobDbIngestPassword}';"
+${mysql} -e "GRANT SELECT,INSERT,CREATE ON ${bobDbDatabase}.* TO '${bobDbIngestUsername}'@'localhost' IDENTIFIED BY '${bobDbIngestPassword}';"
+
+
+
 # todo:
 
 # Install hourly cron job
