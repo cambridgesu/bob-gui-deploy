@@ -16,6 +16,15 @@ id -u bobguiIngest &>/dev/null || useradd bobguiIngest
 ingestLogFile="$documentRoot"/bob-gui/ingest/bobguiIngestLog.txt
 touch $ingestLogFile
 chown bobguiIngest.$webEditorsGroup $ingestLogFile
-chmod 664 $ingestLogFile
+chmod g+rw $ingestLogFile
+
+# Ensure the lockfile directory is writable
+ingestLockDirectory="$documentRoot"/bob-gui/ingest/lock
+chown bobguiIngest.$webEditorsGroup $ingestLockDirectory
+chmod g+rw $ingestLockDirectory
 
 
+
+# todo:
+
+# Install hourly cron job
