@@ -45,12 +45,14 @@ fi
 
 # Add the database credentials to the BOB listing file (replace the lines matching on the left with the whole config string on the right)
 #!# Inconsistent namings here would be good to clear up
+#!# controlPanelLinkEnabled currently pastes in a PHP value; should instead determine whether the setting is a string or bool and do its own quoting here
 sed -i \
 -e "s/.*'username'.*/\$config['username'] = '${bobDbListingUsername}';/" \
 -e "s/.*'password'.*/\$config['password'] = '${bobDbListingPassword}';/" \
 -e "s/.*'administratorEmail'.*/\$config['administratorEmail'] = '${serverAdmin}';/" \
 -e "s/.*'organisationName'.*/\$config['organisationName'] = '${organisationName}';/" \
 -e "s/.*'mailDomain'.*/\$config['mailDomain'] = '${mtaUserMailDomain}';/" \
+-e "s/.*'controlPanelLinkEnabled'.*/\$config['controlPanelLinkEnabled'] = ${controlPanelLinkEnabled};/" \
 	"${documentRoot}"/bob-gui/listing/bobguiListingWrapper.php
 
 # Add the database credentials to the BOB bootstrap file (replace the lines matching on the left with the whole config string on the right)

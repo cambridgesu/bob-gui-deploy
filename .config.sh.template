@@ -54,6 +54,9 @@ bobDbListingPassword='?'
 # Organisation name
 organisationName=''
 
+# Whether to show the control panel link in the listing site; this must be a quoted value containing a native PHP bool/string, e.g. 'true' or 'false' or "'user1,user2,user3'"
+controlPanelLinkEnabled='true'
+
 # Sample ballot setup
 sampleBallotUsername='someusername'
 
