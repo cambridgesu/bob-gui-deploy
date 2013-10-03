@@ -51,6 +51,8 @@ ${mysql} -e "CREATE DATABASE IF NOT EXISTS ${bobDbIngestDatabase} DEFAULT CHARAC
 ${mysql} -e "GRANT SELECT,INSERT,DELETE,CREATE,ALTER,DROP ON ${bobDbIngestDatabase}.* TO '${bobDbIngestUsername}'@'localhost' IDENTIFIED BY '${bobDbIngestPassword}';"
 ${mysql} -e "GRANT SELECT,INSERT,CREATE ON ${bobDbDatabase}.* TO '${bobDbIngestUsername}'@'localhost' IDENTIFIED BY '${bobDbIngestPassword}';"
 
+# Create the instances table, by cloning the structure of the main instances table
+${mysql} -e "CREATE TABLE ${bobDbIngestDatabase}.instances LIKE ${bobDbDatabase}.instances;"
 
 
 # todo:
