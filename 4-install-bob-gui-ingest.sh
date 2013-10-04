@@ -10,7 +10,8 @@
 zypper -n install -l php-openssl
 
 # Create a user account which will do the ingesting
-id -u bobguiIngest &>/dev/null || useradd bobguiIngest
+ingestUser=bobguiIngest
+id -u bobguiIngest &>/dev/null || useradd $ingestUser
 
 # Create a writable log file
 ingestLogFile="$documentRoot"/bob-gui/ingest/bobguiIngestLog.txt
@@ -54,8 +55,7 @@ ${mysql} -e "GRANT SELECT,INSERT,CREATE ON ${bobDbDatabase}.* TO '${bobDbIngestU
 # Create the instances table, by cloning the structure of the main instances table
 ${mysql} -e "CREATE TABLE IF NOT EXISTS ${bobDbIngestDatabase}.instances LIKE ${bobDbDatabase}.instances;"
 
-
-# todo:
-
-# Install hourly cron job
+# Add the hourly cron job to the (root) cron.d, running as the ingest user; see the .cron.example file
+cronJob="30 * * * * su ${ingestUser} -c 'php -d memory_limit=700M ${documentRoot}/bob-gui/ingest/bobguiIngestWrapper.php'"
+echo "${cronJob}" > /etc/cron.d/bobguiIngest.cron
 
