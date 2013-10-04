@@ -28,13 +28,14 @@ zypper -n install -l apache2 apache2-devel mysql mysql-client php5 php5-suhosin 
 # /usr/bin/mysql -V (5.5.25)
 # /usr/bin/php -v (5.3.8)
 
+# Start LAMP stack on boot
+chkconfig -a apache2
+chkconfig -a mysql
+
 # Start services
 #!# SUSE doesn't complain if they are already started, but ideally these should check first
 /etc/init.d/apache2 start
 /etc/init.d/mysql start
-# Can check run levels 3 & 5 are started, with:
-# sudo /sbin/chkconfig -a apache2
-# sudo /sbin/chkconfig -a mysql
 
 # Secure MySQL, by setting the root password if no password is currently set; see: http://linuxtitbits.blogspot.co.uk/2011/01/checking-mysql-connection-status.html
 set +e
