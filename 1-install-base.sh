@@ -24,9 +24,9 @@ fi
 # Install LAMP stack
 zypper -n install -l apache2 apache2-devel apache2-mod_macro mysql mysql-client php5 php5-suhosin php5-mbstring php5-mysql apache2-mod_php5
 # Check versions using:
-# /usr/sbin/httpd2 -v (2.2.21)
-# /usr/bin/mysql -V (5.5.25)
-# /usr/bin/php -v (5.3.8)
+# /usr/sbin/httpd2 -v # 2.2.10
+# /usr/bin/mysql -V # 5.0.67
+# /usr/bin/php -v # 5.2.6 with Suhosin-Patch 0.9.6.2
 
 # Start LAMP stack on boot
 chkconfig -a apache2
