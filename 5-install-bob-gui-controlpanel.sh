@@ -23,6 +23,7 @@ sed -i \
 -e "s/.*'username'.*/\$config['username'] = '${bobDbControlpanelUsername}';/" \
 -e "s/.*'password'.*/\$config['password'] = '${bobDbControlpanelPassword}';/" \
 -e "s/.*'administratorEmail'.*/\$config['administratorEmail'] = '${serverAdmin}';/" \
+-e "s/.*'organisationName'.*/\$config['organisationName'] = '${organisationName}';/" \
 -e "s/.*'emailTech'.*/\$config['emailTech'] = '${voteAdmin}';/" \
 -e "s/.*'emailReturningOfficerReceipts'.*/\$config['emailReturningOfficerReceipts'] = '${emailReturningOfficerReceipts}';/" \
 -e "s|.*'liveServerUrl'.*|\$config['liveServerUrl'] = 'https://${domainName}';|" \
