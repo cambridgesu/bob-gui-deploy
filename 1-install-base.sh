@@ -22,7 +22,7 @@ fi
 /etc/init.d/ntp restart
 
 # Install LAMP stack
-zypper -n install -l apache2 apache2-devel mysql mysql-client php5 php5-suhosin php5-mbstring php5-mysql apache2-mod_php5
+zypper -n install -l apache2 apache2-devel apache2-mod_macro mysql mysql-client php5 php5-suhosin php5-mbstring php5-mysql apache2-mod_php5
 # Check versions using:
 # /usr/sbin/httpd2 -v (2.2.21)
 # /usr/bin/mysql -V (5.5.25)
@@ -200,6 +200,9 @@ if [ ! -r ${vhostFile} ]; then
 # Enable mod_rewrite
 LoadModule rewrite_module /usr/lib64/apache2/mod_rewrite.so
 
+# Enable mod_macro
+LoadModule macro_module /usr/lib64/apache2/mod_macro.so
+
 # General server configuration
 ${authModuleDirective}
 
@@ -258,6 +261,12 @@ NameVirtualHost *:443
 		AllowOverride FileInfo
 		# FollowSymLinks is needed to enable mod_rewrite
 		Options FollowSymLinks
+	</Directory>
+	
+	# Allow various directives for control panel (commented-out unless needed in later install script)
+	#Include ${documentRoot}/bob-gui/controlpanel/apache.conf
+	<Directory ${documentRoot}/bob-gui/controlpanel/apache.conf>
+		Deny from all
 	</Directory>
 
 </VirtualHost>
