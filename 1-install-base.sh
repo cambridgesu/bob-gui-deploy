@@ -233,6 +233,9 @@ NameVirtualHost *:443
 		Allow from all
 	</Directory>
 	
+	# Enable PHP parsing
+	AddType application/x-httpd-php .php
+	
 	# Prevent file listings
 	DirectoryIndex index.html index.php
 	
