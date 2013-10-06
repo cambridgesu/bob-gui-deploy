@@ -67,7 +67,8 @@ organisationName=''
 controlPanelLinkEnabled='true'
 
 # Ingest data
-instanceDataUrl='https://username:password:www.controlpanel.vote.example.com/bestow.html'
+instanceDataUrl='https://www.controlpanel.vote.example.com/bestow.html'
+instanceDataApiKey='?'	# Can also use special value for same-server testing 'auto' which will set it to same as whatever is generated for the data endpoint ('bestow')
 
 # Ingest SMS notifications
 smsRecipient='441234567890'

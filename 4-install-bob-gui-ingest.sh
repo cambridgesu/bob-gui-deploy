@@ -42,6 +42,7 @@ sed -i \
 -e "s/.*'smsRecipient'.*/\$config['smsRecipient'] = '${smsRecipient}';/" \
 -e "s/.*'smsApiKey'.*/\$config['smsApiKey'] = '${smsApiKey}';/" \
 -e "s|.*'instanceDataUrl'.*|\$config['instanceDataUrl'] = '${instanceDataUrl}';|" \
+-e "s|.*'instanceDataApiKey'.*|\$config['instanceDataApiKey'] = '${instanceDataApiKey}';|" \
 -e "s|.*'liveServerUrl'.*|\$config['liveServerUrl'] = 'https://${domainName}';|" \
 	"${documentRoot}"/bob-gui/ingest/bobguiIngestWrapper.php
 

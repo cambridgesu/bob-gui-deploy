@@ -11,6 +11,9 @@ directive="Include ${documentRoot}/bob-gui/controlpanel/apache.conf"
 perl -p -i -e "s|#${directive}|${directive}|gi" "${vhostFile}"
 sudo /etc/init.d/apache2 restart
 
+# Generate an API key for the bestow mechanism
+apiKey=`randpw`
+
 # Create the ingest bootstrap file; it is harmless to leave the template in place
 if [ ! -e "${documentRoot}"/bob-gui/controlpanel/index.php ] ; then
 	cp -p "${documentRoot}"/bob-gui/controlpanel/index.php.template "${documentRoot}"/bob-gui/controlpanel/index.php
@@ -28,7 +31,15 @@ sed -i \
 -e "s/.*'emailTech'.*/\$config['emailTech'] = '${voteAdmin}';/" \
 -e "s/.*'emailReturningOfficerReceipts'.*/\$config['emailReturningOfficerReceipts'] = '${emailReturningOfficerReceipts}';/" \
 -e "s|.*'liveServerUrl'.*|\$config['liveServerUrl'] = 'https://${domainName}';|" \
+-e "s|.*'apiKey'.*|\$config['apiKey'] = '${apiKey}';|" \
 	"${documentRoot}"/bob-gui/controlpanel/index.php
+
+# If testing, put the apiKey into the ingest configuration, so that they match
+if [ $instanceDataApiKey == 'auto' ]; then
+	sed -i \
+	-e "s|.*'instanceDataApiKey'.*|\$config['instanceDataApiKey'] = '${apiKey}';|" \
+		"${documentRoot}"/bob-gui/ingest/bobguiIngestWrapper.php
+fi
 
 # Create the control panel database
 ${mysql} -e "CREATE DATABASE IF NOT EXISTS votescontrolpanel DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;"
