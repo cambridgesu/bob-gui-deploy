@@ -11,8 +11,11 @@ installBobGuiControlpanel=true
 
 # Domain name of site
 domainName='?'
+
+# Role e-mail addresses
 serverAdmin='?'
 voteAdmin='?'
+emailReturningOfficerReceipts='?'
 
 # MySQL root password
 mysqlRootPassword='?'
@@ -54,6 +57,8 @@ bobDbListingPassword='?'
 bobDbIngestDatabase='staging'
 bobDbIngestUsername='bobguiIngest'
 bobDbIngestPassword='?'
+bobDbControlpanelUsername='bobguiControlPanel'
+bobDbControlpanelPassword='?'
 
 # Organisation name
 organisationName=''
