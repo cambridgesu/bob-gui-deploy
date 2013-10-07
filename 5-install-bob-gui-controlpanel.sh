@@ -19,6 +19,17 @@ if [ ! -e "${documentRoot}"/bob-gui/controlpanel/index.php ] ; then
 	cp -p "${documentRoot}"/bob-gui/controlpanel/index.php.template "${documentRoot}"/bob-gui/controlpanel/index.php
 fi
 
+# Copy in the providers (directory) API
+if [ ! -r "${providersApiFile}" ] ; then
+	echo "ERROR: The providers API file is not present"
+	exit 1
+fi
+if [ ! -e "${documentRoot}"/bob-gui/controlpanel/providers.php ] ; then
+	cp "${providersApiFile}" "${documentRoot}"/bob-gui/controlpanel/providers.php
+	chown bobguiIngest.$webEditorsGroup "${providersApiFile}"
+	chmod g+rw "${providersApiFile}"
+fi
+
 # Add the database credentials and other settings to the BOB control panel bootstrap file (replace the lines matching on the left with the whole config string on the right)
 #!# Inconsistent namings here would be good to clear up
 #!# Escaping needs to be dealt with properly
