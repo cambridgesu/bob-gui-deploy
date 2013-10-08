@@ -90,7 +90,6 @@ CREATE TABLE IF NOT EXISTS `instances` (
   `emailTech` varchar(255) collate utf8_unicode_ci NOT NULL COMMENT 'E-mail address of Technical Administrator',
   `officialsUsernames` varchar(255) collate utf8_unicode_ci NOT NULL COMMENT 'Usernames of Returning Officer + Sysadmins',
   `randomisationInfo` enum('','Candidate order has been automatically randomised','Candidate order has been automatically alphabetised','Candidates have been entered by the Returning Officer in the order shown') collate utf8_unicode_ci default NULL COMMENT 'Candidate ordering/randomisation',
-  `adminDuringElectionOK` int(1) default '0' COMMENT 'Whether the administrator can access admin pages during the election',
   `organisationName` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'Organisation name',
   `organisationUrl` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'Organisation URL',
   `organisationLogoUrl` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'URL of organisation''s logo',
@@ -114,7 +113,7 @@ cat > /tmp/sampleballot.sql << EOF
 # Create a test instance
 DELETE FROM instances WHERE id = '${electionId}' LIMIT 1;
 INSERT INTO instances VALUES (
-	'${electionId}', '/test/13-14/testelection/', '13-14', 'testelection', 'provider', 'test', 'Test election', NULL, NULL, NULL, '${voteAdmin}', '${voteAdmin}', '${sampleBallotUsername}', 'Candidate order has been automatically randomised', '0', 'My organisation', NULL, NULL,
+	'${electionId}', '/test/13-14/testelection/', '13-14', 'testelection', 'provider', 'test', 'Test election', NULL, NULL, NULL, '${voteAdmin}', '${voteAdmin}', '${sampleBallotUsername}', 'Candidate order has been automatically randomised', 'My organisation', NULL, NULL,
 '1
 President
 BLAIR, Tony
