@@ -43,6 +43,9 @@ if [ ! -e "${documentRoot}"/bob-gui/listing/bobguiListingWrapper.php ] ; then
 	cp -p "${documentRoot}"/bob-gui/listing/bobguiListingWrapper.php.template "${documentRoot}"/bob-gui/listing/bobguiListingWrapper.php
 fi
 
+# Convert controlPanelLinkDirectly from boolean to string true/false, so PHP receives native boolean; ternary operator as at: http://stackoverflow.com/a/3953712
+controlPanelLinkDirectly=$( $controlPanelLinkDirectly && echo 'true' || echo 'false')
+
 # Add the database credentials to the BOB listing file (replace the lines matching on the left with the whole config string on the right)
 #!# Inconsistent namings here would be good to clear up
 #!# controlPanelLinkEnabled currently pastes in a PHP value; should instead determine whether the setting is a string or bool and do its own quoting here
@@ -52,8 +55,12 @@ sed -i \
 -e "s/.*'administratorEmail'.*/\$config['administratorEmail'] = '${serverAdmin}';/" \
 -e "s/.*'organisationName'.*/\$config['organisationName'] = '${organisationName}';/" \
 -e "s/.*'mailDomain'.*/\$config['mailDomain'] = '${mtaUserMailDomain}';/" \
+-e "s|.*'controlPanelUrl'.*|\$config['controlPanelUrl'] = '${controlPanelUrl}';|" \
 -e "s/.*'controlPanelLinkEnabled'.*/\$config['controlPanelLinkEnabled'] = ${controlPanelLinkEnabled};/" \
+-e "s/.*'controlPanelLinkDirectly'.*/\$config['controlPanelLinkDirectly'] = ${controlPanelLinkDirectly};/" \
 	"${documentRoot}"/bob-gui/listing/bobguiListingWrapper.php
+
+
 
 # Add the database credentials to the BOB bootstrap file (replace the lines matching on the left with the whole config string on the right)
 sed -i \

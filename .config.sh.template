@@ -63,8 +63,10 @@ bobDbControlpanelPassword='?'
 # Organisation name
 organisationName=''
 
-# Whether to show the control panel link in the listing site; this must be a quoted value containing a native PHP bool/string, e.g. 'true' or 'false' or "'user1,user2,user3'"
-controlPanelLinkEnabled='true'
+# Control panel settings
+controlPanelUrl="https://www.controlpanel.vote.example.com/controlpanel/"
+controlPanelLinkEnabled='true'	// Whether to show the control panel link in the listing site; this must be a quoted value containing a native PHP bool/string, e.g. 'true' or 'false' or "'user1,user2,user3'"
+controlPanelLinkDirectly=false	// Whether the listing interface should link directly to the control panel or show an intermediate page
 
 # Ingest data
 instanceDataUrl='https://www.controlpanel.vote.example.com/bestow.html'
