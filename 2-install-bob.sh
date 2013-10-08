@@ -43,8 +43,8 @@ ${mysql} -e "GRANT SELECT,CREATE        ON ${bobDbDatabase}.* TO '${bobDbSetupUs
 
 # Install (download) OpenSTV, the STV counting program
 zypper -n install -l python
-if [ ! -d ${documentRoot}/openSTV ] ; then
+if [ ! -d ${documentRoot}/openstv ] ; then
 	cd "${documentRoot}"
-	git clone git@github.com:cusu/openSTV.git
+	git clone git@github.com:cusu/openstv.git
 fi
 
