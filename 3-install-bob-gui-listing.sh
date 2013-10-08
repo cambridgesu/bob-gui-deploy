@@ -94,8 +94,6 @@ CREATE TABLE IF NOT EXISTS `instances` (
   `organisationName` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'Organisation name',
   `organisationUrl` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'Organisation URL',
   `organisationLogoUrl` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'URL of organisation''s logo',
-  `headerLocation` varchar(255) collate utf8_unicode_ci default '/style/header.html' COMMENT 'Header house style file',
-  `footerLocation` varchar(255) collate utf8_unicode_ci default '/style/footer.html' COMMENT 'Footer house style file',
   `electionInfo` text collate utf8_unicode_ci NOT NULL COMMENT 'Election info: Number of positions being elected; Position title; Names of candidates; each block separated by one line break',
   `electionInfoAsEntered` text collate utf8_unicode_ci NOT NULL COMMENT 'Election info',
   `referendumThresholdPercent` int(3) default '10' COMMENT 'Percentage of voters who must cast a vote in a referendum for the referendum to be countable',
@@ -116,7 +114,7 @@ cat > /tmp/sampleballot.sql << EOF
 # Create a test instance
 DELETE FROM instances WHERE id = '${electionId}' LIMIT 1;
 INSERT INTO instances VALUES (
-	'${electionId}', '/test/13-14/testelection/', '13-14', 'testelection', 'provider', 'test', 'Test election', NULL, NULL, NULL, '${voteAdmin}', '${voteAdmin}', '${sampleBallotUsername}', 'Candidate order has been automatically randomised', '0', 'My organisation', NULL, NULL, '', '',
+	'${electionId}', '/test/13-14/testelection/', '13-14', 'testelection', 'provider', 'test', 'Test election', NULL, NULL, NULL, '${voteAdmin}', '${voteAdmin}', '${sampleBallotUsername}', 'Candidate order has been automatically randomised', '0', 'My organisation', NULL, NULL,
 '1
 President
 BLAIR, Tony
