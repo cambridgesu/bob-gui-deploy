@@ -52,6 +52,9 @@ if [ $instanceDataApiKey == 'auto' ]; then
 		"${documentRoot}"/bob-gui/ingest/bobguiIngestWrapper.php
 fi
 
+# State the API key which may be useful for testing
+echo "The API key that has been generated is ${apiKey}"
+
 # Create the control panel database
 ${mysql} -e "CREATE DATABASE IF NOT EXISTS votescontrolpanel DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;"
 
