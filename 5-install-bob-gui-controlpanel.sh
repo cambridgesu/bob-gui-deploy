@@ -59,7 +59,7 @@ echo "The API key that has been generated is ${apiKey}"
 ${mysql} -e "CREATE DATABASE IF NOT EXISTS votescontrolpanel DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;"
 
 # Create database user privileges (which will create the user if it does not exist)
-${mysql} -e "GRANT SELECT,INSERT,DELETE,CREATE,ALTER,DROP ON votescontrolpanel.* TO '${bobDbControlpanelUsername}'@'localhost' IDENTIFIED BY '${bobDbControlpanelPassword}';"
+${mysql} -e "GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP ON votescontrolpanel.* TO '${bobDbControlpanelUsername}'@'localhost' IDENTIFIED BY '${bobDbControlpanelPassword}';"
 
 # Create the instances table, by cloning the structure of the main instances table
 ${mysql} -e "CREATE TABLE IF NOT EXISTS votescontrolpanel.instances LIKE ${bobDbDatabase}.instances;"
