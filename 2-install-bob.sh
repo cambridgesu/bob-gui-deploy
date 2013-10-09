@@ -38,6 +38,7 @@ postfix reload
 ${mysql} -e "CREATE DATABASE IF NOT EXISTS ${bobDbDatabase} DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;"
 
 # Create database user privileges (which will create the users if they do not exist); see: https://github.com/cusu/bob/blob/master/BOB.php#L1436
+# NB Staging permission also will be created later if using the ingest module
 ${mysql} -e "GRANT SELECT,INSERT,UPDATE ON ${bobDbDatabase}.* TO '${bobDbUsername}'@'localhost'      IDENTIFIED BY '${bobDbPassword}';"
 ${mysql} -e "GRANT SELECT,CREATE        ON ${bobDbDatabase}.* TO '${bobDbSetupUsername}'@'localhost' IDENTIFIED BY '${bobDbPassword}';"
 
