@@ -70,9 +70,6 @@ sed -i \
 -e "s/.*'dbSetupUsername'.*/\$config['dbSetupUsername'] = '${bobDbSetupUsername}';/" \
 	"${documentRoot}"/bob-gui/bob/index.php
 
-# Create database user privileges (which will create the user if it does not exist)
-${mysql} -e "GRANT SELECT ON ${bobDbDatabase}.instances TO '${bobDbListingUsername}'@'localhost' IDENTIFIED BY '${bobDbListingPassword}';"
-
 # Set up the instances table
 cat > /tmp/instances.sql << \EOF
 CREATE TABLE IF NOT EXISTS `instances` (
@@ -106,6 +103,9 @@ CREATE TABLE IF NOT EXISTS `instances` (
 EOF
 ${mysql} ${bobDbDatabase} < /tmp/instances.sql
 rm /tmp/instances.sql
+
+# Create database user privileges (which will create the user if it does not exist)
+${mysql} -e "GRANT SELECT ON ${bobDbDatabase}.instances TO '${bobDbListingUsername}'@'localhost' IDENTIFIED BY '${bobDbListingPassword}';"
 
 # Define a sample ballot
 electionId='test-13-14-testelection'
