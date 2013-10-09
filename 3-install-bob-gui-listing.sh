@@ -76,30 +76,30 @@ ${mysql} -e "GRANT SELECT ON ${bobDbDatabase}.instances TO '${bobDbListingUserna
 # Set up the instances table
 cat > /tmp/instances.sql << \EOF
 CREATE TABLE IF NOT EXISTS `instances` (
-  `id` varchar(255) collate utf8_unicode_ci NOT NULL COMMENT 'Generated globally-unique ID',
-  `url` varchar(255) collate utf8_unicode_ci NOT NULL COMMENT 'Computed URL location of this ballot',
-  `academicYear` varchar(5) collate utf8_unicode_ci NOT NULL COMMENT 'Computed academic year string',
-  `urlSlug` varchar(20) collate utf8_unicode_ci NOT NULL COMMENT 'Unique identifier for this ballot',
-  `provider` varchar(255) collate utf8_unicode_ci NOT NULL COMMENT 'Provider name',
-  `organisation` varchar(255) collate utf8_unicode_ci NOT NULL COMMENT 'Organisation name',
-  `title` varchar(255) collate utf8_unicode_ci NOT NULL COMMENT 'Title of this ballot',
-  `urlMoreInfo` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'URL for more info about the ballot',
-  `frontPageMessageHtml` varchar(255) collate utf8_unicode_ci default NULL,
-  `afterVoteMessageHtml` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'An extra message, if any, which people will see when they have voted',
-  `emailReturningOfficer` varchar(255) collate utf8_unicode_ci NOT NULL COMMENT 'E-mail address of Returning Officer',
-  `emailTech` varchar(255) collate utf8_unicode_ci NOT NULL COMMENT 'E-mail address of Technical Administrator',
-  `officialsUsernames` varchar(255) collate utf8_unicode_ci NOT NULL COMMENT 'Usernames of Returning Officer + Sysadmins',
-  `randomisationInfo` enum('','Candidate order has been automatically randomised','Candidate order has been automatically alphabetised','Candidates have been entered by the Returning Officer in the order shown') collate utf8_unicode_ci default NULL COMMENT 'Candidate ordering/randomisation',
-  `organisationName` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'Organisation name',
-  `organisationUrl` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'Organisation URL',
-  `organisationLogoUrl` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'URL of organisation''s logo',
-  `electionInfo` text collate utf8_unicode_ci NOT NULL COMMENT 'Election info: Number of positions being elected; Position title; Names of candidates; each block separated by one line break',
-  `electionInfoAsEntered` text collate utf8_unicode_ci NOT NULL COMMENT 'Election info',
-  `referendumThresholdPercent` int(3) default '10' COMMENT 'Percentage of voters who must cast a vote in a referendum for the referendum to be countable',
+  `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Generated globally-unique ID',
+  `url` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Computed URL location of this ballot',
+  `academicYear` varchar(5) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Computed academic year string',
+  `urlSlug` varchar(20) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Unique identifier for this ballot',
+  `provider` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Provider name',
+  `organisation` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Organisation name',
+  `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Title of this ballot',
+  `urlMoreInfo` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'URL for more info about the ballot',
+  `frontPageMessageHtml` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `afterVoteMessageHtml` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'An extra message, if any, which people will see when they have voted',
+  `emailReturningOfficer` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'E-mail address of Returning Officer',
+  `emailTech` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'E-mail address of Technical Administrator',
+  `officialsUsernames` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Usernames of Returning Officer + Sysadmins',
+  `randomisationInfo` enum('','Candidate order has been automatically randomised','Candidate order has been automatically alphabetised','Candidates have been entered by the Returning Officer in the order shown') COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Candidate ordering/randomisation',
+  `organisationName` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Organisation name',
+  `organisationUrl` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Organisation URL',
+  `organisationLogoUrl` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'URL of organisation''s logo',
+  `electionInfo` text COLLATE utf8_unicode_ci NOT NULL COMMENT 'Election info: Number of positions being elected; Position title; Names of candidates; each block separated by one line break',
+  `electionInfoAsEntered` text COLLATE utf8_unicode_ci NOT NULL COMMENT 'Election info',
+  `referendumThresholdPercent` int(3) DEFAULT '10' COMMENT 'Percentage of voters who must cast a vote in a referendum for the referendum to be countable',
   `ballotStart` datetime NOT NULL COMMENT 'Start date/time of the ballot',
   `ballotEnd` datetime NOT NULL COMMENT 'End date/time of the ballot',
   `ballotViewable` datetime NOT NULL COMMENT 'Date/time when the cast votes can be viewed',
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 EOF
 ${mysql} ${bobDbDatabase} < /tmp/instances.sql
@@ -131,11 +131,11 @@ THATCHER, Margaret
 
 # Create the votes table
 DROP TABLE IF EXISTS ${backquote}${electionId}_votes${backquote};
-CREATE TABLE IF NOT EXISTS ${backquote}${electionId}_votes${backquote} (token VARCHAR(32) collate utf8_unicode_ci NOT NULL PRIMARY KEY, v1p1 TINYINT(4), v1p2 TINYINT(4), v1p3 TINYINT(4)) ENGINE=InnoDB CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+CREATE TABLE IF NOT EXISTS ${backquote}${electionId}_votes${backquote} (token VARCHAR(32) COLLATE utf8_unicode_ci NOT NULL PRIMARY KEY, v1p1 TINYINT(4), v1p2 TINYINT(4), v1p3 TINYINT(4)) ENGINE=InnoDB CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 # Create the voter table and insert one voter
 DROP TABLE IF EXISTS ${backquote}${electionId}_voter${backquote};
-CREATE TABLE IF NOT EXISTS ${backquote}${electionId}_voter${backquote} (username VARCHAR(16) collate utf8_unicode_ci NOT NULL PRIMARY KEY, voted TINYINT(4) DEFAULT 0, forename VARCHAR(255) collate utf8_unicode_ci, surname VARCHAR(255) collate utf8_unicode_ci, unit VARCHAR(255) collate utf8_unicode_ci) ENGINE=InnoDB CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+CREATE TABLE IF NOT EXISTS ${backquote}${electionId}_voter${backquote} (username VARCHAR(16) COLLATE utf8_unicode_ci NOT NULL PRIMARY KEY, voted TINYINT(4) DEFAULT 0, forename VARCHAR(255) COLLATE utf8_unicode_ci, surname VARCHAR(255) COLLATE utf8_unicode_ci, unit VARCHAR(255) COLLATE utf8_unicode_ci) ENGINE=InnoDB CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 INSERT INTO ${backquote}${electionId}_voter${backquote} VALUES ('${sampleBallotUsername}', 0, 'Forename', 'Surname', 'My college');
 
 EOF
