@@ -95,7 +95,7 @@ CREATE TABLE IF NOT EXISTS `instances` (
   `organisationLogoUrl` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'URL of organisation''s logo',
   `electionInfo` text COLLATE utf8_unicode_ci NOT NULL COMMENT 'Election info: Number of positions being elected; Position title; Names of candidates; each block separated by one line break',
   `electionInfoAsEntered` text COLLATE utf8_unicode_ci NOT NULL COMMENT 'Election info',
-  `referendumThresholdPercent` int(3) DEFAULT '10' COMMENT 'Percentage of voters who must cast a vote in a referendum for the referendum to be countable',
+  `referendumThresholdPercent` int(2) DEFAULT '10' COMMENT 'Percentage of voters who must cast a vote in a referendum for the referendum to be countable',
   `ballotStart` datetime NOT NULL COMMENT 'Start date/time of the ballot',
   `ballotEnd` datetime NOT NULL COMMENT 'End date/time of the ballot',
   `ballotViewable` datetime NOT NULL COMMENT 'Date/time when the cast votes can be viewed',
