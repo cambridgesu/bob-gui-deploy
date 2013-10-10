@@ -106,6 +106,7 @@ rm /tmp/instances.sql
 
 # Create database user privileges (which will create the user if it does not exist)
 ${mysql} -e "GRANT SELECT ON ${bobDbDatabase}.instances TO '${bobDbListingUsername}'@'localhost' IDENTIFIED BY '${bobDbListingPassword}';"
+${mysql} -e "GRANT SELECT ON ${bobDbIngestDatabase}.instances TO '${bobDbListingUsername}'@'localhost' IDENTIFIED BY '${bobDbListingPassword}';"
 
 # Define a sample ballot
 electionId='test-13-14-testelection'
