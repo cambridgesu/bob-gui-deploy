@@ -60,6 +60,9 @@ bobDbIngestPassword='?'
 bobDbControlpanelUsername='bobguiControlPanel'
 bobDbControlpanelPassword='?'
 
+# BOB config, fixed by administrator
+disableListWhoVoted=false
+
 # Organisation name
 organisationName=''
 

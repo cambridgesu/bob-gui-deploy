@@ -43,8 +43,9 @@ if [ ! -e "${documentRoot}"/bob-gui/listing/bobguiListingWrapper.php ] ; then
 	cp -p "${documentRoot}"/bob-gui/listing/bobguiListingWrapper.php.template "${documentRoot}"/bob-gui/listing/bobguiListingWrapper.php
 fi
 
-# Convert controlPanelLinkDirectly from boolean to string true/false, so PHP receives native boolean; ternary operator as at: http://stackoverflow.com/a/3953712
+# Convert some settings from boolean to string true/false, so PHP receives native boolean; ternary operator as at: http://stackoverflow.com/a/3953712
 controlPanelLinkDirectly=$( $controlPanelLinkDirectly && echo 'true' || echo 'false')
+disableListWhoVoted=$( $disableListWhoVoted && echo 'true' || echo 'false')
 
 # Add the database credentials to the BOB listing file (replace the lines matching on the left with the whole config string on the right)
 #!# Inconsistent namings here would be good to clear up
@@ -60,14 +61,13 @@ sed -i \
 -e "s/.*'controlPanelLinkDirectly'.*/\$config['controlPanelLinkDirectly'] = ${controlPanelLinkDirectly};/" \
 	"${documentRoot}"/bob-gui/listing/bobguiListingWrapper.php
 
-
-
-# Add the database credentials to the BOB bootstrap file (replace the lines matching on the left with the whole config string on the right)
+# Add the database credentials and other fixed settings to the BOB bootstrap file (replace the lines matching on the left with the whole config string on the right)
 sed -i \
 -e "s/.*'dbDatabase'.*/\$config['dbDatabase'] = '${bobDbDatabase}';/" \
 -e "s/.*'dbPassword'.*/\$config['dbPassword'] = '${bobDbPassword}';/" \
 -e "s/.*'dbUsername'.*/\$config['dbUsername'] = '${bobDbUsername}';/" \
 -e "s/.*'dbSetupUsername'.*/\$config['dbSetupUsername'] = '${bobDbSetupUsername}';/" \
+-e "s/.*'disableListWhoVoted'.*/\$config['disableListWhoVoted'] = ${disableListWhoVoted};/" \
 	"${documentRoot}"/bob-gui/bob/index.php
 
 # Set up the instances table
