@@ -70,6 +70,13 @@ sed -i \
 -e "s/.*'disableListWhoVoted'.*/\$config['disableListWhoVoted'] = ${disableListWhoVoted};/" \
 	"${documentRoot}"/bob-gui/bob/index.php
 
+
+# Disable auto-count if required
+if $disableAutoCount ; then
+	sed -i -e "s/.*'countingInstallation'.*/\$config['countingInstallation'] = false;/" "${documentRoot}"/bob-gui/bob/index.php
+fi
+
+
 # Set up the instances table
 cat > /tmp/instances.sql << \EOF
 CREATE TABLE IF NOT EXISTS `instances` (
