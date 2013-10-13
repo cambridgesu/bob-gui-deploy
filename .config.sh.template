@@ -72,7 +72,7 @@ controlPanelLinkEnabled='true'	// Whether to show the control panel link in the 
 controlPanelLinkDirectly=false	// Whether the listing interface should link directly to the control panel or show an intermediate page
 
 # Ingest data
-instanceDataUrl='https://www.controlpanel.vote.example.com/bestow.html'
+instanceDataUrl='https://www.controlpanel.vote.example.com/bestow.json'
 instanceDataApiKey='?'	# Can also use special value for same-server testing 'auto' which will set it to same as whatever is generated for the data endpoint ('bestow')
 
 # Ingest SMS notifications
