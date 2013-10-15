@@ -33,6 +33,7 @@ fi
 # Add the database credentials and other settings to the BOB control panel bootstrap file (replace the lines matching on the left with the whole config string on the right)
 #!# Inconsistent namings here would be good to clear up
 #!# Escaping needs to be dealt with properly
+#!# disableListWhoVoted has a dependency on 3-install-bob-gui-listing.sh of this installer
 sed -i \
 -e "s/.*'username'.*/\$config['username'] = '${bobDbControlpanelUsername}';/" \
 -e "s/.*'password'.*/\$config['password'] = '${bobDbControlpanelPassword}';/" \
@@ -43,6 +44,7 @@ sed -i \
 -e "s/.*'emailReturningOfficerReceipts'.*/\$config['emailReturningOfficerReceipts'] = '${emailReturningOfficerReceipts}';/" \
 -e "s|.*'liveServerUrl'.*|\$config['liveServerUrl'] = 'https://${domainName}';|" \
 -e "s|.*'apiKey'.*|\$config['apiKey'] = '${apiKey}';|" \
+-e "s/.*'disableListWhoVoted'.*/\$config['disableListWhoVoted'] = ${disableListWhoVoted};/" \
 	"${documentRoot}"/bob-gui/controlpanel/index.php
 
 # If testing, put the apiKey into the ingest configuration, so that they match
