@@ -68,6 +68,7 @@ sed -i \
 -e "s/.*'dbUsername'.*/\$config['dbUsername'] = '${bobDbUsername}';/" \
 -e "s/.*'dbSetupUsername'.*/\$config['dbSetupUsername'] = '${bobDbSetupUsername}';/" \
 -e "s/.*'disableListWhoVoted'.*/\$config['disableListWhoVoted'] = ${disableListWhoVoted};/" \
+-e "s/.*'countingMethod'.*/\$config['countingMethod'] = '${countingMethod}';/" \
 	"${documentRoot}"/bob-gui/bob/index.php
 
 

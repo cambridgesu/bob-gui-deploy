@@ -45,6 +45,7 @@ sed -i \
 -e "s|.*'liveServerUrl'.*|\$config['liveServerUrl'] = 'https://${domainName}';|" \
 -e "s|.*'apiKey'.*|\$config['apiKey'] = '${apiKey}';|" \
 -e "s/.*'disableListWhoVoted'.*/\$config['disableListWhoVoted'] = ${disableListWhoVoted};/" \
+-e "s/.*'countingMethod'.*/\$config['countingMethod'] = '${countingMethod}';/" \
 	"${documentRoot}"/bob-gui/controlpanel/index.php
 
 # If testing, put the apiKey into the ingest configuration, so that they match
