@@ -13,24 +13,24 @@ if [ ! -d ${documentRoot}/bob-gui ] ; then
 fi
 
 # Install the house style if not already present; note that the "--strip 1" will remove the top-level directory in the .tgz
-if [ ! -r "${documentRoot}"/bob-gui/style/header.html ] ; then
+if [ ! -r "${documentRoot}"/bob-gui/public_html/style/header.html ] ; then
 	if [ ! -r "${houseStylePackage}" ] ; then
 		echo "ERROR: The house style package file specified in the deployment config is not present"
 		exit 1
 	fi
-	tar -xvf "${houseStylePackage}" --strip 1 -C ${documentRoot}/bob-gui/style/
-	if [ ! -r "${documentRoot}"/bob-gui/style/header.html ] || [ ! -r "${documentRoot}"/bob-gui/style/footer.html ] ; then
+	tar -xvf "${houseStylePackage}" --strip 1 -C ${documentRoot}/bob-gui/public_html/style/
+	if [ ! -r "${documentRoot}"/bob-gui/public_html/style/header.html ] || [ ! -r "${documentRoot}"/bob-gui/public_html/style/footer.html ] ; then
 		echo "ERROR: The house style package does not include a header file"
-		rm ${documentRoot}/bob-gui/style/*
+		rm ${documentRoot}/bob-gui/public_html/style/*
 		exit
 	fi
-	chown nobody."${webEditorsGroup}" "${documentRoot}"/bob-gui/style/
-	chmod g+w "${documentRoot}"/bob-gui/style/
+	chown nobody."${webEditorsGroup}" "${documentRoot}"/bob-gui/public_html/style/
+	chmod g+w "${documentRoot}"/bob-gui/public_html/style/
 fi
 
 # Add the favicon, if required
 if [ "${faviconObtainFromUrl}" ] ; then
-	faviconFile="${documentRoot}"/bob-gui/favicon.ico
+	faviconFile="${documentRoot}"/bob-gui/public_html/favicon.ico
 	if [ ! -r "${faviconFile}" ]; then
 		wget -O "${faviconFile}" "${faviconObtainFromUrl}"
 		chown nobody."${webEditorsGroup}" "${faviconFile}"
@@ -76,12 +76,10 @@ sed -i \
 -e "s/.*'countingMethod'.*/\$config['countingMethod'] = '${countingMethod}';/" \
 	"${documentRoot}"/bob-gui/bob/index.php
 
-
 # Disable auto-count if required
 if $disableAutoCount ; then
 	sed -i -e "s/.*'countingInstallation'.*/\$config['countingInstallation'] = false;/" "${documentRoot}"/bob-gui/bob/index.php
 fi
-
 
 # Set up the instances table
 cat > /tmp/instances.sql << \EOF

@@ -220,7 +220,7 @@ NameVirtualHost *:443
 <VirtualHost *:443>
 	ServerAdmin ${serverAdmin}
 	ServerName ${domainName}
-	DocumentRoot ${documentRoot}/bob-gui
+	DocumentRoot ${documentRoot}/bob-gui/public_html
 	CustomLog /var/log/apache2/${domainName}_SSL-access_log combined
 	ErrorLog /var/log/apache2/${domainName}_SSL-error_log
 	HostnameLookups Off
@@ -267,6 +267,7 @@ NameVirtualHost *:443
 	</Directory>
 	
 	# Allow various directives for control panel (commented-out unless needed in later install script)
+	#!# This should be set to be always present, but disabled at application level if not needed
 	#Include ${documentRoot}/bob-gui/controlpanel/apache.conf
 	<Directory ${documentRoot}/bob-gui/controlpanel/apache.conf>
 		Deny from all
@@ -279,7 +280,7 @@ NameVirtualHost *:80
 <VirtualHost *:80>
 	ServerAdmin ${serverAdmin}
 	ServerName ${domainName}
-	DocumentRoot ${documentRoot}/bob-gui
+	DocumentRoot ${documentRoot}/bob-gui/public_html
 	CustomLog /var/log/apache2/${domainName}-access_log combined
 	ErrorLog /var/log/apache2/${domainName}-error_log
 	HostnameLookups Off
