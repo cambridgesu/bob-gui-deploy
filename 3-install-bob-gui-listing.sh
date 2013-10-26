@@ -39,8 +39,8 @@ if [ "${faviconObtainFromUrl}" ] ; then
 fi
 
 # Create the listing bootstrap file; it is harmless to leave the template in place
-if [ ! -e "${documentRoot}"/bob-gui/listing/bobguiListingWrapper.php ] ; then
-	cp -p "${documentRoot}"/bob-gui/listing/bobguiListingWrapper.php.template "${documentRoot}"/bob-gui/listing/bobguiListingWrapper.php
+if [ ! -e "${documentRoot}"/bob-gui/listing/index.php ] ; then
+	cp -p "${documentRoot}"/bob-gui/listing/index.php.template "${documentRoot}"/bob-gui/listing/index.php
 fi
 
 # Convert some settings from boolean to string true/false, so PHP receives native boolean; ternary operator as at: http://stackoverflow.com/a/3953712
@@ -59,7 +59,7 @@ sed -i \
 -e "s|.*'controlPanelUrl'.*|\$config['controlPanelUrl'] = '${controlPanelUrl}';|" \
 -e "s/.*'controlPanelLinkEnabled'.*/\$config['controlPanelLinkEnabled'] = ${controlPanelLinkEnabled};/" \
 -e "s/.*'controlPanelLinkDirectly'.*/\$config['controlPanelLinkDirectly'] = ${controlPanelLinkDirectly};/" \
-	"${documentRoot}"/bob-gui/listing/bobguiListingWrapper.php
+	"${documentRoot}"/bob-gui/listing/index.php
 
 # Create the BOB bootstrap file
 if [ ! -e "${documentRoot}"/bob-gui/bob/index.php ] ; then

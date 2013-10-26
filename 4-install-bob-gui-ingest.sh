@@ -25,8 +25,8 @@ chown bobguiIngest.$webEditorsGroup $ingestLockDirectory
 chmod g+rw $ingestLockDirectory
 
 # Create the ingest bootstrap file; it is harmless to leave the template in place
-if [ ! -e "${documentRoot}"/bob-gui/ingest/bobguiIngestWrapper.php ] ; then
-	cp -p "${documentRoot}"/bob-gui/ingest/bobguiIngestWrapper.php.template "${documentRoot}"/bob-gui/ingest/bobguiIngestWrapper.php
+if [ ! -e "${documentRoot}"/bob-gui/ingest/index.php ] ; then
+	cp -p "${documentRoot}"/bob-gui/ingest/index.php.template "${documentRoot}"/bob-gui/ingest/index.php
 fi
 
 # Add the database credentials and other settings to the BOB ingest bootstrap file (replace the lines matching on the left with the whole config string on the right)
@@ -44,7 +44,7 @@ sed -i \
 -e "s|.*'instanceDataUrl'.*|\$config['instanceDataUrl'] = '${instanceDataUrl}';|" \
 -e "s|.*'instanceDataApiKey'.*|\$config['instanceDataApiKey'] = '${instanceDataApiKey}';|" \
 -e "s|.*'liveServerUrl'.*|\$config['liveServerUrl'] = 'https://${domainName}';|" \
-	"${documentRoot}"/bob-gui/ingest/bobguiIngestWrapper.php
+	"${documentRoot}"/bob-gui/ingest/index.php
 
 # Create the staging database
 ${mysql} -e "CREATE DATABASE IF NOT EXISTS ${bobDbIngestDatabase} DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;"
@@ -61,6 +61,6 @@ ${mysql} -e "CREATE TABLE IF NOT EXISTS ${bobDbIngestDatabase}.instances LIKE ${
 ${mysql} -e "GRANT SELECT,INSERT,UPDATE ON ${bobDbIngestDatabase}.* TO '${bobDbUsername}'@'localhost' IDENTIFIED BY '${bobDbPassword}';"
 
 # Add the hourly cron job to the (root) cron.d, running as the ingest user; see the .cron.example file
-cronJob="30 * * * * su ${ingestUser} -c 'php -d memory_limit=700M ${documentRoot}/bob-gui/ingest/bobguiIngestWrapper.php'"
+cronJob="30 * * * * su ${ingestUser} -c 'php -d memory_limit=700M ${documentRoot}/bob-gui/ingest/index.php'"
 echo "${cronJob}" > /etc/cron.d/bobguiIngest.cron
 

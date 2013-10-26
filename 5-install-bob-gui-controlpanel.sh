@@ -53,7 +53,7 @@ sed -i \
 if [ $instanceDataApiKey == 'auto' ]; then
 	sed -i \
 	-e "s|.*'instanceDataApiKey'.*|\$config['instanceDataApiKey'] = '${apiKey}';|" \
-		"${documentRoot}"/bob-gui/ingest/bobguiIngestWrapper.php
+		"${documentRoot}"/bob-gui/ingest/index.php
 fi
 
 # State the API key which may be useful for testing
