@@ -15,7 +15,7 @@ sudo /etc/init.d/apache2 restart
 apiKey=`randpw`
 
 # Ensure the log file is writable by the webserver
-chown "${apacheUser}" "${documentRoot}"/bob-gui/controlpanel/.ht-logfile.txt
+chown "${apacheUser}" "${documentRoot}"/bob-gui/controlpanel/logfile.txt
 
 # Create the ingest bootstrap file; it is harmless to leave the template in place
 if [ ! -e "${documentRoot}"/bob-gui/controlpanel/index.php ] ; then
