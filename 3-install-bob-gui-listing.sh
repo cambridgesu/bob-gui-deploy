@@ -61,6 +61,11 @@ sed -i \
 -e "s/.*'controlPanelLinkDirectly'.*/\$config['controlPanelLinkDirectly'] = ${controlPanelLinkDirectly};/" \
 	"${documentRoot}"/bob-gui/listing/bobguiListingWrapper.php
 
+# Create the BOB bootstrap file
+if [ ! -e "${documentRoot}"/bob-gui/bob/index.php ] ; then
+        cp -p "${documentRoot}"/bob-gui/bob/index.php.template "${documentRoot}"/bob-gui/bob/index.php
+fi
+
 # Add the database credentials and other fixed settings to the BOB bootstrap file (replace the lines matching on the left with the whole config string on the right)
 sed -i \
 -e "s/.*'dbDatabase'.*/\$config['dbDatabase'] = '${bobDbDatabase}';/" \
