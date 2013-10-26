@@ -6,11 +6,6 @@
 # Installation of the GUI control panel component
 
 
-# Enable the Apache configuration
-directive="Include ${documentRoot}/bob-gui/controlpanel/apache.conf"
-perl -p -i -e "s|#${directive}|${directive}|gi" "${vhostFile}"
-sudo /etc/init.d/apache2 restart
-
 # Generate an API key for the bestow mechanism
 apiKey=`randpw`
 
@@ -18,6 +13,7 @@ apiKey=`randpw`
 chown "${apacheUser}" "${documentRoot}"/bob-gui/controlpanel/logfile.txt
 
 # Create the ingest bootstrap file; it is harmless to leave the template in place
+#!# If the control panel module isn't installed then the public_html/controlpanel/index.php will still be present; if run it generates "PHP Fatal error:  require_once(): Failed opening required '../../controlpanel/index.php'" errors in the logs (though therefore it is disabled anyway)
 if [ ! -e "${documentRoot}"/bob-gui/controlpanel/index.php ] ; then
 	cp -p "${documentRoot}"/bob-gui/controlpanel/index.php.template "${documentRoot}"/bob-gui/controlpanel/index.php
 fi
@@ -33,11 +29,12 @@ if [ ! -e "${documentRoot}"/bob-gui/controlpanel/providers.php ] ; then
 	chmod g+rw "${providersApiFile}"
 fi
 
-# Add the database credentials and other settings to the BOB control panel bootstrap file (replace the lines matching on the left with the whole config string on the right)
+# Enable the control panel, and add the database credentials and other settings to the BOB control panel bootstrap file (replace the lines matching on the left with the whole config string on the right)
 #!# Inconsistent namings here would be good to clear up
 #!# Escaping needs to be dealt with properly
 #!# disableListWhoVoted has a dependency on 3-install-bob-gui-listing.sh of this installer
 sed -i \
+-e "s/.*'enabled'.*/\$config['enabled'] = true;/" \
 -e "s/.*'username'.*/\$config['username'] = '${bobDbControlpanelUsername}';/" \
 -e "s/.*'password'.*/\$config['password'] = '${bobDbControlpanelPassword}';/" \
 -e "s/.*'administratorEmail'.*/\$config['administratorEmail'] = '${serverAdmin}';/" \

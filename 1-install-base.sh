@@ -268,9 +268,8 @@ NameVirtualHost *:443
 		Options FollowSymLinks
 	</Directory>
 	
-	# Allow various directives for control panel (commented-out unless needed in later install script)
-	#!# This should be set to be always present, but disabled at application level if not needed
-	#Include ${documentRoot}/bob-gui/controlpanel/apache.conf
+	# Allow various directives for control panel (may later be disabled at application level)
+	Include ${documentRoot}/bob-gui/controlpanel/apache.conf
 	<Directory ${documentRoot}/bob-gui/controlpanel/apache.conf>
 		Deny from all
 	</Directory>
