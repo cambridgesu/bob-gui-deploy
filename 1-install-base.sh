@@ -210,6 +210,8 @@ ${authModuleDirective}
 php_admin_value output_buffering 0
 php_admin_value expose_php 0
 php_admin_value file_uploads 0
+php_admin_value auto_prepend_file none
+php_admin_value auto_append_file none
 #!# Should be able to reduce this when the BOB roll generation routine is rewritten
 php_admin_value memory_limit 512M
 
