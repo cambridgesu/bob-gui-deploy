@@ -14,6 +14,9 @@ sudo /etc/init.d/apache2 restart
 # Generate an API key for the bestow mechanism
 apiKey=`randpw`
 
+# Ensure the log file is writable by the webserver
+chown "${apacheUser}" "${documentRoot}"/bob-gui/controlpanel/.ht-logfile.txt
+
 # Create the ingest bootstrap file; it is harmless to leave the template in place
 if [ ! -e "${documentRoot}"/bob-gui/controlpanel/index.php ] ; then
 	cp -p "${documentRoot}"/bob-gui/controlpanel/index.php.template "${documentRoot}"/bob-gui/controlpanel/index.php
