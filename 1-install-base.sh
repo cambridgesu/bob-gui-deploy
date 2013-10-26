@@ -256,24 +256,12 @@ NameVirtualHost *:443
 		SetHandler AALogout
 	</Files>
 	
-	# Deny technical files being retrieved via a browser
-	<Files ".ht*">
-		deny from all
-	</Files>
-
-	# Allow .htaccess file usage and mod_rewrite directives
-	<Directory />
-		AllowOverride FileInfo
-		# FollowSymLinks is needed to enable mod_rewrite
-		Options FollowSymLinks
-	</Directory>
-	
-	# Allow various directives for control panel (may later be disabled at application level)
+	# Load directives for BOB GUI control panel (may later be disabled at application level); NB Currently this must come before the listing directives
 	Include ${documentRoot}/bob-gui/controlpanel/apache.conf
-	<Directory ${documentRoot}/bob-gui/controlpanel/apache.conf>
-		Deny from all
-	</Directory>
-
+	
+	# Load directives for BOB GUI listing
+	Include /srv/www/vhosts/www.vote.geog.private.cam.ac.uk/bob-gui/listing/apache.conf
+	
 </VirtualHost>
 
 # Voting website (HTTP)
