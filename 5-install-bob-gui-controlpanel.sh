@@ -12,12 +12,6 @@ apiKey=`randpw`
 # Ensure the log file is writable by the webserver
 chown "${apacheUser}" "${documentRoot}"/bob-gui/controlpanel/logfile.txt
 
-# Create the ingest bootstrap file; it is harmless to leave the template in place
-#!# If the control panel module isn't installed then the public_html/controlpanel/index.php will still be present; if run it generates "PHP Fatal error:  require_once(): Failed opening required '../../controlpanel/index.php'" errors in the logs (though therefore it is disabled anyway)
-if [ ! -e "${documentRoot}"/bob-gui/controlpanel/index.php ] ; then
-	cp -p "${documentRoot}"/bob-gui/controlpanel/index.php.template "${documentRoot}"/bob-gui/controlpanel/index.php
-fi
-
 # Copy in the providers (directory) API
 if [ ! -r "${providersApiFile}" ] ; then
 	echo "ERROR: The providers API file is not present"
@@ -29,31 +23,31 @@ if [ ! -e "${documentRoot}"/bob-gui/controlpanel/providers.php ] ; then
 	chmod g+rw "${providersApiFile}"
 fi
 
-# Enable the control panel, and add the database credentials and other settings to the BOB control panel bootstrap file (replace the lines matching on the left with the whole config string on the right)
+# Enable the control panel, and add the control panel settings to the config file (replace the lines matching on the left with the whole config string on the right)
 #!# Inconsistent namings here would be good to clear up
 #!# Escaping needs to be dealt with properly
 #!# disableListWhoVoted has a dependency on 3-install-bob-gui-listing.sh of this installer
 sed -i \
--e "s/.*'enabled'.*/\$config['enabled'] = true;/" \
--e "s/.*'username'.*/\$config['username'] = '${bobDbControlpanelUsername}';/" \
--e "s/.*'password'.*/\$config['password'] = '${bobDbControlpanelPassword}';/" \
--e "s/.*'administratorEmail'.*/\$config['administratorEmail'] = '${serverAdmin}';/" \
--e "s/.*'organisationName'.*/\$config['organisationName'] = '${organisationName}';/" \
--e "s/.*'mailDomain'.*/\$config['mailDomain'] = '${mtaUserMailDomain}';/" \
--e "s/.*'emailTech'.*/\$config['emailTech'] = '${voteAdmin}';/" \
--e "s/.*'emailReturningOfficerReceipts'.*/\$config['emailReturningOfficerReceipts'] = '${emailReturningOfficerReceipts}';/" \
--e "s|.*'liveServerUrl'.*|\$config['liveServerUrl'] = 'https://${domainName}';|" \
--e "s|.*'apiKey'.*|\$config['apiKey'] = '${apiKey}';|" \
--e "s/.*'disableListWhoVoted'.*/\$config['disableListWhoVoted'] = ${disableListWhoVoted};/" \
--e "s/.*'countingMethod'.*/\$config['countingMethod'] = '${countingMethod}';/" \
--e "s/.*'maximumOpeningDays'.*/\$config['maximumOpeningDays'] = ${maximumOpeningDays};/" \
-	"${documentRoot}"/bob-gui/controlpanel/index.php
+-e "s/.*configControlpanel\['enabled'.*/\$configControlpanel['enabled'] = true;/" \
+-e "s/.*configControlpanel\['username'.*/\$configControlpanel['username'] = '${bobDbControlpanelUsername}';/" \
+-e "s/.*configControlpanel\['password'.*/\$configControlpanel['password'] = '${bobDbControlpanelPassword}';/" \
+-e "s/.*configControlpanel\['administratorEmail'.*/\$configControlpanel['administratorEmail'] = '${serverAdmin}';/" \
+-e "s/.*configControlpanel\['organisationName'.*/\$configControlpanel['organisationName'] = '${organisationName}';/" \
+-e "s/.*configControlpanel\['mailDomain'.*/\$configControlpanel['mailDomain'] = '${mtaUserMailDomain}';/" \
+-e "s/.*configControlpanel\['emailTech'.*/\$configControlpanel['emailTech'] = '${voteAdmin}';/" \
+-e "s/.*configControlpanel\['emailReturningOfficerReceipts'.*/\$configControlpanel['emailReturningOfficerReceipts'] = '${emailReturningOfficerReceipts}';/" \
+-e "s|.*configControlpanel\['liveServerUrl'.*|\$configControlpanel['liveServerUrl'] = 'https://${domainName}';|" \
+-e "s|.*configControlpanel\['apiKey'.*|\$configControlpanel['apiKey'] = '${apiKey}';|" \
+-e "s/.*configControlpanel\['disableListWhoVoted'.*/\$configControlpanel['disableListWhoVoted'] = ${disableListWhoVoted};/" \
+-e "s/.*configControlpanel\['countingMethod'.*/\$configControlpanel['countingMethod'] = '${countingMethod}';/" \
+-e "s/.*configControlpanel\['maximumOpeningDays'.*/\$configControlpanel['maximumOpeningDays'] = ${maximumOpeningDays};/" \
+	"${documentRoot}"/bob-gui/config.php
 
 # If testing, put the apiKey into the ingest configuration, so that they match
 if [ $instanceDataApiKey == 'auto' ]; then
 	sed -i \
-	-e "s|.*'instanceDataApiKey'.*|\$config['instanceDataApiKey'] = '${apiKey}';|" \
-		"${documentRoot}"/bob-gui/ingest/index.php
+	-e "s|.*configIngest\['instanceDataApiKey'.*|\$configIngest['instanceDataApiKey'] = '${apiKey}';|" \
+		"${documentRoot}"/bob-gui/config.php
 fi
 
 # State the API key which may be useful for testing

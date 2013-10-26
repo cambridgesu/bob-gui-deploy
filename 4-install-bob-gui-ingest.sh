@@ -24,27 +24,22 @@ ingestLockDirectory="$documentRoot"/bob-gui/ingest/lock
 chown bobguiIngest.$webEditorsGroup $ingestLockDirectory
 chmod g+rw $ingestLockDirectory
 
-# Create the ingest bootstrap file; it is harmless to leave the template in place
-if [ ! -e "${documentRoot}"/bob-gui/ingest/index.php ] ; then
-	cp -p "${documentRoot}"/bob-gui/ingest/index.php.template "${documentRoot}"/bob-gui/ingest/index.php
-fi
-
-# Add the database credentials and other settings to the BOB ingest bootstrap file (replace the lines matching on the left with the whole config string on the right)
+# Add the ingest settings to the config file (replace the lines matching on the left with the whole config string on the right)
 #!# Inconsistent namings here would be good to clear up
 #!# Escaping needs to be dealt with properly
 sed -i \
--e "s/.*'databaseStaging'.*/\$config['databaseStaging'] = '${bobDbIngestDatabase}';/" \
--e "s/.*'databaseLive'.*/\$config['databaseLive'] = '${bobDbDatabase}';/" \
--e "s/.*'username'.*/\$config['username'] = '${bobDbIngestUsername}';/" \
--e "s/.*'password'.*/\$config['password'] = '${bobDbIngestPassword}';/" \
--e "s/.*'administratorEmail'.*/\$config['administratorEmail'] = '${serverAdmin}';/" \
--e "s/.*'organisationName'.*/\$config['organisationName'] = '${organisationName}';/" \
--e "s/.*'smsRecipient'.*/\$config['smsRecipient'] = '${smsRecipient}';/" \
--e "s/.*'smsApiKey'.*/\$config['smsApiKey'] = '${smsApiKey}';/" \
--e "s|.*'instanceDataUrl'.*|\$config['instanceDataUrl'] = '${instanceDataUrl}';|" \
--e "s|.*'instanceDataApiKey'.*|\$config['instanceDataApiKey'] = '${instanceDataApiKey}';|" \
--e "s|.*'liveServerUrl'.*|\$config['liveServerUrl'] = 'https://${domainName}';|" \
-	"${documentRoot}"/bob-gui/ingest/index.php
+-e "s/.*configIngest\['databaseStaging'.*/\$configIngest['databaseStaging'] = '${bobDbIngestDatabase}';/" \
+-e "s/.*configIngest\['databaseLive'.*/\$configIngest['databaseLive'] = '${bobDbDatabase}';/" \
+-e "s/.*configIngest\['username'.*/\$configIngest['username'] = '${bobDbIngestUsername}';/" \
+-e "s/.*configIngest\['password'.*/\$configIngest['password'] = '${bobDbIngestPassword}';/" \
+-e "s/.*configIngest\['administratorEmail'.*/\$configIngest['administratorEmail'] = '${serverAdmin}';/" \
+-e "s/.*configIngest\['organisationName'.*/\$configIngest['organisationName'] = '${organisationName}';/" \
+-e "s/.*configIngest\['smsRecipient'.*/\$configIngest['smsRecipient'] = '${smsRecipient}';/" \
+-e "s/.*configIngest\['smsApiKey'.*/\$configIngest['smsApiKey'] = '${smsApiKey}';/" \
+-e "s|.*configIngest\['instanceDataUrl'.*|\$configIngest['instanceDataUrl'] = '${instanceDataUrl}';|" \
+-e "s|.*configIngest\['instanceDataApiKey'.*|\$configIngest['instanceDataApiKey'] = '${instanceDataApiKey}';|" \
+-e "s|.*configIngest\['liveServerUrl'.*|\$configIngest['liveServerUrl'] = 'https://${domainName}';|" \
+	"${documentRoot}"/bob-gui/config.php
 
 # Create the staging database
 ${mysql} -e "CREATE DATABASE IF NOT EXISTS ${bobDbIngestDatabase} DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;"

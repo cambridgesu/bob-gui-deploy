@@ -38,47 +38,42 @@ if [ "${faviconObtainFromUrl}" ] ; then
 	fi
 fi
 
-# Create the listing bootstrap file; it is harmless to leave the template in place
-if [ ! -e "${documentRoot}"/bob-gui/listing/index.php ] ; then
-	cp -p "${documentRoot}"/bob-gui/listing/index.php.template "${documentRoot}"/bob-gui/listing/index.php
+# Create the config file; it is harmless to leave the template in place
+if [ ! -e "${documentRoot}"/bob-gui/config.php ] ; then
+	cp -p "${documentRoot}"/bob-gui/config.php.template "${documentRoot}"/bob-gui/config.php
 fi
 
 # Convert some settings from boolean to string true/false, so PHP receives native boolean; ternary operator as at: http://stackoverflow.com/a/3953712
 controlPanelLinkDirectly=$( $controlPanelLinkDirectly && echo 'true' || echo 'false')
 disableListWhoVoted=$( $disableListWhoVoted && echo 'true' || echo 'false')
 
-# Add the database credentials to the BOB listing file (replace the lines matching on the left with the whole config string on the right)
+# Add the listing settings to the config file (replace the lines matching on the left with the whole config string on the right)
 #!# Inconsistent namings here would be good to clear up
 #!# controlPanelLinkEnabled currently pastes in a PHP value; should instead determine whether the setting is a string or bool and do its own quoting here
 sed -i \
--e "s/.*'username'.*/\$config['username'] = '${bobDbListingUsername}';/" \
--e "s/.*'password'.*/\$config['password'] = '${bobDbListingPassword}';/" \
--e "s/.*'administratorEmail'.*/\$config['administratorEmail'] = '${serverAdmin}';/" \
--e "s/.*'organisationName'.*/\$config['organisationName'] = '${organisationName}';/" \
--e "s/.*'mailDomain'.*/\$config['mailDomain'] = '${mtaUserMailDomain}';/" \
--e "s|.*'controlPanelUrl'.*|\$config['controlPanelUrl'] = '${controlPanelUrl}';|" \
--e "s/.*'controlPanelLinkEnabled'.*/\$config['controlPanelLinkEnabled'] = ${controlPanelLinkEnabled};/" \
--e "s/.*'controlPanelLinkDirectly'.*/\$config['controlPanelLinkDirectly'] = ${controlPanelLinkDirectly};/" \
-	"${documentRoot}"/bob-gui/listing/index.php
+-e "s/.*configListing\['configListing['username'].*/\$configListing['username'] = '${bobDbListingUsername}';/" \
+-e "s/.*configListing\['password'.*/\$configListing['password'] = '${bobDbListingPassword}';/" \
+-e "s/.*configListing\['administratorEmail'.*/\$configListing['administratorEmail'] = '${serverAdmin}';/" \
+-e "s/.*configListing\['organisationName'.*/\$configListing['organisationName'] = '${organisationName}';/" \
+-e "s/.*configListing\['mailDomain'.*/\$configListing['mailDomain'] = '${mtaUserMailDomain}';/" \
+-e "s|.*configListing\['controlPanelUrl'.*|\$configListing['controlPanelUrl'] = '${controlPanelUrl}';|" \
+-e "s/.*configListing\['controlPanelLinkEnabled'.*/\$configListing['controlPanelLinkEnabled'] = ${controlPanelLinkEnabled};/" \
+-e "s/.*configListing\['controlPanelLinkDirectly'.*/\$configListing['controlPanelLinkDirectly'] = ${controlPanelLinkDirectly};/" \
+	"${documentRoot}"/bob-gui/config.php
 
-# Create the BOB bootstrap file
-if [ ! -e "${documentRoot}"/bob-gui/bob/index.php ] ; then
-        cp -p "${documentRoot}"/bob-gui/bob/index.php.template "${documentRoot}"/bob-gui/bob/index.php
-fi
-
-# Add the database credentials and other fixed settings to the BOB bootstrap file (replace the lines matching on the left with the whole config string on the right)
+# Add the BOB settings to the config file (replace the lines matching on the left with the whole config string on the right)
 sed -i \
--e "s/.*'dbDatabase'.*/\$config['dbDatabase'] = '${bobDbDatabase}';/" \
--e "s/.*'dbPassword'.*/\$config['dbPassword'] = '${bobDbPassword}';/" \
--e "s/.*'dbUsername'.*/\$config['dbUsername'] = '${bobDbUsername}';/" \
--e "s/.*'dbSetupUsername'.*/\$config['dbSetupUsername'] = '${bobDbSetupUsername}';/" \
--e "s/.*'disableListWhoVoted'.*/\$config['disableListWhoVoted'] = ${disableListWhoVoted};/" \
--e "s/.*'countingMethod'.*/\$config['countingMethod'] = '${countingMethod}';/" \
-	"${documentRoot}"/bob-gui/bob/index.php
+-e "s/.*configBob\['dbDatabase'.*/\$configBob['dbDatabase'] = '${bobDbDatabase}';/" \
+-e "s/.*configBob\['dbPassword'.*/\$configBob['dbPassword'] = '${bobDbPassword}';/" \
+-e "s/.*configBob\['dbUsername'.*/\$configBob['dbUsername'] = '${bobDbUsername}';/" \
+-e "s/.*configBob\['dbSetupUsername'.*/\$configBob['dbSetupUsername'] = '${bobDbSetupUsername}';/" \
+-e "s/.*configBob\['disableListWhoVoted'.*/\$configBob['disableListWhoVoted'] = ${disableListWhoVoted};/" \
+-e "s/.*configBob\['countingMethod'.*/\$configBob['countingMethod'] = '${countingMethod}';/" \
+	"${documentRoot}"/bob-gui/config.php
 
 # Disable auto-count if required
 if $disableAutoCount ; then
-	sed -i -e "s/.*'countingInstallation'.*/\$config['countingInstallation'] = false;/" "${documentRoot}"/bob-gui/bob/index.php
+	sed -i -e "s/.*configBob\['countingInstallation'.*/\$configBob['countingInstallation'] = false;/" "${documentRoot}"/bob-gui/config.php
 fi
 
 # Set up the instances table
