@@ -23,6 +23,11 @@ if [ ! -e "${installationRoot}"/bob-gui/controlpanel/providers.php ] ; then
 	chmod g+rw "${providersApiFile}"
 fi
 
+# Limit to specific users by adding an .htaccess file
+if [ -n "$controlPanelOnlyUsers" ]; then
+	echo "Require User ${controlPanelOnlyUsers}" > "${installationRoot}"/bob-gui/public_html/controlpanel/.htaccess
+fi
+
 # Enable the control panel, and add the control panel settings to the config file (replace the lines matching on the left with the whole config string on the right)
 #!# Inconsistent namings here would be good to clear up
 #!# Escaping needs to be dealt with properly
