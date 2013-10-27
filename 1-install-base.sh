@@ -260,7 +260,7 @@ NameVirtualHost *:443
 	Include ${installationRoot}/bob-gui/controlpanel/apache.conf
 	
 	# Load directives for BOB GUI listing
-	Include /srv/www/vhosts/www.vote.geog.private.cam.ac.uk/bob-gui/listing/apache.conf
+	Include ${installationRoot}/bob-gui/listing/apache.conf
 	
 </VirtualHost>
 
@@ -275,7 +275,7 @@ NameVirtualHost *:80
 	HostnameLookups Off
 	UseCanonicalName Off
 	ServerSignature Off
-	<Directory /srv/www/vhosts/${domainName}>
+	<Directory ${apacheVhostsRoot}/${domainName}>
 		Options -Indexes
 		AllowOverride None
 		Order allow,deny
