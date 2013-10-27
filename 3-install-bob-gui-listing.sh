@@ -18,7 +18,7 @@ if [ ! -r "${installationRoot}"/bob-gui/public_html/style/header.html ] ; then
 		echo "ERROR: The house style package file specified in the deployment config is not present"
 		exit 1
 	fi
-	tar -xvf "${houseStylePackage}" --strip 1 -C ${installationRoot}/bob-gui/public_html/style/
+	tar -xf "${houseStylePackage}" --strip 1 -C ${installationRoot}/bob-gui/public_html/style/
 	if [ ! -r "${installationRoot}"/bob-gui/public_html/style/header.html ] || [ ! -r "${installationRoot}"/bob-gui/public_html/style/footer.html ] ; then
 		echo "ERROR: The house style package does not include a header file"
 		rm ${installationRoot}/bob-gui/public_html/style/*
