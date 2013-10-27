@@ -49,7 +49,6 @@ disableListWhoVoted=$( $disableListWhoVoted && echo 'true' || echo 'false')
 
 # Add the listing settings to the config file (replace the lines matching on the left with the whole config string on the right)
 #!# Inconsistent namings here would be good to clear up
-#!# controlPanelLinkEnabled currently pastes in a PHP value; should instead determine whether the setting is a string or bool and do its own quoting here
 sed -i \
 -e "s/.*configListing\['configListing['username'].*/\$configListing['username'] = '${bobDbListingUsername}';/" \
 -e "s/.*configListing\['password'.*/\$configListing['password'] = '${bobDbListingPassword}';/" \
@@ -57,7 +56,7 @@ sed -i \
 -e "s/.*configListing\['organisationName'.*/\$configListing['organisationName'] = '${organisationName}';/" \
 -e "s/.*configListing\['mailDomain'.*/\$configListing['mailDomain'] = '${mtaUserMailDomain}';/" \
 -e "s|.*configListing\['controlPanelUrl'.*|\$configListing['controlPanelUrl'] = '${controlPanelUrl}';|" \
--e "s/.*configListing\['controlPanelLinkEnabled'.*/\$configListing['controlPanelLinkEnabled'] = ${controlPanelLinkEnabled};/" \
+-e "s/.*configListing\['controlPanelOnlyUsers'.*/\$configListing['controlPanelOnlyUsers'] = '${controlPanelOnlyUsers}';/" \
 -e "s/.*configListing\['controlPanelLinkDirectly'.*/\$configListing['controlPanelLinkDirectly'] = ${controlPanelLinkDirectly};/" \
 	"${installationRoot}"/bob-gui/config.php
 

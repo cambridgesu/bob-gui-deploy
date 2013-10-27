@@ -70,7 +70,7 @@ organisationName=''
 
 # Control panel settings
 controlPanelUrl="https://www.controlpanel.vote.example.com/controlpanel/"
-controlPanelLinkEnabled='true'	// Whether to show the control panel link in the listing site; this must be a quoted value containing a native PHP bool/string, e.g. 'true' or 'false' or "'user1,user2,user3'"
+controlPanelOnlyUsers=''  # Space-separated list of users (or empty string if available to any authenticated user)
 controlPanelLinkDirectly=false	// Whether the listing interface should link directly to the control panel or show an intermediate page
 maximumOpeningDays=3
 
