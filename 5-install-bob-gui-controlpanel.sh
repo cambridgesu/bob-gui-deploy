@@ -10,15 +10,15 @@
 apiKey=`randpw`
 
 # Ensure the log file is writable by the webserver
-chown "${apacheUser}" "${documentRoot}"/bob-gui/controlpanel/logfile.txt
+chown "${apacheUser}" "${installationRoot}"/bob-gui/controlpanel/logfile.txt
 
 # Copy in the providers (directory) API
 if [ ! -r "${providersApiFile}" ] ; then
 	echo "ERROR: The providers API file is not present"
 	exit 1
 fi
-if [ ! -e "${documentRoot}"/bob-gui/controlpanel/providers.php ] ; then
-	cp "${providersApiFile}" "${documentRoot}"/bob-gui/controlpanel/providers.php
+if [ ! -e "${installationRoot}"/bob-gui/controlpanel/providers.php ] ; then
+	cp "${providersApiFile}" "${installationRoot}"/bob-gui/controlpanel/providers.php
 	chown bobguiIngest.$webEditorsGroup "${providersApiFile}"
 	chmod g+rw "${providersApiFile}"
 fi
@@ -41,13 +41,13 @@ sed -i \
 -e "s/.*configControlpanel\['disableListWhoVoted'.*/\$configControlpanel['disableListWhoVoted'] = ${disableListWhoVoted};/" \
 -e "s/.*configControlpanel\['countingMethod'.*/\$configControlpanel['countingMethod'] = '${countingMethod}';/" \
 -e "s/.*configControlpanel\['maximumOpeningDays'.*/\$configControlpanel['maximumOpeningDays'] = ${maximumOpeningDays};/" \
-	"${documentRoot}"/bob-gui/config.php
+	"${installationRoot}"/bob-gui/config.php
 
 # If testing, put the apiKey into the ingest configuration, so that they match
 if [ $instanceDataApiKey == 'auto' ]; then
 	sed -i \
 	-e "s|.*configIngest\['instanceDataApiKey'.*|\$configIngest['instanceDataApiKey'] = '${apiKey}';|" \
-		"${documentRoot}"/bob-gui/config.php
+		"${installationRoot}"/bob-gui/config.php
 fi
 
 # State the API key which may be useful for testing

@@ -7,8 +7,8 @@
 
 
 # Add the BOB software (the native voting component, without any setup management)
-if [ ! -d ${documentRoot}/bob ] ; then
-	cd "${documentRoot}"
+if [ ! -d ${installationRoot}/bob ] ; then
+	cd "${installationRoot}"
 	git clone git@github.com:cusu/bob.git
 fi
 
@@ -44,8 +44,8 @@ ${mysql} -e "GRANT SELECT,CREATE        ON ${bobDbDatabase}.* TO '${bobDbSetupUs
 
 # Install (download) OpenSTV, the STV counting program
 zypper -n install -l python
-if [ ! -d ${documentRoot}/openstv ] ; then
-	cd "${documentRoot}"
+if [ ! -d ${installationRoot}/openstv ] ; then
+	cd "${installationRoot}"
 	git clone git@github.com:cusu/openstv.git
 fi
 

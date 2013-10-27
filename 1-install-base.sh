@@ -192,7 +192,7 @@ fi
 
 # Create a vhost for the website if it doesn't exist already
 vhostFile="${apacheVhostsConfigDirectory}/${domainName}.conf"
-documentRoot="${apacheVhostsRoot}/${domainName}"
+installationRoot="${apacheVhostsRoot}/${domainName}"
 if [ ! -r ${vhostFile} ]; then
 	cat > ${vhostFile} << EOF
 ## Voting website
@@ -222,7 +222,7 @@ NameVirtualHost *:443
 <VirtualHost *:443>
 	ServerAdmin ${serverAdmin}
 	ServerName ${domainName}
-	DocumentRoot ${documentRoot}/bob-gui/public_html
+	DocumentRoot ${installationRoot}/bob-gui/public_html
 	CustomLog /var/log/apache2/${domainName}_SSL-access_log combined
 	ErrorLog /var/log/apache2/${domainName}_SSL-error_log
 	HostnameLookups Off
@@ -257,7 +257,7 @@ NameVirtualHost *:443
 	</Files>
 	
 	# Load directives for BOB GUI control panel (may later be disabled at application level); NB Currently this must come before the listing directives
-	Include ${documentRoot}/bob-gui/controlpanel/apache.conf
+	Include ${installationRoot}/bob-gui/controlpanel/apache.conf
 	
 	# Load directives for BOB GUI listing
 	Include /srv/www/vhosts/www.vote.geog.private.cam.ac.uk/bob-gui/listing/apache.conf
@@ -269,7 +269,7 @@ NameVirtualHost *:80
 <VirtualHost *:80>
 	ServerAdmin ${serverAdmin}
 	ServerName ${domainName}
-	DocumentRoot ${documentRoot}/bob-gui/public_html
+	DocumentRoot ${installationRoot}/bob-gui/public_html
 	CustomLog /var/log/apache2/${domainName}-access_log combined
 	ErrorLog /var/log/apache2/${domainName}-error_log
 	HostnameLookups Off
@@ -301,9 +301,9 @@ if ! groups ${currentActualUser} | grep "\b${webEditorsGroup}\b" > /dev/null 2>&
 fi
 
 # Create the document root and let the web group write to it
-mkdir -p "${documentRoot}"
-chown nobody."${webEditorsGroup}" "${documentRoot}"
-chmod g+ws "${documentRoot}"
+mkdir -p "${installationRoot}"
+chown nobody."${webEditorsGroup}" "${installationRoot}"
+chmod g+ws "${installationRoot}"
 umask 0002
 
 # Restart the webserver to pick up the changes

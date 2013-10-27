@@ -14,13 +14,13 @@ ingestUser=bobguiIngest
 id -u bobguiIngest &>/dev/null || useradd $ingestUser
 
 # Create a writable log file
-ingestLogFile="$documentRoot"/bob-gui/ingest/bobguiIngestLog.txt
+ingestLogFile="$installationRoot"/bob-gui/ingest/bobguiIngestLog.txt
 touch $ingestLogFile
 chown bobguiIngest.$webEditorsGroup $ingestLogFile
 chmod g+rw $ingestLogFile
 
 # Ensure the lockfile directory is writable
-ingestLockDirectory="$documentRoot"/bob-gui/ingest/lock
+ingestLockDirectory="$installationRoot"/bob-gui/ingest/lock
 chown bobguiIngest.$webEditorsGroup $ingestLockDirectory
 chmod g+rw $ingestLockDirectory
 
@@ -39,7 +39,7 @@ sed -i \
 -e "s|.*configIngest\['instanceDataUrl'.*|\$configIngest['instanceDataUrl'] = '${instanceDataUrl}';|" \
 -e "s|.*configIngest\['instanceDataApiKey'.*|\$configIngest['instanceDataApiKey'] = '${instanceDataApiKey}';|" \
 -e "s|.*configIngest\['liveServerUrl'.*|\$configIngest['liveServerUrl'] = 'https://${domainName}';|" \
-	"${documentRoot}"/bob-gui/config.php
+	"${installationRoot}"/bob-gui/config.php
 
 # Create the staging database
 ${mysql} -e "CREATE DATABASE IF NOT EXISTS ${bobDbIngestDatabase} DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;"
@@ -56,6 +56,6 @@ ${mysql} -e "CREATE TABLE IF NOT EXISTS ${bobDbIngestDatabase}.instances LIKE ${
 ${mysql} -e "GRANT SELECT,INSERT,UPDATE ON ${bobDbIngestDatabase}.* TO '${bobDbUsername}'@'localhost' IDENTIFIED BY '${bobDbPassword}';"
 
 # Add the hourly cron job to the (root) cron.d, running as the ingest user; see the .cron.example file
-cronJob="30 * * * * su ${ingestUser} -c 'php -d memory_limit=700M ${documentRoot}/bob-gui/ingest/index.php'"
+cronJob="30 * * * * su ${ingestUser} -c 'php -d memory_limit=700M ${installationRoot}/bob-gui/ingest/index.php'"
 echo "${cronJob}" > /etc/cron.d/bobguiIngest.cron
 

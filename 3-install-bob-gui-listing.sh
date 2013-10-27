@@ -7,30 +7,30 @@
 
 
 # Add the BOB-GUI software (the native voting component, without any setup management)
-if [ ! -d ${documentRoot}/bob-gui ] ; then
-        cd "${documentRoot}"
+if [ ! -d ${installationRoot}/bob-gui ] ; then
+        cd "${installationRoot}"
         git clone https://github.com/cusu/bob-gui.git
 fi
 
 # Install the house style if not already present; note that the "--strip 1" will remove the top-level directory in the .tgz
-if [ ! -r "${documentRoot}"/bob-gui/public_html/style/header.html ] ; then
+if [ ! -r "${installationRoot}"/bob-gui/public_html/style/header.html ] ; then
 	if [ ! -r "${houseStylePackage}" ] ; then
 		echo "ERROR: The house style package file specified in the deployment config is not present"
 		exit 1
 	fi
-	tar -xvf "${houseStylePackage}" --strip 1 -C ${documentRoot}/bob-gui/public_html/style/
-	if [ ! -r "${documentRoot}"/bob-gui/public_html/style/header.html ] || [ ! -r "${documentRoot}"/bob-gui/public_html/style/footer.html ] ; then
+	tar -xvf "${houseStylePackage}" --strip 1 -C ${installationRoot}/bob-gui/public_html/style/
+	if [ ! -r "${installationRoot}"/bob-gui/public_html/style/header.html ] || [ ! -r "${installationRoot}"/bob-gui/public_html/style/footer.html ] ; then
 		echo "ERROR: The house style package does not include a header file"
-		rm ${documentRoot}/bob-gui/public_html/style/*
+		rm ${installationRoot}/bob-gui/public_html/style/*
 		exit
 	fi
-	chown nobody."${webEditorsGroup}" "${documentRoot}"/bob-gui/public_html/style/
-	chmod g+w "${documentRoot}"/bob-gui/public_html/style/
+	chown nobody."${webEditorsGroup}" "${installationRoot}"/bob-gui/public_html/style/
+	chmod g+w "${installationRoot}"/bob-gui/public_html/style/
 fi
 
 # Add the favicon, if required
 if [ "${faviconObtainFromUrl}" ] ; then
-	faviconFile="${documentRoot}"/bob-gui/public_html/favicon.ico
+	faviconFile="${installationRoot}"/bob-gui/public_html/favicon.ico
 	if [ ! -r "${faviconFile}" ]; then
 		wget -O "${faviconFile}" "${faviconObtainFromUrl}"
 		chown nobody."${webEditorsGroup}" "${faviconFile}"
@@ -39,8 +39,8 @@ if [ "${faviconObtainFromUrl}" ] ; then
 fi
 
 # Create the config file; it is harmless to leave the template in place
-if [ ! -e "${documentRoot}"/bob-gui/config.php ] ; then
-	cp -p "${documentRoot}"/bob-gui/config.php.template "${documentRoot}"/bob-gui/config.php
+if [ ! -e "${installationRoot}"/bob-gui/config.php ] ; then
+	cp -p "${installationRoot}"/bob-gui/config.php.template "${installationRoot}"/bob-gui/config.php
 fi
 
 # Convert some settings from boolean to string true/false, so PHP receives native boolean; ternary operator as at: http://stackoverflow.com/a/3953712
@@ -59,7 +59,7 @@ sed -i \
 -e "s|.*configListing\['controlPanelUrl'.*|\$configListing['controlPanelUrl'] = '${controlPanelUrl}';|" \
 -e "s/.*configListing\['controlPanelLinkEnabled'.*/\$configListing['controlPanelLinkEnabled'] = ${controlPanelLinkEnabled};/" \
 -e "s/.*configListing\['controlPanelLinkDirectly'.*/\$configListing['controlPanelLinkDirectly'] = ${controlPanelLinkDirectly};/" \
-	"${documentRoot}"/bob-gui/config.php
+	"${installationRoot}"/bob-gui/config.php
 
 # Add the BOB settings to the config file (replace the lines matching on the left with the whole config string on the right)
 sed -i \
@@ -69,11 +69,11 @@ sed -i \
 -e "s/.*configBob\['dbSetupUsername'.*/\$configBob['dbSetupUsername'] = '${bobDbSetupUsername}';/" \
 -e "s/.*configBob\['disableListWhoVoted'.*/\$configBob['disableListWhoVoted'] = ${disableListWhoVoted};/" \
 -e "s/.*configBob\['countingMethod'.*/\$configBob['countingMethod'] = '${countingMethod}';/" \
-	"${documentRoot}"/bob-gui/config.php
+	"${installationRoot}"/bob-gui/config.php
 
 # Disable auto-count if required
 if $disableAutoCount ; then
-	sed -i -e "s/.*configBob\['countingInstallation'.*/\$configBob['countingInstallation'] = false;/" "${documentRoot}"/bob-gui/config.php
+	sed -i -e "s/.*configBob\['countingInstallation'.*/\$configBob['countingInstallation'] = false;/" "${installationRoot}"/bob-gui/config.php
 fi
 
 # Set up the instances table
