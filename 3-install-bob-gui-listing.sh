@@ -12,9 +12,9 @@ if [ ! -d ${installationRoot}/bob-gui ] ; then
         git clone https://github.com/cusu/bob-gui.git
 fi
 
-# Ensure the additionalvotes folder is writable
-chown nobody."${webEditorsGroup}" "${installationRoot}"/bob-gui/bob/additionalvotescsv/
-chmod g+w "${webEditorsGroup}" "${installationRoot}"/bob-gui/bob/additionalvotescsv/
+# Ensure the additionalvotes folder is writable by the webserver
+chown "${apacheUser}"."${webEditorsGroup}" "${installationRoot}"/bob-gui/bob/additionalvotescsv/
+chmod g+w "${installationRoot}"/bob-gui/bob/additionalvotescsv/
 
 # Install the house style if not already present; note that the "--strip 1" will remove the top-level directory in the .tgz
 if [ ! -r "${installationRoot}"/bob-gui/public_html/style/header.html ] ; then
