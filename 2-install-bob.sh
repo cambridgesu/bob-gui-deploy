@@ -12,7 +12,6 @@ if [ ! -d ${installationRoot}/bob ] ; then
 	git clone git@github.com:cusu/bob.git
 fi
 
-
 # MTA (mail sending)
 # Useful guides for Postfix at: http://www-uxsup.csx.cam.ac.uk/~fanf2/hermes/doc/misc/postfix.html and http://www-co.ch.cam.ac.uk/facilities/clusters/theory/heartofgold/heartofgold-postfix.html
 
