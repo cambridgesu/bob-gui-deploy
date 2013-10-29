@@ -28,6 +28,9 @@ if [ -n "$controlPanelOnlyUsers" ]; then
 	echo "Require User ${controlPanelOnlyUsers}" > "${installationRoot}"/bob-gui/public_html/controlpanel/.htaccess
 fi
 
+# Convert some settings from boolean to string true/false, so PHP receives native boolean; ternary operator as at: http://stackoverflow.com/a/3953712
+disableSurnameForenameRequirement=$( $disableSurnameForenameRequirement && echo 'true' || echo 'false')
+
 # Enable the control panel, and add the control panel settings to the config file (replace the lines matching on the left with the whole config string on the right)
 #!# Inconsistent namings here would be good to clear up
 #!# Escaping needs to be dealt with properly
@@ -46,6 +49,7 @@ sed -i \
 -e "s/.*configControlpanel\['disableListWhoVoted'.*/\$configControlpanel['disableListWhoVoted'] = ${disableListWhoVoted};/" \
 -e "s/.*configControlpanel\['countingMethod'.*/\$configControlpanel['countingMethod'] = '${countingMethod}';/" \
 -e "s/.*configControlpanel\['maximumOpeningDays'.*/\$configControlpanel['maximumOpeningDays'] = ${maximumOpeningDays};/" \
+-e "s/.*configControlpanel\['disableSurnameForenameRequirement'.*/\$configControlpanel['disableSurnameForenameRequirement'] = ${disableSurnameForenameRequirement};/" \
 	"${installationRoot}"/bob-gui/config.php
 
 # If testing, put the apiKey into the ingest configuration, so that they match
