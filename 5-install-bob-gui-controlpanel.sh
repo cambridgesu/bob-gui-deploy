@@ -30,6 +30,7 @@ fi
 
 # Convert some settings from boolean to string true/false, so PHP receives native boolean; ternary operator as at: http://stackoverflow.com/a/3953712
 disableSurnameForenameRequirement=$( $disableSurnameForenameRequirement && echo 'true' || echo 'false')
+disableRonAvailability=$( $disableRonAvailability && echo 'true' || echo 'false')
 
 # Enable the control panel, and add the control panel settings to the config file (replace the lines matching on the left with the whole config string on the right)
 #!# Inconsistent namings here would be good to clear up
@@ -50,6 +51,7 @@ sed -i \
 -e "s/.*configControlpanel\['countingMethod'.*/\$configControlpanel['countingMethod'] = '${countingMethod}';/" \
 -e "s/.*configControlpanel\['maximumOpeningDays'.*/\$configControlpanel['maximumOpeningDays'] = ${maximumOpeningDays};/" \
 -e "s/.*configControlpanel\['disableSurnameForenameRequirement'.*/\$configControlpanel['disableSurnameForenameRequirement'] = ${disableSurnameForenameRequirement};/" \
+-e "s/.*configControlpanel\['disableRonAvailability'.*/\$configControlpanel['disableRonAvailability'] = ${disableRonAvailability};/" \
 	"${installationRoot}"/bob-gui/config.php
 
 # If testing, put the apiKey into the ingest configuration, so that they match

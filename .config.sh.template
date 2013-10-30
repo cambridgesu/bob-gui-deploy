@@ -74,6 +74,7 @@ controlPanelOnlyUsers=''  # Space-separated list of users (or empty string if av
 controlPanelLinkDirectly=false	// Whether the listing interface should link directly to the control panel or show an intermediate page
 maximumOpeningDays=3
 disableSurnameForenameRequirement=false
+disableRonAvailability=false
 
 # Ingest data
 instanceDataUrl='https://www.controlpanel.vote.example.com/bestow.json'
