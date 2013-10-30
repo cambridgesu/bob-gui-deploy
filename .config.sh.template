@@ -47,12 +47,12 @@ houseStylePackage='?'
 faviconObtainFromUrl=''
 
 # Database connection details
-bobDbHostname='localhost'
-bobDbDatabase='votes'
-bobDbDatabaseStaging='votesstaging'
-bobDbUsername='testvote'
-bobDbSetupUsername='testvotesetup'
-bobDbPassword='?'
+dbHostname='localhost'
+dbDatabase='votes'
+dbDatabaseStaging='votesstaging'
+dbUsername='testvote'
+dbSetupUsername='testvotesetup'
+dbPassword='?'
 listingUsername='bobguiListing'
 listingPassword='?'
 #!# Whole ingest module and naming should be called staging rather than ingest

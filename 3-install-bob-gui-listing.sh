@@ -68,12 +68,12 @@ sed -i \
 -e "s/^\$config\['installerPassword'.*/\$config['installerPassword'] = '${installerPassword}';/" \
 -e "s/^\$config\['countingMethod'.*/\$config['countingMethod'] = '${countingMethod}';/" \
 -e "s/^\$config\['organisationName'.*/\$config['organisationName'] = '${organisationName}';/" \
--e "s/^\$config\['dbHostname'.*/\$config['dbHostname'] = '${bobDbHostname}';/" \
--e "s/^\$config\['dbDatabase'.*/\$config['dbDatabase'] = '${bobDbDatabase}';/" \
--e "s/^\$config\['dbDatabaseStaging'.*/\$config['dbDatabaseStaging'] = '${bobDbDatabaseStaging}';/" \
--e "s/^\$config\['dbUsername'.*/\$config['dbUsername'] = '${bobDbUsername}';/" \
--e "s/^\$config\['dbSetupUsername'.*/\$config['dbSetupUsername'] = '${bobDbSetupUsername}';/" \
--e "s/^\$config\['dbPassword'.*/\$config['dbPassword'] = '${bobDbPassword}';/" \
+-e "s/^\$config\['dbHostname'.*/\$config['dbHostname'] = '${dbHostname}';/" \
+-e "s/^\$config\['dbDatabase'.*/\$config['dbDatabase'] = '${dbDatabase}';/" \
+-e "s/^\$config\['dbDatabaseStaging'.*/\$config['dbDatabaseStaging'] = '${dbDatabaseStaging}';/" \
+-e "s/^\$config\['dbUsername'.*/\$config['dbUsername'] = '${dbUsername}';/" \
+-e "s/^\$config\['dbSetupUsername'.*/\$config['dbSetupUsername'] = '${dbSetupUsername}';/" \
+-e "s/^\$config\['dbPassword'.*/\$config['dbPassword'] = '${dbPassword}';/" \
 -e "s/^\$config\['disableListWhoVoted'.*/\$config['disableListWhoVoted'] = ${disableListWhoVoted};/" \
 -e "s/^\$config\['listingUsername'.*/\$config['listingUsername'] = '${listingUsername}';/" \
 -e "s/^\$config\['listingPassword'.*/\$config['listingPassword'] = '${listingPassword}';/" \
@@ -81,7 +81,7 @@ sed -i \
 -e "s/^\$config\['controlPanelOnlyUsers'.*/\$config['controlPanelOnlyUsers'] = '${controlPanelOnlyUsers}';/" \
 -e "s/^\$config\['controlPanelLinkDirectly'.*/\$config['controlPanelLinkDirectly'] = ${controlPanelLinkDirectly};/" \
 -e "s/^\$config\['databaseStaging'.*/\$config['databaseStaging'] = '${databaseStaging}';/" \
--e "s/^\$config\['databaseLive'.*/\$config['databaseLive'] = '${bobDbDatabase}';/" \
+-e "s/^\$config\['databaseLive'.*/\$config['databaseLive'] = '${dbDatabase}';/" \
 -e "s/^\$config\['ingestUsername'.*/\$config['ingestUsername'] = '${ingestUsername}';/" \
 -e "s/^\$config\['ingestPassword'.*/\$config['ingestPassword'] = '${ingestPassword}';/" \
 -e "s|^\$config\['instanceDataUrl'.*|\$config['instanceDataUrl'] = '${instanceDataUrl}';|" \
@@ -103,6 +103,6 @@ if $disableAutoCount ; then
 fi
 
 # Create database user privileges (which will create the user if it does not exist)
-${mysql} -e "GRANT SELECT ON ${bobDbDatabase}.instances TO '${listingUsername}'@'localhost' IDENTIFIED BY '${listingPassword}';"
+${mysql} -e "GRANT SELECT ON ${dbDatabase}.instances TO '${listingUsername}'@'localhost' IDENTIFIED BY '${listingPassword}';"
 ${mysql} -e "GRANT SELECT ON ${databaseStaging}.instances TO '${listingUsername}'@'localhost' IDENTIFIED BY '${listingPassword}';"
 

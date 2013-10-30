@@ -33,12 +33,12 @@ postmap /etc/postfix/canonical
 postfix reload
 
 # Create the voting database
-${mysql} -e "CREATE DATABASE IF NOT EXISTS ${bobDbDatabase} DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;"
+${mysql} -e "CREATE DATABASE IF NOT EXISTS ${dbDatabase} DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;"
 
 # Create database user privileges (which will create the users if they do not exist); see: https://github.com/cusu/bob/blob/master/BOB.php#L1436
 # NB Staging permission also will be created later if using the ingest module
-${mysql} -e "GRANT SELECT,INSERT,UPDATE ON ${bobDbDatabase}.* TO '${bobDbUsername}'@'localhost'      IDENTIFIED BY '${bobDbPassword}';"
-${mysql} -e "GRANT SELECT,CREATE        ON ${bobDbDatabase}.* TO '${bobDbSetupUsername}'@'localhost' IDENTIFIED BY '${bobDbPassword}';"
+${mysql} -e "GRANT SELECT,INSERT,UPDATE ON ${dbDatabase}.* TO '${dbUsername}'@'localhost'      IDENTIFIED BY '${dbPassword}';"
+${mysql} -e "GRANT SELECT,CREATE        ON ${dbDatabase}.* TO '${dbSetupUsername}'@'localhost' IDENTIFIED BY '${dbPassword}';"
 
 # Install (download) OpenSTV, the STV counting program
 zypper -n install -l python
