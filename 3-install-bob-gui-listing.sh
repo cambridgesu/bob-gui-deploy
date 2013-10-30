@@ -61,7 +61,6 @@ disableRonAvailability=$( $disableRonAvailability && echo 'true' || echo 'false'
 liveServerUrl=https://${domainName}
 
 # Add settings to the configuration
-#!# Inconsistent namings need to be cleared up
 #!# Escaping needs to be dealt with properly
 sed -i \
 -e "s|^\$config\['liveServerUrl'.*|\$config['liveServerUrl'] = '${liveServerUrl}';|" \
