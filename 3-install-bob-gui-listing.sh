@@ -63,7 +63,7 @@ liveServerUrl=https://${domainName}
 sed -i \
 -e "s|^\$config\['liveServerUrl'.*|\$config['liveServerUrl'] = '${liveServerUrl}';|" \
 -e "s/^\$config\['administratorEmail'.*/\$config['administratorEmail'] = '${administratorEmail}';/" \
--e "s/^\$config\['mailDomain'.*/\$config['mailDomain'] = '${mtaUserMailDomain}';/" \
+-e "s/^\$config\['mailDomain'.*/\$config['mailDomain'] = '${mailDomain}';/" \
 -e "s/^\$config\['installerUsername'.*/\$config['installerUsername'] = '${installerUsername}';/" \
 -e "s/^\$config\['installerPassword'.*/\$config['installerPassword'] = '${installerPassword}';/" \
 -e "s/^\$config\['countingMethod'.*/\$config['countingMethod'] = '${countingMethod}';/" \
