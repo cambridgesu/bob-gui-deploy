@@ -61,7 +61,7 @@ disableListWhoVoted=$( $disableListWhoVoted && echo 'true' || echo 'false')
 # Add the listing settings to the config file (replace the lines matching on the left with the whole config string on the right)
 #!# Inconsistent namings here would be good to clear up
 sed -i \
--e "s/.*configListing\['configListing['username'].*/\$configListing['username'] = '${bobDbListingUsername}';/" \
+-e "s/.*configListing\['username'].*/\$configListing['username'] = '${bobDbListingUsername}';/" \
 -e "s/.*configListing\['password'.*/\$configListing['password'] = '${bobDbListingPassword}';/" \
 -e "s/.*configListing\['administratorEmail'.*/\$configListing['administratorEmail'] = '${serverAdmin}';/" \
 -e "s/.*configListing\['organisationName'.*/\$configListing['organisationName'] = '${organisationName}';/" \
