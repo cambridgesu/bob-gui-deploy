@@ -67,6 +67,7 @@ installerPassword=$mysqlRootPassword
 countingMethod='ERS97STV'
 disableAutoCount=false
 disableListWhoVoted=false
+voterReceiptDisableable=false
 
 # Organisation name
 organisationName=''

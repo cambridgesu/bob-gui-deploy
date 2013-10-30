@@ -56,6 +56,7 @@ controlPanelLinkDirectly=$( $controlPanelLinkDirectly && echo 'true' || echo 'fa
 disableListWhoVoted=$( $disableListWhoVoted && echo 'true' || echo 'false')
 disableSurnameForenameRequirement=$( $disableSurnameForenameRequirement && echo 'true' || echo 'false')
 disableRonAvailability=$( $disableRonAvailability && echo 'true' || echo 'false')
+voterReceiptDisableable=$( $voterReceiptDisableable && echo 'true' || echo 'false')
 
 # Convert domainName to liveServerUrl
 liveServerUrl=https://${domainName}
@@ -82,6 +83,7 @@ sed -i \
 -e "s/^\$config\['controlpanelPassword'.*/\$config['controlpanelPassword'] = '${controlpanelPassword}';/" \
 -e "s/^\$config\['installerUsername'.*/\$config['installerUsername'] = '${installerUsername}';/" \
 -e "s/^\$config\['installerPassword'.*/\$config['installerPassword'] = '${installerPassword}';/" \
+-e "s/^\$config\['voterReceiptDisableable'.*/\$config['voterReceiptDisableable'] = ${voterReceiptDisableable};/" \
 -e "s/^\$config\['countingMethod'.*/\$config['countingMethod'] = '${countingMethod}';/" \
 -e "s/^\$config\['disableListWhoVoted'.*/\$config['disableListWhoVoted'] = ${disableListWhoVoted};/" \
 -e "s/^\$config\['organisationName'.*/\$config['organisationName'] = '${organisationName}';/" \
