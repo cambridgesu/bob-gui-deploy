@@ -24,20 +24,6 @@ ingestLockDirectory="$installationRoot"/bob-gui/ingest/lock
 chown bobguiIngest.$webEditorsGroup $ingestLockDirectory
 chmod g+rw $ingestLockDirectory
 
-# Add the ingest settings to the config file (replace the lines matching on the left with the whole config string on the right)
-#!# Inconsistent namings here would be good to clear up
-#!# Escaping needs to be dealt with properly
-sed -i \
--e "s/.*configIngest\['databaseStaging'.*/\$configIngest['databaseStaging'] = '${bobDbIngestDatabase}';/" \
--e "s/.*configIngest\['databaseLive'.*/\$configIngest['databaseLive'] = '${bobDbDatabase}';/" \
--e "s/.*configIngest\['username'.*/\$configIngest['username'] = '${bobDbIngestUsername}';/" \
--e "s/.*configIngest\['password'.*/\$configIngest['password'] = '${bobDbIngestPassword}';/" \
--e "s/.*configIngest\['smsRecipient'.*/\$configIngest['smsRecipient'] = '${smsRecipient}';/" \
--e "s/.*configIngest\['smsApiKey'.*/\$configIngest['smsApiKey'] = '${smsApiKey}';/" \
--e "s|.*configIngest\['instanceDataUrl'.*|\$configIngest['instanceDataUrl'] = '${instanceDataUrl}';|" \
--e "s|.*configIngest\['instanceDataApiKey'.*|\$configIngest['instanceDataApiKey'] = '${instanceDataApiKey}';|" \
-	"${installationRoot}"/bob-gui/config.php
-
 # Create the staging database
 ${mysql} -e "CREATE DATABASE IF NOT EXISTS ${bobDbIngestDatabase} DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;"
 

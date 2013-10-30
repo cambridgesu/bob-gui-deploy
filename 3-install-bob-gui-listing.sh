@@ -47,47 +47,56 @@ if [ ! -e "${installationRoot}"/bob-gui/config.php ] ; then
 	cp -p "${installationRoot}"/bob-gui/config.php.template "${installationRoot}"/bob-gui/config.php
 fi
 
+# Convert some settings from boolean to string true/false, so PHP receives native boolean; ternary operator as at: http://stackoverflow.com/a/3953712
+controlPanelLinkDirectly=$( $controlPanelLinkDirectly && echo 'true' || echo 'false')
+disableListWhoVoted=$( $disableListWhoVoted && echo 'true' || echo 'false')
+disableSurnameForenameRequirement=$( $disableSurnameForenameRequirement && echo 'true' || echo 'false')
+disableRonAvailability=$( $disableRonAvailability && echo 'true' || echo 'false')
+
 # Add settings to the configuration
-#!# Need to migrate each setting block to this new unified config
-#!# Inconsistent namings here would be good to clear up
+#!# Inconsistent namings need to be cleared up
+#!# Escaping needs to be dealt with properly
+#!# databaseStaging/dbDatabaseStaging are duplicates of the same setting - unify in client code
 sed -i \
--e "s|^\$config\['liveServerUrl'.*|\$configIngest['liveServerUrl'] = 'https://${domainName}';|" \
+-e "s|^\$config\['liveServerUrl'.*|\$config['liveServerUrl'] = 'https://${domainName}';|" \
 -e "s/^\$config\['administratorEmail'.*/\$config['administratorEmail'] = '${serverAdmin}';/" \
 -e "s/^\$config\['mailDomain'.*/\$config['mailDomain'] = '${mtaUserMailDomain}';/" \
 -e "s/^\$config\['installerUsername'.*/\$config['installerUsername'] = '${installerUsername}';/" \
 -e "s/^\$config\['installerPassword'.*/\$config['installerPassword'] = '${installerPassword}';/" \
--e "s/^\$config\['countingMethod'.*/\$configBob['countingMethod'] = '${countingMethod}';/" \
+-e "s/^\$config\['countingMethod'.*/\$config['countingMethod'] = '${countingMethod}';/" \
 -e "s/^\$config\['organisationName'.*/\$config['organisationName'] = '${organisationName}';/" \
+-e "s/^\$config\['dbHostname'.*/\$config['dbHostname'] = '${bobDbHostname}';/" \
+-e "s/^\$config\['dbDatabase'.*/\$config['dbDatabase'] = '${bobDbDatabase}';/" \
+-e "s/^\$config\['dbDatabaseStaging'.*/\$config['dbDatabaseStaging'] = '${bobDbDatabaseStaging}';/" \
+-e "s/^\$config\['dbUsername'.*/\$config['dbUsername'] = '${bobDbUsername}';/" \
+-e "s/^\$config\['dbSetupUsername'.*/\$config['dbSetupUsername'] = '${bobDbSetupUsername}';/" \
+-e "s/^\$config\['dbPassword'.*/\$config['dbPassword'] = '${bobDbPassword}';/" \
+-e "s/^\$config\['disableListWhoVoted'.*/\$config['disableListWhoVoted'] = ${disableListWhoVoted};/" \
+-e "s/^\$config\['usernameListing'.*/\$config['usernameListing'] = '${bobDbListingUsername}';/" \
+-e "s/^\$config\['passwordListing'.*/\$config['passwordListing'] = '${bobDbListingPassword}';/" \
+-e "s|^\$config\['controlPanelUrl'.*|\$config['controlPanelUrl'] = '${controlPanelUrl}';|" \
+-e "s/^\$config\['controlPanelOnlyUsers'.*/\$config['controlPanelOnlyUsers'] = '${controlPanelOnlyUsers}';/" \
+-e "s/^\$config\['controlPanelLinkDirectly'.*/\$config['controlPanelLinkDirectly'] = ${controlPanelLinkDirectly};/" \
+-e "s/^\$config\['databaseStaging'.*/\$config['databaseStaging'] = '${bobDbIngestDatabase}';/" \
+-e "s/^\$config\['databaseLive'.*/\$config['databaseLive'] = '${bobDbDatabase}';/" \
+-e "s/^\$config\['usernameIngest'.*/\$config['usernameIngest'] = '${bobDbIngestUsername}';/" \
+-e "s/^\$config\['passwordIngest'.*/\$config['passwordIngest'] = '${bobDbIngestPassword}';/" \
+-e "s|^\$config\['instanceDataUrl'.*|\$config['instanceDataUrl'] = '${instanceDataUrl}';|" \
+-e "s|^\$config\['instanceDataApiKey'.*|\$config['instanceDataApiKey'] = '${instanceDataApiKey}';|" \
+-e "s/^\$config\['smsRecipient'.*/\$config['smsRecipient'] = '${smsRecipient}';/" \
+-e "s/^\$config\['smsApiKey'.*/\$config['smsApiKey'] = '${smsApiKey}';/" \
+-e "s/^\$config\['usernameControlpanel'.*/\$config['usernameControlpanel'] = '${bobDbControlpanelUsername}';/" \
+-e "s/^\$config\['passwordControlpanel'.*/\$config['passwordControlpanel'] = '${bobDbControlpanelPassword}';/" \
+-e "s/^\$config\['emailTech'.*/\$config['emailTech'] = '${voteAdmin}';/" \
+-e "s/^\$config\['emailReturningOfficerReceipts'.*/\$config['emailReturningOfficerReceipts'] = '${emailReturningOfficerReceipts}';/" \
+-e "s/^\$config\['maximumOpeningDays'.*/\$config['maximumOpeningDays'] = ${maximumOpeningDays};/" \
+-e "s/^\$config\['disableSurnameForenameRequirement'.*/\$config['disableSurnameForenameRequirement'] = ${disableSurnameForenameRequirement};/" \
+-e "s/^\$config\['disableRonAvailability'.*/\$config['disableRonAvailability'] = ${disableRonAvailability};/" \
         "${installationRoot}"/bob-gui/config.php
-
-# Convert some settings from boolean to string true/false, so PHP receives native boolean; ternary operator as at: http://stackoverflow.com/a/3953712
-controlPanelLinkDirectly=$( $controlPanelLinkDirectly && echo 'true' || echo 'false')
-disableListWhoVoted=$( $disableListWhoVoted && echo 'true' || echo 'false')
-
-# Add the listing settings to the config file (replace the lines matching on the left with the whole config string on the right)
-#!# Inconsistent namings here would be good to clear up
-sed -i \
--e "s/.*configListing\['username'].*/\$configListing['username'] = '${bobDbListingUsername}';/" \
--e "s/.*configListing\['password'.*/\$configListing['password'] = '${bobDbListingPassword}';/" \
--e "s|.*configListing\['controlPanelUrl'.*|\$configListing['controlPanelUrl'] = '${controlPanelUrl}';|" \
--e "s/.*configListing\['controlPanelOnlyUsers'.*/\$configListing['controlPanelOnlyUsers'] = '${controlPanelOnlyUsers}';/" \
--e "s/.*configListing\['controlPanelLinkDirectly'.*/\$configListing['controlPanelLinkDirectly'] = ${controlPanelLinkDirectly};/" \
-	"${installationRoot}"/bob-gui/config.php
-
-# Add the BOB settings to the config file (replace the lines matching on the left with the whole config string on the right)
-sed -i \
--e "s/.*configBob\['dbHostname'.*/\$configBob['dbHostname'] = '${bobDbHostname}';/" \
--e "s/.*configBob\['dbDatabase'.*/\$configBob['dbDatabase'] = '${bobDbDatabase}';/" \
--e "s/.*configBob\['dbDatabaseStaging'.*/\$configBob['dbDatabaseStaging'] = '${bobDbDatabaseStaging}';/" \
--e "s/.*configBob\['dbPassword'.*/\$configBob['dbPassword'] = '${bobDbPassword}';/" \
--e "s/.*configBob\['dbUsername'.*/\$configBob['dbUsername'] = '${bobDbUsername}';/" \
--e "s/.*configBob\['dbSetupUsername'.*/\$configBob['dbSetupUsername'] = '${bobDbSetupUsername}';/" \
--e "s/.*configBob\['disableListWhoVoted'.*/\$configBob['disableListWhoVoted'] = ${disableListWhoVoted};/" \
-	"${installationRoot}"/bob-gui/config.php
 
 # Disable auto-count if required
 if $disableAutoCount ; then
-	sed -i -e "s/.*configBob\['countingInstallation'.*/\$configBob['countingInstallation'] = false;/" "${installationRoot}"/bob-gui/config.php
+	sed -i -e "s/^\$config\['countingInstallation'.*/\$config['countingInstallation'] = false;/" "${installationRoot}"/bob-gui/config.php
 fi
 
 # Create database user privileges (which will create the user if it does not exist)

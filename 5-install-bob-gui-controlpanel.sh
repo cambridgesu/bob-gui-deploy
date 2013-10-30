@@ -30,42 +30,24 @@ if [ -n "$controlPanelOnlyUsers" ]; then
 	echo "Require User ${controlPanelOnlyUsers}" > "${installationRoot}"/bob-gui/public_html/controlpanel/.htaccess
 fi
 
-# Convert some settings from boolean to string true/false, so PHP receives native boolean; ternary operator as at: http://stackoverflow.com/a/3953712
-disableSurnameForenameRequirement=$( $disableSurnameForenameRequirement && echo 'true' || echo 'false')
-disableRonAvailability=$( $disableRonAvailability && echo 'true' || echo 'false')
-
 # Enable the control panel
 sed -i \
--e "s/.*configControlpanel\['enabled'.*/\$configControlpanel['enabled'] = true;/" \
-	"${installationRoot}"/bob-gui/config.php
-
-# Add the control panel settings to the config file (replace the lines matching on the left with the whole config string on the right)
-#!# Inconsistent namings here would be good to clear up
-#!# Escaping needs to be dealt with properly
-#!# disableListWhoVoted has a dependency on 3-install-bob-gui-listing.sh of this installer
-sed -i \
--e "s/.*configControlpanel\['username'.*/\$configControlpanel['username'] = '${bobDbControlpanelUsername}';/" \
--e "s/.*configControlpanel\['password'.*/\$configControlpanel['password'] = '${bobDbControlpanelPassword}';/" \
--e "s/.*configControlpanel\['emailTech'.*/\$configControlpanel['emailTech'] = '${voteAdmin}';/" \
--e "s/.*configControlpanel\['emailReturningOfficerReceipts'.*/\$configControlpanel['emailReturningOfficerReceipts'] = '${emailReturningOfficerReceipts}';/" \
--e "s/.*configControlpanel\['disableListWhoVoted'.*/\$configControlpanel['disableListWhoVoted'] = ${disableListWhoVoted};/" \
--e "s/.*configControlpanel\['maximumOpeningDays'.*/\$configControlpanel['maximumOpeningDays'] = ${maximumOpeningDays};/" \
--e "s/.*configControlpanel\['disableSurnameForenameRequirement'.*/\$configControlpanel['disableSurnameForenameRequirement'] = ${disableSurnameForenameRequirement};/" \
--e "s/.*configControlpanel\['disableRonAvailability'.*/\$configControlpanel['disableRonAvailability'] = ${disableRonAvailability};/" \
+-e "s/^\$config\['enabled'.*/\$config['enabled'] = true;/" \
 	"${installationRoot}"/bob-gui/config.php
 
 # Generate an API key for the bestow mechanism
 apiKey=`randpw`
 
 # Add the API key to the config
+#!# apiKey should be renamed for clarity - this refers to key that the bestow end point emits with
 sed -i \
--e "s|.*configControlpanel\['apiKey'.*|\$configControlpanel['apiKey'] = '${apiKey}';|" \
+-e "s|^\$config\['apiKey'.*|\$config['apiKey'] = '${apiKey}';|" \
 	"${installationRoot}"/bob-gui/config.php
 
 # If testing, put the apiKey into the ingest configuration, so that they match
 if [ $instanceDataApiKey == 'auto' ]; then
 	sed -i \
-	-e "s|.*configIngest\['instanceDataApiKey'.*|\$configIngest['instanceDataApiKey'] = '${apiKey}';|" \
+	-e "s|^\$config\['instanceDataApiKey'.*|\$config['instanceDataApiKey'] = '${apiKey}';|" \
 		"${installationRoot}"/bob-gui/config.php
 fi
 
