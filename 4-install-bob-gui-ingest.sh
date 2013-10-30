@@ -48,9 +48,6 @@ ${mysql} -e "CREATE DATABASE IF NOT EXISTS ${bobDbIngestDatabase} DEFAULT CHARAC
 ${mysql} -e "GRANT SELECT,INSERT,DELETE,CREATE,ALTER,DROP ON ${bobDbIngestDatabase}.* TO '${bobDbIngestUsername}'@'localhost' IDENTIFIED BY '${bobDbIngestPassword}';"
 ${mysql} -e "GRANT SELECT,INSERT,CREATE ON ${bobDbDatabase}.* TO '${bobDbIngestUsername}'@'localhost' IDENTIFIED BY '${bobDbIngestPassword}';"
 
-# Create the instances table, by cloning the structure of the main instances table
-${mysql} -e "CREATE TABLE IF NOT EXISTS ${bobDbIngestDatabase}.instances LIKE ${bobDbDatabase}.instances;"
-
 # Allow live BOB to read from the ingest database, now we have confirmed we are using an ingest setup
 #!# Need to audit why BOB insists on "exactly select,insert,update" rather than just select here
 ${mysql} -e "GRANT SELECT,INSERT,UPDATE ON ${bobDbIngestDatabase}.* TO '${bobDbUsername}'@'localhost' IDENTIFIED BY '${bobDbPassword}';"
