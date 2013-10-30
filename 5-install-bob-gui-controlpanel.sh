@@ -6,6 +6,11 @@
 # Installation of the GUI control panel component
 
 
+# Install PHP's mbstring() if available (recommended); if not available, emulated conversion of any incoming non-UTF8 strings to UTF8 using ISO using iconv is in place
+set +e
+zypper -n install -l php5-mbstring
+set -e
+
 # Generate an API key for the bestow mechanism
 apiKey=`randpw`
 
