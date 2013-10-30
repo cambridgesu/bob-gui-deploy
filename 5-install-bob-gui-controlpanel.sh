@@ -11,9 +11,6 @@ set +e
 zypper -n install -l php5-mbstring
 set -e
 
-# Generate an API key for the bestow mechanism
-apiKey=`randpw`
-
 # Ensure the log file is writable by the webserver
 chown "${apacheUser}" "${installationRoot}"/bob-gui/controlpanel/logfile.txt
 
@@ -51,11 +48,18 @@ sed -i \
 -e "s/.*configControlpanel\['password'.*/\$configControlpanel['password'] = '${bobDbControlpanelPassword}';/" \
 -e "s/.*configControlpanel\['emailTech'.*/\$configControlpanel['emailTech'] = '${voteAdmin}';/" \
 -e "s/.*configControlpanel\['emailReturningOfficerReceipts'.*/\$configControlpanel['emailReturningOfficerReceipts'] = '${emailReturningOfficerReceipts}';/" \
--e "s|.*configControlpanel\['apiKey'.*|\$configControlpanel['apiKey'] = '${apiKey}';|" \
 -e "s/.*configControlpanel\['disableListWhoVoted'.*/\$configControlpanel['disableListWhoVoted'] = ${disableListWhoVoted};/" \
 -e "s/.*configControlpanel\['maximumOpeningDays'.*/\$configControlpanel['maximumOpeningDays'] = ${maximumOpeningDays};/" \
 -e "s/.*configControlpanel\['disableSurnameForenameRequirement'.*/\$configControlpanel['disableSurnameForenameRequirement'] = ${disableSurnameForenameRequirement};/" \
 -e "s/.*configControlpanel\['disableRonAvailability'.*/\$configControlpanel['disableRonAvailability'] = ${disableRonAvailability};/" \
+	"${installationRoot}"/bob-gui/config.php
+
+# Generate an API key for the bestow mechanism
+apiKey=`randpw`
+
+# Add the API key to the config
+sed -i \
+-e "s|.*configControlpanel\['apiKey'.*|\$configControlpanel['apiKey'] = '${apiKey}';|" \
 	"${installationRoot}"/bob-gui/config.php
 
 # If testing, put the apiKey into the ingest configuration, so that they match
