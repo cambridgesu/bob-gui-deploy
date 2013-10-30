@@ -56,7 +56,6 @@ dbPassword='?'
 listingUsername='bobguiListing'
 listingPassword='?'
 #!# Whole ingest module and naming should be called staging rather than ingest
-databaseStaging=$bobDbDatabaseStaging
 ingestUsername='bobguiIngest'
 ingestPassword='?'
 controlpanelUsername='bobguiControlPanel'

@@ -47,6 +47,10 @@ if [ ! -e "${installationRoot}"/bob-gui/config.php ] ; then
 	cp -p "${installationRoot}"/bob-gui/config.php.template "${installationRoot}"/bob-gui/config.php
 fi
 
+# Standardise names (i.e. move from BOB context to listing context)
+databaseLive=$dbDatabase
+databaseStaging=$dbDatabaseStaging
+
 # Convert some settings from boolean to string true/false, so PHP receives native boolean; ternary operator as at: http://stackoverflow.com/a/3953712
 controlPanelLinkDirectly=$( $controlPanelLinkDirectly && echo 'true' || echo 'false')
 disableListWhoVoted=$( $disableListWhoVoted && echo 'true' || echo 'false')
@@ -59,7 +63,6 @@ liveServerUrl=https://${domainName}
 # Add settings to the configuration
 #!# Inconsistent namings need to be cleared up
 #!# Escaping needs to be dealt with properly
-#!# databaseStaging/dbDatabaseStaging are duplicates of the same setting - unify in client code
 sed -i \
 -e "s|^\$config\['liveServerUrl'.*|\$config['liveServerUrl'] = '${liveServerUrl}';|" \
 -e "s/^\$config\['administratorEmail'.*/\$config['administratorEmail'] = '${administratorEmail}';/" \
@@ -81,7 +84,7 @@ sed -i \
 -e "s/^\$config\['controlPanelOnlyUsers'.*/\$config['controlPanelOnlyUsers'] = '${controlPanelOnlyUsers}';/" \
 -e "s/^\$config\['controlPanelLinkDirectly'.*/\$config['controlPanelLinkDirectly'] = ${controlPanelLinkDirectly};/" \
 -e "s/^\$config\['databaseStaging'.*/\$config['databaseStaging'] = '${databaseStaging}';/" \
--e "s/^\$config\['databaseLive'.*/\$config['databaseLive'] = '${dbDatabase}';/" \
+-e "s/^\$config\['databaseLive'.*/\$config['databaseLive'] = '${databaseLive}';/" \
 -e "s/^\$config\['ingestUsername'.*/\$config['ingestUsername'] = '${ingestUsername}';/" \
 -e "s/^\$config\['ingestPassword'.*/\$config['ingestPassword'] = '${ingestPassword}';/" \
 -e "s|^\$config\['instanceDataUrl'.*|\$config['instanceDataUrl'] = '${instanceDataUrl}';|" \
@@ -103,6 +106,6 @@ if $disableAutoCount ; then
 fi
 
 # Create database user privileges (which will create the user if it does not exist)
-${mysql} -e "GRANT SELECT ON ${dbDatabase}.instances TO '${listingUsername}'@'localhost' IDENTIFIED BY '${listingPassword}';"
+${mysql} -e "GRANT SELECT ON ${databaseLive}.instances    TO '${listingUsername}'@'localhost' IDENTIFIED BY '${listingPassword}';"
 ${mysql} -e "GRANT SELECT ON ${databaseStaging}.instances TO '${listingUsername}'@'localhost' IDENTIFIED BY '${listingPassword}';"
 

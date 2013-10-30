@@ -29,7 +29,7 @@ ${mysql} -e "CREATE DATABASE IF NOT EXISTS ${databaseStaging} DEFAULT CHARACTER 
 
 # Create database user privileges (which will create the user if it does not exist)
 ${mysql} -e "GRANT SELECT,INSERT,DELETE,CREATE,ALTER,DROP ON ${databaseStaging}.* TO '${ingestUsername}'@'localhost' IDENTIFIED BY '${ingestPassword}';"
-${mysql} -e "GRANT SELECT,INSERT,CREATE ON ${dbDatabase}.* TO '${ingestUsername}'@'localhost' IDENTIFIED BY '${ingestPassword}';"
+${mysql} -e "GRANT SELECT,INSERT,CREATE                   ON ${databaseLive}.*    TO '${ingestUsername}'@'localhost' IDENTIFIED BY '${ingestPassword}';"
 
 # Allow live BOB to read from the ingest database, now we have confirmed we are using an ingest setup
 #!# Need to audit why BOB insists on "exactly select,insert,update" rather than just select here
