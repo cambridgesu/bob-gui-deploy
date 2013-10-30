@@ -75,21 +75,21 @@ sed -i \
 -e "s/^\$config\['dbSetupUsername'.*/\$config['dbSetupUsername'] = '${bobDbSetupUsername}';/" \
 -e "s/^\$config\['dbPassword'.*/\$config['dbPassword'] = '${bobDbPassword}';/" \
 -e "s/^\$config\['disableListWhoVoted'.*/\$config['disableListWhoVoted'] = ${disableListWhoVoted};/" \
--e "s/^\$config\['usernameListing'.*/\$config['usernameListing'] = '${bobDbListingUsername}';/" \
--e "s/^\$config\['passwordListing'.*/\$config['passwordListing'] = '${bobDbListingPassword}';/" \
+-e "s/^\$config\['listingUsername'.*/\$config['listingUsername'] = '${listingUsername}';/" \
+-e "s/^\$config\['listingPassword'.*/\$config['listingPassword'] = '${listingPassword}';/" \
 -e "s|^\$config\['controlPanelUrl'.*|\$config['controlPanelUrl'] = '${controlPanelUrl}';|" \
 -e "s/^\$config\['controlPanelOnlyUsers'.*/\$config['controlPanelOnlyUsers'] = '${controlPanelOnlyUsers}';/" \
 -e "s/^\$config\['controlPanelLinkDirectly'.*/\$config['controlPanelLinkDirectly'] = ${controlPanelLinkDirectly};/" \
--e "s/^\$config\['databaseStaging'.*/\$config['databaseStaging'] = '${bobDbIngestDatabase}';/" \
+-e "s/^\$config\['databaseStaging'.*/\$config['databaseStaging'] = '${databaseStaging}';/" \
 -e "s/^\$config\['databaseLive'.*/\$config['databaseLive'] = '${bobDbDatabase}';/" \
--e "s/^\$config\['usernameIngest'.*/\$config['usernameIngest'] = '${bobDbIngestUsername}';/" \
--e "s/^\$config\['passwordIngest'.*/\$config['passwordIngest'] = '${bobDbIngestPassword}';/" \
+-e "s/^\$config\['ingestUsername'.*/\$config['ingestUsername'] = '${ingestUsername}';/" \
+-e "s/^\$config\['ingestPassword'.*/\$config['ingestPassword'] = '${ingestPassword}';/" \
 -e "s|^\$config\['instanceDataUrl'.*|\$config['instanceDataUrl'] = '${instanceDataUrl}';|" \
 -e "s|^\$config\['instanceDataApiKey'.*|\$config['instanceDataApiKey'] = '${instanceDataApiKey}';|" \
 -e "s/^\$config\['smsRecipient'.*/\$config['smsRecipient'] = '${smsRecipient}';/" \
 -e "s/^\$config\['smsApiKey'.*/\$config['smsApiKey'] = '${smsApiKey}';/" \
--e "s/^\$config\['usernameControlpanel'.*/\$config['usernameControlpanel'] = '${bobDbControlpanelUsername}';/" \
--e "s/^\$config\['passwordControlpanel'.*/\$config['passwordControlpanel'] = '${bobDbControlpanelPassword}';/" \
+-e "s/^\$config\['controlpanelUsername'.*/\$config['controlpanelUsername'] = '${controlpanelUsername}';/" \
+-e "s/^\$config\['controlpanelPassword'.*/\$config['controlpanelPassword'] = '${controlpanelPassword}';/" \
 -e "s/^\$config\['emailTech'.*/\$config['emailTech'] = '${voteAdmin}';/" \
 -e "s/^\$config\['emailReturningOfficerReceipts'.*/\$config['emailReturningOfficerReceipts'] = '${emailReturningOfficerReceipts}';/" \
 -e "s/^\$config\['maximumOpeningDays'.*/\$config['maximumOpeningDays'] = ${maximumOpeningDays};/" \
@@ -103,6 +103,6 @@ if $disableAutoCount ; then
 fi
 
 # Create database user privileges (which will create the user if it does not exist)
-${mysql} -e "GRANT SELECT ON ${bobDbDatabase}.instances TO '${bobDbListingUsername}'@'localhost' IDENTIFIED BY '${bobDbListingPassword}';"
-${mysql} -e "GRANT SELECT ON ${bobDbIngestDatabase}.instances TO '${bobDbListingUsername}'@'localhost' IDENTIFIED BY '${bobDbListingPassword}';"
+${mysql} -e "GRANT SELECT ON ${bobDbDatabase}.instances TO '${listingUsername}'@'localhost' IDENTIFIED BY '${listingPassword}';"
+${mysql} -e "GRANT SELECT ON ${databaseStaging}.instances TO '${listingUsername}'@'localhost' IDENTIFIED BY '${listingPassword}';"
 

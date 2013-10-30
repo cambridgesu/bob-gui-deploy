@@ -53,14 +53,14 @@ bobDbDatabaseStaging='votesstaging'
 bobDbUsername='testvote'
 bobDbSetupUsername='testvotesetup'
 bobDbPassword='?'
-bobDbListingUsername='bobguiListing'
-bobDbListingPassword='?'
+listingUsername='bobguiListing'
+listingPassword='?'
 #!# Whole ingest module and naming should be called staging rather than ingest
-bobDbIngestDatabase=$bobDbDatabaseStaging
-bobDbIngestUsername='bobguiIngest'
-bobDbIngestPassword='?'
-bobDbControlpanelUsername='bobguiControlPanel'
-bobDbControlpanelPassword='?'
+databaseStaging=$bobDbDatabaseStaging
+ingestUsername='bobguiIngest'
+ingestPassword='?'
+controlpanelUsername='bobguiControlPanel'
+controlpanelPassword='?'
 installerUsername='root'
 installerPassword=$mysqlRootPassword
 
