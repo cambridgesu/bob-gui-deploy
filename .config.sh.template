@@ -14,7 +14,7 @@ domainName='?'
 
 # Role e-mail addresses
 administratorEmail='?'             # Server sysadmin
-emailTech='?'                      # Voting system tech contact e.g. evote@vote.example.com
+emailTech='?'                      # Voting system tech contact e.g. evote@example.com
 emailReturningOfficerReceipts='?'  # Mailbox where voting receipts get archived
 
 # MySQL root password
