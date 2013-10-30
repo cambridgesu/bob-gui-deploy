@@ -49,9 +49,15 @@ fi
 
 # Add settings to the configuration
 #!# Need to migrate each setting block to this new unified config
+#!# Inconsistent namings here would be good to clear up
 sed -i \
+-e "s|^\$config\['liveServerUrl'.*|\$configIngest['liveServerUrl'] = 'https://${domainName}';|" \
+-e "s/^\$config\['administratorEmail'.*/\$config['administratorEmail'] = '${serverAdmin}';/" \
+-e "s/^\$config\['mailDomain'.*/\$config['mailDomain'] = '${mtaUserMailDomain}';/" \
 -e "s/^\$config\['installerUsername'.*/\$config['installerUsername'] = '${installerUsername}';/" \
 -e "s/^\$config\['installerPassword'.*/\$config['installerPassword'] = '${installerPassword}';/" \
+-e "s/^\$config\['countingMethod'.*/\$configBob['countingMethod'] = '${countingMethod}';/" \
+-e "s/^\$config\['organisationName'.*/\$config['organisationName'] = '${organisationName}';/" \
         "${installationRoot}"/bob-gui/config.php
 
 # Convert some settings from boolean to string true/false, so PHP receives native boolean; ternary operator as at: http://stackoverflow.com/a/3953712
@@ -63,9 +69,6 @@ disableListWhoVoted=$( $disableListWhoVoted && echo 'true' || echo 'false')
 sed -i \
 -e "s/.*configListing\['username'].*/\$configListing['username'] = '${bobDbListingUsername}';/" \
 -e "s/.*configListing\['password'.*/\$configListing['password'] = '${bobDbListingPassword}';/" \
--e "s/.*configListing\['administratorEmail'.*/\$configListing['administratorEmail'] = '${serverAdmin}';/" \
--e "s/.*configListing\['organisationName'.*/\$configListing['organisationName'] = '${organisationName}';/" \
--e "s/.*configListing\['mailDomain'.*/\$configListing['mailDomain'] = '${mtaUserMailDomain}';/" \
 -e "s|.*configListing\['controlPanelUrl'.*|\$configListing['controlPanelUrl'] = '${controlPanelUrl}';|" \
 -e "s/.*configListing\['controlPanelOnlyUsers'.*/\$configListing['controlPanelOnlyUsers'] = '${controlPanelOnlyUsers}';/" \
 -e "s/.*configListing\['controlPanelLinkDirectly'.*/\$configListing['controlPanelLinkDirectly'] = ${controlPanelLinkDirectly};/" \
@@ -78,7 +81,6 @@ sed -i \
 -e "s/.*configBob\['dbUsername'.*/\$configBob['dbUsername'] = '${bobDbUsername}';/" \
 -e "s/.*configBob\['dbSetupUsername'.*/\$configBob['dbSetupUsername'] = '${bobDbSetupUsername}';/" \
 -e "s/.*configBob\['disableListWhoVoted'.*/\$configBob['disableListWhoVoted'] = ${disableListWhoVoted};/" \
--e "s/.*configBob\['countingMethod'.*/\$configBob['countingMethod'] = '${countingMethod}';/" \
 	"${installationRoot}"/bob-gui/config.php
 
 # Disable auto-count if required

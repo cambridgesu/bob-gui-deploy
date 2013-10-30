@@ -32,13 +32,10 @@ sed -i \
 -e "s/.*configIngest\['databaseLive'.*/\$configIngest['databaseLive'] = '${bobDbDatabase}';/" \
 -e "s/.*configIngest\['username'.*/\$configIngest['username'] = '${bobDbIngestUsername}';/" \
 -e "s/.*configIngest\['password'.*/\$configIngest['password'] = '${bobDbIngestPassword}';/" \
--e "s/.*configIngest\['administratorEmail'.*/\$configIngest['administratorEmail'] = '${serverAdmin}';/" \
--e "s/.*configIngest\['organisationName'.*/\$configIngest['organisationName'] = '${organisationName}';/" \
 -e "s/.*configIngest\['smsRecipient'.*/\$configIngest['smsRecipient'] = '${smsRecipient}';/" \
 -e "s/.*configIngest\['smsApiKey'.*/\$configIngest['smsApiKey'] = '${smsApiKey}';/" \
 -e "s|.*configIngest\['instanceDataUrl'.*|\$configIngest['instanceDataUrl'] = '${instanceDataUrl}';|" \
 -e "s|.*configIngest\['instanceDataApiKey'.*|\$configIngest['instanceDataApiKey'] = '${instanceDataApiKey}';|" \
--e "s|.*configIngest\['liveServerUrl'.*|\$configIngest['liveServerUrl'] = 'https://${domainName}';|" \
 	"${installationRoot}"/bob-gui/config.php
 
 # Create the staging database
