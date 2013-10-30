@@ -220,7 +220,7 @@ php_admin_value memory_limit 512M
 Listen 443
 NameVirtualHost *:443
 <VirtualHost *:443>
-	ServerAdmin ${serverAdmin}
+	ServerAdmin ${administratorEmail}
 	ServerName ${domainName}
 	DocumentRoot ${installationRoot}/bob-gui/public_html
 	CustomLog /var/log/apache2/${domainName}_SSL-access_log combined
@@ -271,7 +271,7 @@ NameVirtualHost *:443
 # Voting website (HTTP)
 NameVirtualHost *:80
 <VirtualHost *:80>
-	ServerAdmin ${serverAdmin}
+	ServerAdmin ${administratorEmail}
 	ServerName ${domainName}
 	DocumentRoot ${installationRoot}/bob-gui/public_html
 	CustomLog /var/log/apache2/${domainName}-access_log combined

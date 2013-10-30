@@ -62,7 +62,7 @@ liveServerUrl=https://${domainName}
 #!# databaseStaging/dbDatabaseStaging are duplicates of the same setting - unify in client code
 sed -i \
 -e "s|^\$config\['liveServerUrl'.*|\$config['liveServerUrl'] = '${liveServerUrl}';|" \
--e "s/^\$config\['administratorEmail'.*/\$config['administratorEmail'] = '${serverAdmin}';/" \
+-e "s/^\$config\['administratorEmail'.*/\$config['administratorEmail'] = '${administratorEmail}';/" \
 -e "s/^\$config\['mailDomain'.*/\$config['mailDomain'] = '${mtaUserMailDomain}';/" \
 -e "s/^\$config\['installerUsername'.*/\$config['installerUsername'] = '${installerUsername}';/" \
 -e "s/^\$config\['installerPassword'.*/\$config['installerPassword'] = '${installerPassword}';/" \

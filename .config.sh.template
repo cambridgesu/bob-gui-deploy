@@ -13,7 +13,7 @@ installBobGuiControlpanel=true
 domainName='?'
 
 # Role e-mail addresses
-serverAdmin='?'
+administratorEmail='?'
 voteAdmin='?'
 emailReturningOfficerReceipts='?'
 
