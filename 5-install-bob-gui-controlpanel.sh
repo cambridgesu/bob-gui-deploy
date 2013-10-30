@@ -45,6 +45,8 @@ sed -i \
 -e "s/.*configControlpanel\['enabled'.*/\$configControlpanel['enabled'] = true;/" \
 -e "s/.*configControlpanel\['username'.*/\$configControlpanel['username'] = '${bobDbControlpanelUsername}';/" \
 -e "s/.*configControlpanel\['password'.*/\$configControlpanel['password'] = '${bobDbControlpanelPassword}';/" \
+-e "s/.*configControlpanel\['installerUsername'.*/\$configControlpanel['installerUsername'] = '${installerUsername}';/" \
+-e "s/.*configControlpanel\['installerPassword'.*/\$configControlpanel['installerPassword'] = '${installerPassword}';/" \
 -e "s/.*configControlpanel\['administratorEmail'.*/\$configControlpanel['administratorEmail'] = '${serverAdmin}';/" \
 -e "s/.*configControlpanel\['organisationName'.*/\$configControlpanel['organisationName'] = '${organisationName}';/" \
 -e "s/.*configControlpanel\['mailDomain'.*/\$configControlpanel['mailDomain'] = '${mtaUserMailDomain}';/" \
@@ -75,6 +77,4 @@ ${mysql} -e "CREATE DATABASE IF NOT EXISTS votescontrolpanel DEFAULT CHARACTER S
 # Create database user privileges (which will create the user if it does not exist)
 ${mysql} -e "GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP ON votescontrolpanel.* TO '${bobDbControlpanelUsername}'@'localhost' IDENTIFIED BY '${bobDbControlpanelPassword}';"
 
-# Create the instances table, by cloning the structure of the main instances table
-${mysql} -e "CREATE TABLE IF NOT EXISTS votescontrolpanel.instances LIKE ${bobDbDatabase}.instances;"
 

@@ -59,6 +59,8 @@ bobDbIngestUsername='bobguiIngest'
 bobDbIngestPassword='?'
 bobDbControlpanelUsername='bobguiControlPanel'
 bobDbControlpanelPassword='?'
+installerUsername='root'
+installerPassword=$mysqlRootPassword
 
 # BOB config, fixed by administrator
 countingMethod='ERS97STV'
