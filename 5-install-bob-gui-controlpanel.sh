@@ -42,11 +42,11 @@ disableRonAvailability=$( $disableRonAvailability && echo 'true' || echo 'false'
 #!# Escaping needs to be dealt with properly
 #!# disableListWhoVoted has a dependency on 3-install-bob-gui-listing.sh of this installer
 sed -i \
+-e "s/.*config\['installerUsername'.*/\$config['installerUsername'] = '${installerUsername}';/" \
+-e "s/.*config\['installerPassword'.*/\$config['installerPassword'] = '${installerPassword}';/" \
 -e "s/.*configControlpanel\['enabled'.*/\$configControlpanel['enabled'] = true;/" \
 -e "s/.*configControlpanel\['username'.*/\$configControlpanel['username'] = '${bobDbControlpanelUsername}';/" \
 -e "s/.*configControlpanel\['password'.*/\$configControlpanel['password'] = '${bobDbControlpanelPassword}';/" \
--e "s/.*configControlpanel\['installerUsername'.*/\$configControlpanel['installerUsername'] = '${installerUsername}';/" \
--e "s/.*configControlpanel\['installerPassword'.*/\$configControlpanel['installerPassword'] = '${installerPassword}';/" \
 -e "s/.*configControlpanel\['administratorEmail'.*/\$configControlpanel['administratorEmail'] = '${serverAdmin}';/" \
 -e "s/.*configControlpanel\['organisationName'.*/\$configControlpanel['organisationName'] = '${organisationName}';/" \
 -e "s/.*configControlpanel\['mailDomain'.*/\$configControlpanel['mailDomain'] = '${mtaUserMailDomain}';/" \
