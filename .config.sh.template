@@ -46,7 +46,7 @@ houseStylePackage='?'
 # Favicon - URL to obtain a copy from (or empty string)
 faviconObtainFromUrl=''
 
-# Database connection details
+# Database connection details, and users and passwords (one pair per module)
 dbHostname='localhost'
 dbDatabase='votes'
 dbDatabaseStaging='votesstaging'

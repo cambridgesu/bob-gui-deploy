@@ -65,41 +65,41 @@ liveServerUrl=https://${domainName}
 sed -i \
 -e "s|^\$config\['liveServerUrl'.*|\$config['liveServerUrl'] = '${liveServerUrl}';|" \
 -e "s/^\$config\['administratorEmail'.*/\$config['administratorEmail'] = '${administratorEmail}';/" \
+-e "s/^\$config\['emailTech'.*/\$config['emailTech'] = '${emailTech}';/" \
+-e "s/^\$config\['emailReturningOfficerReceipts'.*/\$config['emailReturningOfficerReceipts'] = '${emailReturningOfficerReceipts}';/" \
 -e "s/^\$config\['mailDomain'.*/\$config['mailDomain'] = '${mailDomain}';/" \
--e "s/^\$config\['installerUsername'.*/\$config['installerUsername'] = '${installerUsername}';/" \
--e "s/^\$config\['installerPassword'.*/\$config['installerPassword'] = '${installerPassword}';/" \
--e "s/^\$config\['countingMethod'.*/\$config['countingMethod'] = '${countingMethod}';/" \
--e "s/^\$config\['organisationName'.*/\$config['organisationName'] = '${organisationName}';/" \
 -e "s/^\$config\['dbHostname'.*/\$config['dbHostname'] = '${dbHostname}';/" \
 -e "s/^\$config\['dbDatabase'.*/\$config['dbDatabase'] = '${dbDatabase}';/" \
 -e "s/^\$config\['dbDatabaseStaging'.*/\$config['dbDatabaseStaging'] = '${dbDatabaseStaging}';/" \
 -e "s/^\$config\['dbUsername'.*/\$config['dbUsername'] = '${dbUsername}';/" \
 -e "s/^\$config\['dbSetupUsername'.*/\$config['dbSetupUsername'] = '${dbSetupUsername}';/" \
 -e "s/^\$config\['dbPassword'.*/\$config['dbPassword'] = '${dbPassword}';/" \
--e "s/^\$config\['disableListWhoVoted'.*/\$config['disableListWhoVoted'] = ${disableListWhoVoted};/" \
 -e "s/^\$config\['listingUsername'.*/\$config['listingUsername'] = '${listingUsername}';/" \
 -e "s/^\$config\['listingPassword'.*/\$config['listingPassword'] = '${listingPassword}';/" \
+-e "s/^\$config\['ingestUsername'.*/\$config['ingestUsername'] = '${ingestUsername}';/" \
+-e "s/^\$config\['ingestPassword'.*/\$config['ingestPassword'] = '${ingestPassword}';/" \
+-e "s/^\$config\['controlpanelUsername'.*/\$config['controlpanelUsername'] = '${controlpanelUsername}';/" \
+-e "s/^\$config\['controlpanelPassword'.*/\$config['controlpanelPassword'] = '${controlpanelPassword}';/" \
+-e "s/^\$config\['installerUsername'.*/\$config['installerUsername'] = '${installerUsername}';/" \
+-e "s/^\$config\['installerPassword'.*/\$config['installerPassword'] = '${installerPassword}';/" \
+-e "s/^\$config\['countingMethod'.*/\$config['countingMethod'] = '${countingMethod}';/" \
+-e "s/^\$config\['disableListWhoVoted'.*/\$config['disableListWhoVoted'] = ${disableListWhoVoted};/" \
+-e "s/^\$config\['organisationName'.*/\$config['organisationName'] = '${organisationName}';/" \
 -e "s|^\$config\['controlPanelUrl'.*|\$config['controlPanelUrl'] = '${controlPanelUrl}';|" \
 -e "s/^\$config\['controlPanelOnlyUsers'.*/\$config['controlPanelOnlyUsers'] = '${controlPanelOnlyUsers}';/" \
 -e "s/^\$config\['controlPanelLinkDirectly'.*/\$config['controlPanelLinkDirectly'] = ${controlPanelLinkDirectly};/" \
--e "s/^\$config\['databaseStaging'.*/\$config['databaseStaging'] = '${databaseStaging}';/" \
--e "s/^\$config\['databaseLive'.*/\$config['databaseLive'] = '${databaseLive}';/" \
--e "s/^\$config\['ingestUsername'.*/\$config['ingestUsername'] = '${ingestUsername}';/" \
--e "s/^\$config\['ingestPassword'.*/\$config['ingestPassword'] = '${ingestPassword}';/" \
--e "s|^\$config\['instanceDataUrl'.*|\$config['instanceDataUrl'] = '${instanceDataUrl}';|" \
--e "s|^\$config\['instanceDataApiKey'.*|\$config['instanceDataApiKey'] = '${instanceDataApiKey}';|" \
--e "s/^\$config\['smsRecipient'.*/\$config['smsRecipient'] = '${smsRecipient}';/" \
--e "s/^\$config\['smsApiKey'.*/\$config['smsApiKey'] = '${smsApiKey}';/" \
--e "s/^\$config\['controlpanelUsername'.*/\$config['controlpanelUsername'] = '${controlpanelUsername}';/" \
--e "s/^\$config\['controlpanelPassword'.*/\$config['controlpanelPassword'] = '${controlpanelPassword}';/" \
--e "s/^\$config\['emailTech'.*/\$config['emailTech'] = '${emailTech}';/" \
--e "s/^\$config\['emailReturningOfficerReceipts'.*/\$config['emailReturningOfficerReceipts'] = '${emailReturningOfficerReceipts}';/" \
 -e "s/^\$config\['maximumOpeningDays'.*/\$config['maximumOpeningDays'] = ${maximumOpeningDays};/" \
 -e "s/^\$config\['disableSurnameForenameRequirement'.*/\$config['disableSurnameForenameRequirement'] = ${disableSurnameForenameRequirement};/" \
 -e "s/^\$config\['disableRonAvailability'.*/\$config['disableRonAvailability'] = ${disableRonAvailability};/" \
+-e "s|^\$config\['instanceDataUrl'.*|\$config['instanceDataUrl'] = '${instanceDataUrl}';|" \
+-e "s|^\$config\['instanceDataApiKey'.*|\$config['instanceDataApiKey'] = '${instanceDataApiKey}';|" \
+-e "s/^\$config\['databaseStaging'.*/\$config['databaseStaging'] = '${databaseStaging}';/" \
+-e "s/^\$config\['databaseLive'.*/\$config['databaseLive'] = '${databaseLive}';/" \
+-e "s/^\$config\['smsRecipient'.*/\$config['smsRecipient'] = '${smsRecipient}';/" \
+-e "s/^\$config\['smsApiKey'.*/\$config['smsApiKey'] = '${smsApiKey}';/" \
         "${installationRoot}"/bob-gui/config.php
 
-# Disable auto-count if required
+# Disable auto-count if required - this overwrites the default setting
 if $disableAutoCount ; then
 	sed -i -e "s/^\$config\['countingInstallation'.*/\$config['countingInstallation'] = false;/" "${installationRoot}"/bob-gui/config.php
 fi
