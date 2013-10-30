@@ -11,7 +11,7 @@ zypper -n install -l php-openssl
 
 # Create a user account which will do the ingesting
 ingestUser=bobguiIngest
-id -u bobguiIngest &>/dev/null || useradd $ingestUser
+id -u $ingestUser &>/dev/null || useradd $ingestUser
 
 # Create a writable log file
 ingestLogFile="$installationRoot"/bob-gui/ingest/bobguiIngestLog.txt
