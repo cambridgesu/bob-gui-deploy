@@ -47,6 +47,13 @@ if [ ! -e "${installationRoot}"/bob-gui/config.php ] ; then
 	cp -p "${installationRoot}"/bob-gui/config.php.template "${installationRoot}"/bob-gui/config.php
 fi
 
+# Add settings to the configuration
+#!# Need to migrate each setting block to this new unified config
+sed -i \
+-e "s/.*config\['installerUsername'.*/\$config['installerUsername'] = '${installerUsername}';/" \
+-e "s/.*config\['installerPassword'.*/\$config['installerPassword'] = '${installerPassword}';/" \
+        "${installationRoot}"/bob-gui/config.php
+
 # Convert some settings from boolean to string true/false, so PHP receives native boolean; ternary operator as at: http://stackoverflow.com/a/3953712
 controlPanelLinkDirectly=$( $controlPanelLinkDirectly && echo 'true' || echo 'false')
 disableListWhoVoted=$( $disableListWhoVoted && echo 'true' || echo 'false')
