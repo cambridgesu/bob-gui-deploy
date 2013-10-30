@@ -13,9 +13,9 @@ installBobGuiControlpanel=true
 domainName='?'
 
 # Role e-mail addresses
-administratorEmail='?'
-voteAdmin='?'
-emailReturningOfficerReceipts='?'
+administratorEmail='?'             # Server sysadmin
+emailTech='?'                      # Voting system tech contact e.g. evote@vote.example.com
+emailReturningOfficerReceipts='?'  # Mailbox where voting receipts get archived
 
 # MySQL root password
 mysqlRootPassword='?'

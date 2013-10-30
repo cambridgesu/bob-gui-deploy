@@ -93,7 +93,7 @@ sed -i \
 -e "s/^\$config\['smsApiKey'.*/\$config['smsApiKey'] = '${smsApiKey}';/" \
 -e "s/^\$config\['controlpanelUsername'.*/\$config['controlpanelUsername'] = '${controlpanelUsername}';/" \
 -e "s/^\$config\['controlpanelPassword'.*/\$config['controlpanelPassword'] = '${controlpanelPassword}';/" \
--e "s/^\$config\['emailTech'.*/\$config['emailTech'] = '${voteAdmin}';/" \
+-e "s/^\$config\['emailTech'.*/\$config['emailTech'] = '${emailTech}';/" \
 -e "s/^\$config\['emailReturningOfficerReceipts'.*/\$config['emailReturningOfficerReceipts'] = '${emailReturningOfficerReceipts}';/" \
 -e "s/^\$config\['maximumOpeningDays'.*/\$config['maximumOpeningDays'] = ${maximumOpeningDays};/" \
 -e "s/^\$config\['disableSurnameForenameRequirement'.*/\$config['disableSurnameForenameRequirement'] = ${disableSurnameForenameRequirement};/" \

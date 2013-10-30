@@ -21,10 +21,10 @@ if [ "${mtaRelayhost}" ] ; then
 	fi
 fi
 # The canonical config should be something like the following (uncommented) :
-# wwwrun         vote.admin@example.com
+# wwwrun         evote@example.com
 # @machinename   @example.com
 if ! grep -qF "${apacheUser}" /etc/postfix/canonical ; then
-	echo $'\n'"${apacheUser}	${voteAdmin}" >> /etc/postfix/canonical
+	echo $'\n'"${apacheUser}	${emailTech}" >> /etc/postfix/canonical
 fi
 if ! grep -qF "@${HOSTNAME}" /etc/postfix/canonical ; then
 	echo $'\n'"@${HOSTNAME}	@${mailDomain}" >> /etc/postfix/canonical
