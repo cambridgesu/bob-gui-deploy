@@ -61,6 +61,7 @@ fi
 # Install the GUI listing component, if required
 if $installBobGuiListing ; then
 	source ./3-install-bob-gui-listing.sh
+	#source ./create-sample-ballot.sh
 fi
 
 # Install the GUI ingesting (config transfer) component, if required
