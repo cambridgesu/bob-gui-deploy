@@ -37,12 +37,16 @@ fi
 disableSurnameForenameRequirement=$( $disableSurnameForenameRequirement && echo 'true' || echo 'false')
 disableRonAvailability=$( $disableRonAvailability && echo 'true' || echo 'false')
 
-# Enable the control panel, and add the control panel settings to the config file (replace the lines matching on the left with the whole config string on the right)
+# Enable the control panel
+sed -i \
+-e "s/.*configControlpanel\['enabled'.*/\$configControlpanel['enabled'] = true;/" \
+	"${installationRoot}"/bob-gui/config.php
+
+# Add the control panel settings to the config file (replace the lines matching on the left with the whole config string on the right)
 #!# Inconsistent namings here would be good to clear up
 #!# Escaping needs to be dealt with properly
 #!# disableListWhoVoted has a dependency on 3-install-bob-gui-listing.sh of this installer
 sed -i \
--e "s/.*configControlpanel\['enabled'.*/\$configControlpanel['enabled'] = true;/" \
 -e "s/.*configControlpanel\['username'.*/\$configControlpanel['username'] = '${bobDbControlpanelUsername}';/" \
 -e "s/.*configControlpanel\['password'.*/\$configControlpanel['password'] = '${bobDbControlpanelPassword}';/" \
 -e "s/.*configControlpanel\['emailTech'.*/\$configControlpanel['emailTech'] = '${voteAdmin}';/" \
