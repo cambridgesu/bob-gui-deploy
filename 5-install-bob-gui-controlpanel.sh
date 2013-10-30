@@ -30,25 +30,19 @@ if [ -n "$controlPanelOnlyUsers" ]; then
 	echo "Require User ${controlPanelOnlyUsers}" > "${installationRoot}"/bob-gui/public_html/controlpanel/.htaccess
 fi
 
-# Enable the control panel
-sed -i \
--e "s/^\$config\['enabled'.*/\$config['enabled'] = true;/" \
-	"${installationRoot}"/bob-gui/config.php
+# Enable the control panel module
+sed -i -e "s/^\$config\['enabled'.*/\$config['enabled'] = true;/" "${installationRoot}"/bob-gui/config.php
 
 # Generate an API key for the bestow mechanism
 apiKey=`randpw`
 
 # Add the API key to the config
 #!# apiKey should be renamed for clarity - this refers to key that the bestow end point emits with
-sed -i \
--e "s|^\$config\['apiKey'.*|\$config['apiKey'] = '${apiKey}';|" \
-	"${installationRoot}"/bob-gui/config.php
+sed -i -e "s|^\$config\['apiKey'.*|\$config['apiKey'] = '${apiKey}';|" "${installationRoot}"/bob-gui/config.php
 
 # If testing, put the apiKey into the ingest configuration, so that they match
 if [ $instanceDataApiKey == 'auto' ]; then
-	sed -i \
-	-e "s|^\$config\['instanceDataApiKey'.*|\$config['instanceDataApiKey'] = '${apiKey}';|" \
-		"${installationRoot}"/bob-gui/config.php
+	sed -i -e "s|^\$config\['instanceDataApiKey'.*|\$config['instanceDataApiKey'] = '${apiKey}';|" "${installationRoot}"/bob-gui/config.php
 fi
 
 # State the API key which may be useful for testing
