@@ -21,7 +21,7 @@ if [ ! -r "${providersApiFile}" ] ; then
 fi
 if [ ! -e "${installationRoot}"/bob-gui/controlpanel/providers.php ] ; then
 	cp "${providersApiFile}" "${installationRoot}"/bob-gui/controlpanel/providers.php
-	chown bobguiIngest.$webEditorsGroup "${providersApiFile}"
+	chown "${apacheUser}"."${webEditorsGroup}" "${providersApiFile}"
 	chmod g+rw "${providersApiFile}"
 fi
 
