@@ -53,12 +53,15 @@ disableListWhoVoted=$( $disableListWhoVoted && echo 'true' || echo 'false')
 disableSurnameForenameRequirement=$( $disableSurnameForenameRequirement && echo 'true' || echo 'false')
 disableRonAvailability=$( $disableRonAvailability && echo 'true' || echo 'false')
 
+# Convert domainName to liveServerUrl
+liveServerUrl=https://${domainName}
+
 # Add settings to the configuration
 #!# Inconsistent namings need to be cleared up
 #!# Escaping needs to be dealt with properly
 #!# databaseStaging/dbDatabaseStaging are duplicates of the same setting - unify in client code
 sed -i \
--e "s|^\$config\['liveServerUrl'.*|\$config['liveServerUrl'] = 'https://${domainName}';|" \
+-e "s|^\$config\['liveServerUrl'.*|\$config['liveServerUrl'] = '${liveServerUrl}';|" \
 -e "s/^\$config\['administratorEmail'.*/\$config['administratorEmail'] = '${serverAdmin}';/" \
 -e "s/^\$config\['mailDomain'.*/\$config['mailDomain'] = '${mtaUserMailDomain}';/" \
 -e "s/^\$config\['installerUsername'.*/\$config['installerUsername'] = '${installerUsername}';/" \
