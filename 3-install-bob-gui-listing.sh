@@ -76,7 +76,9 @@ sed -i \
 
 # Add the BOB settings to the config file (replace the lines matching on the left with the whole config string on the right)
 sed -i \
+-e "s/.*configBob\['dbHostname'.*/\$configBob['dbHostname'] = '${bobDbHostname}';/" \
 -e "s/.*configBob\['dbDatabase'.*/\$configBob['dbDatabase'] = '${bobDbDatabase}';/" \
+-e "s/.*configBob\['dbDatabaseStaging'.*/\$configBob['dbDatabaseStaging'] = '${bobDbDatabaseStaging}';/" \
 -e "s/.*configBob\['dbPassword'.*/\$configBob['dbPassword'] = '${bobDbPassword}';/" \
 -e "s/.*configBob\['dbUsername'.*/\$configBob['dbUsername'] = '${bobDbUsername}';/" \
 -e "s/.*configBob\['dbSetupUsername'.*/\$configBob['dbSetupUsername'] = '${bobDbSetupUsername}';/" \
