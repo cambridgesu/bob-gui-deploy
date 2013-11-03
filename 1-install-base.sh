@@ -252,9 +252,16 @@ NameVirtualHost *:443
 		${authConfig}
 		Require valid-user
 	</Directory>
+
+	# Logout page
 	<Files logout.html>
 		SetHandler AALogout
+		AALogoutMsg /loggedout.html
 	</Files>
+	<Directory ${installationRoot}/bob-gui/public_html/style/>
+		Allow from all
+		Satisfy Any
+	</Directory>
 	
 	# Load directives for BOB GUI control panel (may later be disabled at application level); NB Currently this must come before the listing directives
 	Include ${installationRoot}/bob-gui/controlpanel/apache.conf
