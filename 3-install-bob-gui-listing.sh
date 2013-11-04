@@ -99,6 +99,7 @@ sed -i \
 -e "s/^\$config\['databaseLive'.*/\$config['databaseLive'] = '${databaseLive}';/" \
 -e "s/^\$config\['smsRecipient'.*/\$config['smsRecipient'] = '${smsRecipient}';/" \
 -e "s/^\$config\['smsApiKey'.*/\$config['smsApiKey'] = '${smsApiKey}';/" \
+-e "s|^\$config\['listingWelcomeMessageHtml'.*|\$config['listingWelcomeMessageHtml'] = '${listingWelcomeMessageHtml}';|" \
         "${installationRoot}"/bob-gui/config.php
 
 # Disable auto-count if required - this overwrites the default setting

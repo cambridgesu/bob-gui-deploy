@@ -88,6 +88,9 @@ instanceDataApiKey='?'	# Can also use special value for same-server testing 'aut
 smsRecipient='441234567890'
 smsApiKey=''
 
+# Listing UI settings
+listingWelcomeMessageHtml=false		# If specified, this currently must not include ' or | characters
+
 # Sample ballot setup
 sampleBallotUsername='someusername'
 
