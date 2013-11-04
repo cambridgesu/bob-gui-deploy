@@ -90,6 +90,7 @@ smsApiKey=''
 
 # Listing UI settings
 listingWelcomeMessageHtml=false		# If specified, this currently must not include ' or | characters
+listingAssumeSingleOrganisation=false
 
 # Sample ballot setup
 sampleBallotUsername='someusername'
