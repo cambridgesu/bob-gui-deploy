@@ -57,7 +57,7 @@ disableListWhoVoted=$( $disableListWhoVoted && echo 'true' || echo 'false')
 disableSurnameForenameRequirement=$( $disableSurnameForenameRequirement && echo 'true' || echo 'false')
 disableRonAvailability=$( $disableRonAvailability && echo 'true' || echo 'false')
 voterReceiptDisableable=$( $voterReceiptDisableable && echo 'true' || echo 'false')
-listingAssumeSingleOrganisation=$( $listingAssumeSingleOrganisation && echo 'true' || echo 'false')
+singleOrganisationMode=$( $singleOrganisationMode && echo 'true' || echo 'false')
 
 # Convert domainName to liveServerUrl
 liveServerUrl=https://${domainName}
@@ -101,7 +101,7 @@ sed -i \
 -e "s/^\$config\['smsRecipient'.*/\$config['smsRecipient'] = '${smsRecipient}';/" \
 -e "s/^\$config\['smsApiKey'.*/\$config['smsApiKey'] = '${smsApiKey}';/" \
 -e "s|^\$config\['listingWelcomeMessageHtml'.*|\$config['listingWelcomeMessageHtml'] = '${listingWelcomeMessageHtml}';|" \
--e "s/^\$config\['listingAssumeSingleOrganisation'.*/\$config['listingAssumeSingleOrganisation'] = ${listingAssumeSingleOrganisation};/" \
+-e "s/^\$config\['singleOrganisationMode'.*/\$config['singleOrganisationMode'] = ${singleOrganisationMode};/" \
         "${installationRoot}"/bob-gui/config.php
 
 # Disable auto-count if required - this overwrites the default setting
