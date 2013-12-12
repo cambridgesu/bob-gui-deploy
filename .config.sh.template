@@ -65,6 +65,7 @@ installerPassword=$mysqlRootPassword
 
 # BOB config, fixed by administrator
 countingMethod='ERS97STV'
+countingInstallation='%documentroot/../../openstv/openstv/';    # Counting installation config; must end /openstv/ (slash-terminated), or false to disable auto-count
 disableAutoCount=false
 disableListWhoVoted=false
 voterReceiptDisableable=false

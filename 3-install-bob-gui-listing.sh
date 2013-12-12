@@ -86,6 +86,7 @@ sed -i \
 -e "s/^\$config\['installerPassword'.*/\$config['installerPassword'] = '${installerPassword}';/" \
 -e "s/^\$config\['voterReceiptDisableable'.*/\$config['voterReceiptDisableable'] = ${voterReceiptDisableable};/" \
 -e "s/^\$config\['countingMethod'.*/\$config['countingMethod'] = '${countingMethod}';/" \
+-e "s|^\$config\['countingInstallation'.*|\$config['countingInstallation'] = '${countingInstallation}';|" \
 -e "s/^\$config\['disableListWhoVoted'.*/\$config['disableListWhoVoted'] = ${disableListWhoVoted};/" \
 -e "s/^\$config\['organisationName'.*/\$config['organisationName'] = '${organisationName}';/" \
 -e "s|^\$config\['controlPanelUrl'.*|\$config['controlPanelUrl'] = '${controlPanelUrl}';|" \
