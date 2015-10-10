@@ -140,7 +140,7 @@ fi
 # Add authentication support, either Raven or Basic Auth
 # For Raven, see: https://raven.cam.ac.uk/project/apache/INSTALL
 authModuleDirective=''
-if $ravenAuth ; then
+if [ "$ravenAuth" = true ] ; then
 	
 	# Compile the Ucam-webauth Apache module if required
 	if [ ! -r ${apacheModulesDirectory}/mod_ucam_webauth.so ]; then

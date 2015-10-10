@@ -106,7 +106,7 @@ sed -i \
         "${installationRoot}"/bob-gui/config.php
 
 # Disable auto-count if required - this overwrites the default setting
-if $disableAutoCount ; then
+if [ "$disableAutoCount" = true ] ; then
 	sed -i -e "s/^\$config\['countingInstallation'.*/\$config['countingInstallation'] = false;/" "${installationRoot}"/bob-gui/config.php
 fi
 
