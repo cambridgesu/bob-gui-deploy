@@ -76,7 +76,7 @@ organisationName=''
 # Control panel settings
 controlPanelUrl="https://www.controlpanel.vote.example.com/controlpanel/"
 controlPanelOnlyUsers=''  # Space-separated list of users (or empty string if available to any authenticated user)
-controlPanelLinkDirectly=false	// Whether the listing interface should link directly to the control panel or show an intermediate page
+controlPanelLinkDirectly=false	# Whether the listing interface should link directly to the control panel or show an intermediate page
 maximumOpeningDays=3
 disableSurnameForenameRequirement=false
 disableRonAvailability=false
