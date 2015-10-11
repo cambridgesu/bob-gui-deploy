@@ -8,8 +8,9 @@
 
 # Add the BOB-GUI software (the native voting component, without any setup management)
 if [ ! -d ${installationRoot}/bob-gui ] ; then
-        cd "${installationRoot}"
-        git clone https://github.com/cusu/bob-gui.git
+	cd "${installationRoot}"
+	git clone https://github.com/cusu/bob-gui.git
+	cd "${SCRIPTDIRECTORY}"
 fi
 
 # Ensure the additionalvotes folder is writable by the webserver

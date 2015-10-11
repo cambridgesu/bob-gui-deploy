@@ -10,6 +10,7 @@
 if [ ! -d ${installationRoot}/bob ] ; then
 	cd "${installationRoot}"
 	git clone https://github.com/cusu/bob.git
+	cd "${SCRIPTDIRECTORY}"
 fi
 
 # MTA (mail sending)
@@ -45,5 +46,6 @@ zypper -n install -l python
 if [ ! -d ${installationRoot}/openstv ] ; then
 	cd "${installationRoot}"
 	git clone https://github.com/cusu/openstv.git
+	cd "${SCRIPTDIRECTORY}"
 fi
 
