@@ -265,6 +265,7 @@ NameVirtualHost *:443
 	
 	# Load directives for BOB GUI control panel (may later be disabled at application level); NB Currently this must come before the listing directives
 	Include ${installationRoot}/bob-gui/controlpanel/apache.conf
+	Use MacroVotingControlpanel "/controlpanel" "Managed voting system - control panel"
 	<Directory ${installationRoot}/bob-gui/public_html/controlpanel/>
 		# Allow use of "Require user XXX YYY" in .htaccess file to limit access further
 		AllowOverride AuthConfig
