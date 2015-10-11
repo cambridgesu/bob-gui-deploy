@@ -9,7 +9,7 @@
 # Add the BOB software (the native voting component, without any setup management)
 if [ ! -d ${installationRoot}/bob ] ; then
 	cd "${installationRoot}"
-	git clone git@github.com:cusu/bob.git
+	git clone https://github.com/cusu/bob.git
 fi
 
 # MTA (mail sending)
@@ -44,6 +44,6 @@ ${mysql} -e "GRANT SELECT,CREATE        ON ${dbDatabase}.* TO '${dbSetupUsername
 zypper -n install -l python
 if [ ! -d ${installationRoot}/openstv ] ; then
 	cd "${installationRoot}"
-	git clone git@github.com:cusu/openstv.git
+	git clone https://github.com/cusu/openstv.git
 fi
 
