@@ -167,7 +167,7 @@ if [ "$ravenAuth" = true ] ; then
 	
 	# Define a directive to include the module in the Apache configuration
 	authModuleDirective=$'\n# Raven\n'
-	authModuleDirective+=$'LoadModule ucam_webauth_module /usr/lib64/apache2/mod_ucam_webauth.so\n'
+	authModuleDirective+=$'LoadModule ucam_webauth_module '"${apacheModulesDirectory}/mod_ucam_webauth.so"$'\n'
 	authModuleDirective+='AAKeyDir '"${apacheConfDirectory}/webauth_keys/"$'\n'
 	authModuleDirective+='AACookieKey "'"${cookieKey}"$'"\n'
 	authModuleDirective+='AAClockSkew 30'
@@ -198,10 +198,10 @@ if [ ! -r ${vhostFile} ]; then
 ## Voting website
 
 # Enable mod_rewrite
-LoadModule rewrite_module /usr/lib64/apache2/mod_rewrite.so
+LoadModule rewrite_module ${apacheModulesDirectory}/mod_rewrite.so
 
 # Enable mod_macro
-LoadModule macro_module /usr/lib64/apache2/mod_macro.so
+LoadModule macro_module ${apacheModulesDirectory}/mod_macro.so
 
 # General server configuration
 ${authModuleDirective}
