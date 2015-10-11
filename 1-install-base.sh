@@ -144,7 +144,7 @@ if [ "$ravenAuth" = true ] ; then
 	
 	# Compile the Ucam-webauth Apache module if required
 	if [ ! -r ${apacheModulesDirectory}/mod_ucam_webauth.so ]; then
-		latestUcamwebauthVersion='2.0.0'
+		latestUcamwebauthVersion='2.0.2'
 		cd /tmp
 		wget https://raven.cam.ac.uk/project/apache/files/mod_ucam_webauth-${latestUcamwebauthVersion}.tar.gz
 		tar zxf mod_ucam_webauth-${latestUcamwebauthVersion}.tar.gz
