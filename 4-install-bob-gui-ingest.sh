@@ -45,6 +45,5 @@ ${mysql} -e "GRANT SELECT,INSERT,UPDATE ON ${databaseStaging}.* TO '${dbUsername
 # Add the hourly cron job to the (root) cron.d, running as the ingest user; see the .cron.example file
 cronJob="30 * * * * ${ingestUser} php -d memory_limit=700M ${installationRoot}/bob-gui/ingest/index.php"
 echo "${cronJob}" > /etc/cron.d/bobguiIngest.cron
-#!# Still doesn't work, even after the following addition:
-chmod 600 /etc/cron.d/bobguiIngest.cron
+chmod 644 /etc/cron.d/bobguiIngest.cron
 
