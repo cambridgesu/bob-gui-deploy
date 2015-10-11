@@ -145,5 +145,4 @@ CREATE TABLE IF NOT EXISTS ${databaseLive}.instances (
 
 # Create database user privileges (which will create the user if it does not exist)
 ${mysql} -e "GRANT SELECT ON ${databaseLive}.instances    TO '${listingUsername}'@'localhost' IDENTIFIED BY '${listingPassword}';"
-${mysql} -e "GRANT SELECT ON ${databaseStaging}.instances TO '${listingUsername}'@'localhost' IDENTIFIED BY '${listingPassword}';"
 
