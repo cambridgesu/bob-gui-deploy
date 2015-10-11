@@ -7,7 +7,7 @@
 
 
 # Install prerequisites
-zypper -n install -l php-openssl
+zypper -n install -l php53-openssl
 
 # Create a user account which will do the ingesting
 ingestUser=bobguiIngest
