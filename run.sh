@@ -75,4 +75,5 @@ if [ "$installBobGuiControlpanel" = true ] ; then
 	source ./5-install-bob-gui-controlpanel.sh
 fi
 
-
+# Restart the webserver to pick up the changes
+service apache2 restart

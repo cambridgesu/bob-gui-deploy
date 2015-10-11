@@ -317,6 +317,3 @@ chown nobody."${webEditorsGroup}" "${installationRoot}"
 chmod g+ws "${installationRoot}"
 umask 0002
 
-# Restart the webserver to pick up the changes
-service apache2 restart
-
