@@ -27,6 +27,10 @@ chmod g+rw $ingestLockDirectory
 # Create the staging database
 ${mysql} -e "CREATE DATABASE IF NOT EXISTS ${databaseStaging} DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;"
 
+# Create the staging instances table based on the live instances table
+${mysql} -e "CREATE TABLE IF NOT EXISTS ${databaseStaging}.instances LIKE ${databaseLive}.instances;";
+${mysql} -e "INSERT INTO ${databaseStaging}.instances SELECT * FROM ${databaseLive}.instances;";
+
 # Create database user privileges (which will create the user if it does not exist)
 ${mysql} -e "GRANT SELECT,INSERT,DELETE,CREATE,ALTER,DROP ON ${databaseStaging}.* TO '${ingestUsername}'@'localhost' IDENTIFIED BY '${ingestPassword}';"
 ${mysql} -e "GRANT SELECT,INSERT,CREATE                   ON ${databaseLive}.*    TO '${ingestUsername}'@'localhost' IDENTIFIED BY '${ingestPassword}';"
