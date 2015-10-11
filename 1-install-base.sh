@@ -19,7 +19,7 @@ if ! grep -qF "${timeServer1}" /etc/ntp.conf ; then
 	echo "server ${timeServer2}" >> /etc/ntp.conf
 	echo "server ${timeServer3}" >> /etc/ntp.conf
 fi
-/etc/init.d/ntp restart
+service ntp restart
 
 # Install LAMP stack
 zypper -n install -l apache2 apache2-devel apache2-mod_macro mysql mysql-client php5 php5-suhosin php5-mysql apache2-mod_php5
@@ -34,8 +34,8 @@ chkconfig -a mysql
 
 # Start services
 #!# SUSE doesn't complain if they are already started, but ideally these should check first
-/etc/init.d/apache2 start
-/etc/init.d/mysql start
+service apache2 start
+service mysql start
 
 # Secure MySQL, by setting the root password if no password is currently set; see: http://linuxtitbits.blogspot.co.uk/2011/01/checking-mysql-connection-status.html
 set +e
@@ -318,5 +318,5 @@ chmod g+ws "${installationRoot}"
 umask 0002
 
 # Restart the webserver to pick up the changes
-sudo /etc/init.d/apache2 restart
+service apache2 restart
 
