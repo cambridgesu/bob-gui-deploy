@@ -30,8 +30,11 @@ if [ -n "$controlPanelOnlyUsers" ]; then
 	echo "Require User ${controlPanelOnlyUsers}" > "${installationRoot}"/bob-gui/public_html/controlpanel/.htaccess
 fi
 
-# Enable the control panel module
+# Enable the control panel module at application level
 sed -i -e "s/^\$config\['enabled'.*/\$config['enabled'] = true;/" "${installationRoot}"/bob-gui/config.php
+
+# Enable the control panel module at webserver level
+sed -i -e "s/#Use MacroVotingControlpanel/Use MacroVotingControlpanel/" "${apacheVhostsConfigDirectory}/${domainName}.conf"
 
 # Generate an API key for the bestow mechanism
 apiKey=`randpw`
