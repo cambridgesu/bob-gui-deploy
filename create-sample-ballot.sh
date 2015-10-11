@@ -4,14 +4,14 @@
 
 
 # Define a sample ballot
-electionId='test-13-14-testelection'
+electionId='test-15-16-testelection'
 backquote='`'
 cat > /tmp/sampleballot.sql << EOF
 
 # Create a test instance
 DELETE FROM instances WHERE id = '${electionId}' LIMIT 1;
 INSERT INTO instances VALUES (
-	'${electionId}', '/test/13-14/testelection/', '13-14', 'testelection', 'provider', 'test', 'Test election', NULL, NULL, NULL, '${emailTech}', '${emailTech}', '${sampleBallotUsername}', 'Candidate order has been automatically randomised', 'My organisation', NULL, NULL, 'Yes',
+	'${electionId}', '/test/15-16/testelection/', '15-16', 'testelection', 'provider', 'test', 'Test election', NULL, NULL, NULL, '${emailTech}', '${emailTech}', '${sampleBallotUsername}', 'Candidate order has been automatically randomised', 'My organisation', NULL, NULL, 'Yes',
 '1
 President
 BLAIR, Tony
