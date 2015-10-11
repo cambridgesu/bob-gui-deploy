@@ -1,6 +1,7 @@
 #!/bin/bash
 # Script to install BOB and its delegated management GUI on Ubuntu
-# Tested on SLES 12.0 with SDK installed
+# Tested on SLES 11.4 with SDK installed
+# View SLES version using `less /etc/os-release`
 # This script is idempotent - it can be safely re-run without destroying existing data
 
 # SLES SDK is required; basically:

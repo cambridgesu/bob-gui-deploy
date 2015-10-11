@@ -1,5 +1,5 @@
 #!/bin/bash
-# Tested on SLES 12.0 with SDK installed
+# Tested on SLES 11.4 with SDK installed
 # This script is idempotent - it can be safely re-run without destroying existing data
 
 
@@ -8,7 +8,7 @@
 
 # Install PHP's mbstring() if available (recommended); if not available, emulated conversion of any incoming non-UTF8 strings to UTF8 using ISO using iconv is in place
 set +e
-zypper -n install -l php5-mbstring
+zypper -n install -l php53-mbstring
 set -e
 
 # Ensure the log file is writable by the webserver

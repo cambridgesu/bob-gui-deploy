@@ -1,5 +1,5 @@
 #!/bin/bash
-# Tested on SLES 12.0 with SDK installed
+# Tested on SLES 11.4 with SDK installed
 # This script is idempotent - it can be safely re-run without destroying existing data
 
 
@@ -22,11 +22,11 @@ fi
 service ntp restart
 
 # Install LAMP stack
-zypper -n install -l apache2 apache2-devel apache2-mod_macro mysql mysql-client php5 php5-suhosin php5-mysql apache2-mod_php5
+zypper -n install -l apache2 apache2-devel apache2-mod_macro mysql mysql-client php53 php53-suhosin php53-mysql apache2-mod_php53
 # Check versions using:
-# /usr/sbin/httpd2 -v # 2.2.10
-# /usr/bin/mysql -V # 5.0.67
-# /usr/bin/php -v # 5.2.6 with Suhosin-Patch 0.9.6.2
+# /usr/sbin/httpd2 -v # 2.2.12
+# /usr/bin/mysql -V # 5.5.43
+# /usr/bin/php -v # 5.3.17
 
 # Start LAMP stack on boot
 chkconfig -a apache2
