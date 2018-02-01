@@ -126,14 +126,15 @@ fi
 # Also add support for an optional SSL chain file
 apacheSslCertificateChainDirective=''
 if [ "${sslCertificateChain}" ] ; then
-	if [ ! -r "${apacheSslCrtDirectory}/${domainName}.chain.crt" ] ; then
+	chainFile="${apacheSslCrtDirectory}/${domainName}.ca-bundle.crt"
+	if [ ! -r "${chainFile}" ] ; then
 		if [ ! -r "${sslCertificateChain}" ] ; then
 			echo "ERROR: The setup SSL chain file is not present"
 			exit 1
 		fi
-		cp -pr "${sslCertificateChain}" "${apacheSslCrtDirectory}/${domainName}.chain.crt"
+		cp -pr "${sslCertificateChain}" "${chainFile}"
 	fi
-	apacheSslCertificateChainDirective="SSLCertificateChainFile  ${apacheSslCrtDirectory}/${domainName}.chain.crt"
+	apacheSslCertificateChainDirective="SSLCertificateChainFile  ${chainFile}"
 fi
 
 # Add authentication support, either Raven or Basic Auth
