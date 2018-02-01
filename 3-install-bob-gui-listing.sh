@@ -1,5 +1,4 @@
 #!/bin/bash
-# Tested on SLES 11.4 with SDK installed
 # This script is idempotent - it can be safely re-run without destroying existing data
 
 
