@@ -143,15 +143,13 @@ authModuleDirective=''
 if [ "$ravenAuth" = true ] ; then
 	
 	# Compile the Ucam-webauth Apache module if required
-	if [ ! -r ${apacheModulesDirectory}/mod_ucam_webauth.so ]; then
-		latestUcamwebauthVersion='2.0.2'
+	if [ ! -f ${apacheModulesDirectory}/mod_ucam_webauth.so ]; then
 		cd /tmp
-		wget https://raven.cam.ac.uk/project/apache/files/mod_ucam_webauth-${latestUcamwebauthVersion}.tar.gz
-		tar zxf mod_ucam_webauth-${latestUcamwebauthVersion}.tar.gz
-		cd mod_ucam_webauth-${latestUcamwebauthVersion}/
-		/usr/sbin/apxs2 -c -i -lcrypto mod_ucam_webauth.c
+		git clone https://github.com/cambridgeuniversity/mod_ucam_webauth
+		cd mod_ucam_webauth/
+		apxs2 -c -i -lcrypto mod_ucam_webauth.c
 		cd /tmp
-		rm -rf mod_ucam_webauth-${latestUcamwebauthVersion}/
+		rm -rf mod_ucam_webauth/
 		cd "${SCRIPTDIRECTORY}"
 	fi
 	
