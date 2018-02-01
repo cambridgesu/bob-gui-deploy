@@ -41,6 +41,7 @@ ${mysql} -e "GRANT SELECT ON ${databaseStaging}.instances TO '${listingUsername}
 # Allow live BOB to read from the ingest database, now we have confirmed we are using an ingest setup
 #!# Need to audit why BOB insists on "exactly select,insert,update" rather than just select here
 ${mysql} -e "GRANT SELECT,INSERT,UPDATE ON ${databaseStaging}.* TO '${dbUsername}'@'localhost' IDENTIFIED BY '${dbPassword}';"
+${mysql} -e "GRANT SELECT ON ${databaseStaging}.* TO '${dbSetupUsername}'@'localhost';"
 
 # Add the hourly cron job to the (root) cron.d, running as the ingest user; see the .cron.example file
 cronJob="30 * * * * ${ingestUser} php -d memory_limit=700M ${installationRoot}/bob-gui/ingest/index.php"
