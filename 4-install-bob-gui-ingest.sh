@@ -44,7 +44,8 @@ ${mysql} -e "GRANT SELECT,INSERT,UPDATE ON ${databaseStaging}.* TO '${dbUsername
 ${mysql} -e "GRANT SELECT ON ${databaseStaging}.* TO '${dbSetupUsername}'@'localhost';"
 
 # Add the hourly cron job to the (root) cron.d, running as the ingest user; see the .cron.example file
+# NB Some systems like Ubuntu are very picky about /etc/cron.d/ jobs: 644, owned by root, and not contain characters like .-_
 cronJob="30 * * * * ${ingestUser} php -d memory_limit=700M ${installationRoot}/bob-gui/ingest/index.php"
-echo "${cronJob}" > /etc/cron.d/bobguiIngest.cron
-chmod 644 /etc/cron.d/bobguiIngest.cron
+echo "${cronJob}" > /etc/cron.d/bobguiIngest
+chmod 644 /etc/cron.d/bobguiIngest
 
