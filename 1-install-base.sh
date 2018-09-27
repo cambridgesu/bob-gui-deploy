@@ -153,15 +153,10 @@ authModuleDirective=''
 if [ "$ravenAuth" = true ] ; then
 	
 	# Compile the Ucam-webauth Apache module if required
-	if [ ! -f ${apacheModulesDirectory}/mod_ucam_webauth.so ]; then
-		apt-get -y install libssl-dev
-		cd /tmp
-		git clone https://github.com/cambridgeuniversity/mod_ucam_webauth
-		cd mod_ucam_webauth/
-		apxs2 -c -i -lcrypto mod_ucam_webauth.c
-		cd /tmp
-		rm -rf mod_ucam_webauth/
-		cd "${SCRIPTDIRECTORY}"
+	if [ ! -f /usr/lib/apache2/modules/mod_ucam_webauth.so ]; then
+		wget -P /tmp/ https://github.com/cambridgeuniversity/mod_ucam_webauth/releases/download/v2.0.5/libapache2-mod-ucam-webauth_2.0.5apache24.ubuntu-16.04_amd64.deb
+		dpkg -i /tmp/libapache2-mod-ucam-webauth*.deb
+		rm /tmp/libapache2-mod-ucam-webauth*.deb
 	fi
 	
 	# Install Raven public key if not already present
