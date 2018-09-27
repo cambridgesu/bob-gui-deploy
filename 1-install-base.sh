@@ -85,7 +85,6 @@ apacheVhostsConfigDirectory=/etc/apache2/sites-available
 apacheDefaultDocumentRoot=/var/www/html
 apacheLogFilesDirectory=/var/log/apache2
 apacheVhostsRoot=/var/www
-apacheModulesDirectory=/usr/lib/apache2/modules
 apacheUser=www-data
 apacheGroup=www-data
 apacheSslKeyDirectory=/etc/ssl/private
@@ -159,7 +158,7 @@ fi
 authModuleDirective=''
 if [ "$ravenAuth" = true ] ; then
 	
-	# Compile the Ucam-webauth Apache module if required
+	# Load and enable the Ucam-webauth Apache module if required
 	if [ ! -f /usr/lib/apache2/modules/mod_ucam_webauth.so ]; then
 		wget -P /tmp/ https://github.com/cambridgeuniversity/mod_ucam_webauth/releases/download/v2.0.5/libapache2-mod-ucam-webauth_2.0.5apache24.ubuntu-16.04_amd64.deb
 		dpkg -i /tmp/libapache2-mod-ucam-webauth*.deb
@@ -178,7 +177,6 @@ if [ "$ravenAuth" = true ] ; then
 	
 	# Define a directive to include the module in the Apache configuration
 	authModuleDirective=$'\n# Raven\n'
-	authModuleDirective+=$'LoadModule ucam_webauth_module '"${apacheModulesDirectory}/mod_ucam_webauth.so"$'\n'
 	authModuleDirective+='AAKeyDir '"${apacheConfDirectory}/webauth_keys/"$'\n'
 	authModuleDirective+='AACookieKey "'"${cookieKey}"$'"\n'
 	authModuleDirective+='AAClockSkew 30'
