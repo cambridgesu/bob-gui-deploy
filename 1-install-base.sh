@@ -231,7 +231,6 @@ php_admin_value memory_limit 512M
 
 # Voting website (HTTPS)
 Listen 443
-NameVirtualHost *:443
 <VirtualHost *:443>
 	ServerAdmin ${administratorEmail}
 	ServerName ${domainName}
@@ -290,7 +289,6 @@ NameVirtualHost *:443
 </VirtualHost>
 
 # Voting website (HTTP)
-NameVirtualHost *:80
 <VirtualHost *:80>
 	ServerAdmin ${administratorEmail}
 	ServerName ${domainName}
