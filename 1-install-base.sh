@@ -73,6 +73,9 @@ apt-get -y install expect
 # ")
 # echo "$SECURE_MYSQL"
 
+# Disable MySQL password expiry system; see: http://stackoverflow.com/a/41552022
+mysql -u root -p${mysqlRootPassword} -e "SET GLOBAL default_password_lifetime = 0;"
+
 # Create a database binding for convenience
 mysql="mysql -u root -p${mysqlRootPassword} -h localhost"
 
