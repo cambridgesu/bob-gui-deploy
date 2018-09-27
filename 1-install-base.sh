@@ -115,6 +115,13 @@ if [ ! -r ${nullVhostFile} ]; then
 EOF
 fi
 
+# Let's Encrypt (free SSL certs), which will create a cron job
+# See: https://www.digitalocean.com/community/tutorials/how-to-secure-apache-with-let-s-encrypt-on-ubuntu-14-04
+# See: https://certbot.eff.org/docs/using.html
+add-apt-repository -y ppa:certbot/certbot
+apt-get update
+apt-get -y install python-certbot-apache
+
 # Copy in the SSL key and certificate files if not already present
 # For testing, create a self-signed key without a password using:
 #  openssl req -nodes -new -x509 -keyout vote.example.com.key -out vote.example.com.crt
