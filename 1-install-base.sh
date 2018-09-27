@@ -325,7 +325,7 @@ fi
 # Add the current user to the web editors' group, if not already in it
 currentActualUser=`who am i | awk '{print $1}'`
 if ! groups ${currentActualUser} | grep "\b${webEditorsGroup}\b" > /dev/null 2>&1 ; then
-	usermod -a "${webEditorsGroup}" "${currentActualUser}"
+	usermod -a -G "${webEditorsGroup}" "${currentActualUser}"
 fi
 
 # Create the document root and let the web group write to it
