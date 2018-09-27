@@ -214,6 +214,7 @@ php_admin_value memory_limit 512M
 <VirtualHost *:443>
 	ServerAdmin ${administratorEmail}
 	ServerName ${domainName}
+	ServerAlias ${domainName/www./}
 	DocumentRoot ${installationRoot}/bob-gui/public_html
 	CustomLog /var/log/apache2/${domainName}_SSL-access_log combined
 	ErrorLog /var/log/apache2/${domainName}_SSL-error_log
@@ -263,6 +264,7 @@ php_admin_value memory_limit 512M
 <VirtualHost *:80>
 	ServerAdmin ${administratorEmail}
 	ServerName ${domainName}
+	ServerAlias ${domainName/www./}
 	DocumentRoot ${installationRoot}/bob-gui/public_html
 	CustomLog /var/log/apache2/${domainName}-access_log combined
 	ErrorLog /var/log/apache2/${domainName}-error_log
