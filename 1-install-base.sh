@@ -52,6 +52,11 @@ if [ $dbstatus -eq 0 ]; then
         mysqladmin -u root password "${mysqlRootPassword}"
 fi
 
+# Ensure MySQL as root requires auth; see: https://websiteforstudents.com/mysql-server-installed-without-password-for-root-on-ubuntu-17-10-18-04/
+mysql -u root -p${mysqlRootPassword} -e "UPDATE mysql.user SET plugin='mysql_native_password' WHERE User='root';"
+mysql -u root -p${mysqlRootPassword} -e "FLUSH PRIVILEGES;"
+sudo systemctl restart mysql.service
+
 # Secure MySQL (other aspects); see: https://gist.github.com/Mins/4602864
 apt-get -y install expect
 # SECURE_MYSQL=$(expect -c "
