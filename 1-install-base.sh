@@ -77,6 +77,7 @@ apt-get -y install expect
 # expect eof
 # ")
 # echo "$SECURE_MYSQL"
+sudo mysql_secure_installation
 
 # Disable MySQL password expiry system; see: http://stackoverflow.com/a/41552022
 mysql -u root -p${mysqlRootPassword} -e "SET GLOBAL default_password_lifetime = 0;"
