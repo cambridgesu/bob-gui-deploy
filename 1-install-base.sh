@@ -79,37 +79,12 @@ mysql="mysql -u root -p${mysqlRootPassword} -h localhost"
 # Define the Apache layout norms for the distribution
 apacheConfDirectory=/etc/apache2
 apacheVhostsConfigDirectory=/etc/apache2/sites-available
-apacheDefaultDocumentRoot=/var/www/html
 apacheLogFilesDirectory=/var/log/apache2
 apacheVhostsRoot=/var/www
 apacheUser=www-data
 apacheGroup=www-data
 apacheSslKeyDirectory=/etc/ssl/private
 apacheSslCrtDirectory=/etc/ssl/certs
-
-# Create a null vhost if it doesn't exist already
-nullVhostFile="${apacheVhostsConfigDirectory}/000-null-vhost.conf"
-if [ ! -r ${nullVhostFile} ]; then
-        cat > ${nullVhostFile} << EOF
-# This is a null vhost which any unauthorised CNAMES fired at the machine will pick up
-<VirtualHost *:80>
-        ServerAdmin webmaster@example.com
-        ServerName localhost
-        DocumentRoot ${apacheDefaultDocumentRoot}
-        CustomLog ${apacheLogFilesDirectory}/null-host.example.com-access_log combined
-        ErrorLog ${apacheLogFilesDirectory}/null-host.example.com-error_log
-        HostnameLookups Off
-        UseCanonicalName Off
-        ServerSignature Off
-        <Directory ${apacheDefaultDocumentRoot}>
-                Options -Indexes
-                AllowOverride None
-                Order allow,deny
-                Allow from all
-        </Directory>
-</VirtualHost>
-EOF
-fi
 
 # Let's Encrypt (free SSL certs), which will create a cron job
 # See: https://www.digitalocean.com/community/tutorials/how-to-secure-apache-with-let-s-encrypt-on-ubuntu-14-04
