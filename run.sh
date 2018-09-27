@@ -1,6 +1,6 @@
 #!/bin/bash
 # Script to install BOB and its delegated management GUI
-# For: Ubuntu 16.04 LTS Server
+# For: Ubuntu 18.04 LTS Server
 # View OS version using `/etc/lsb-release`
 # This script is idempotent - it can be safely re-run without destroying existing data
 

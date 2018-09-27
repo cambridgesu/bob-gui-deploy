@@ -32,14 +32,11 @@ apt-get -y install apache2 apache2-dev
 # Enable OpenSSL
 sudo a2enmod ssl
 
-# Install PHP 7.2; see: https://thishosting.rocks/install-php-on-ubuntu/
-apt-get -y install python-software-properties
-add-apt-repository -y ppa:ondrej/php
-apt-get update
-apt-get -y install php7.2
+# Install PHP (7.2)
+apt-get -y install php libapache2-mod-php
 
-# Install MySQL
-apt-get -y install mysql-server-5.7 mysql-client-5.7 php7.2-mysql
+# Install MySQL (5.7)
+apt-get -y install mysql-server mysql-client php-mysql
 
 # Check versions using:
 # apache2 -v
@@ -228,7 +225,7 @@ php_admin_value memory_limit 512M
 
 
 # Voting website (HTTPS)
-Listen 443
+#Listen 443
 <VirtualHost *:443>
 	ServerAdmin ${administratorEmail}
 	ServerName ${domainName}
