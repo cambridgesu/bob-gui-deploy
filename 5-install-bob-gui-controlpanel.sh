@@ -5,10 +5,8 @@
 # Installation of the GUI control panel component
 
 
-# Install PHP's mbstring() if available (recommended); if not available, emulated conversion of any incoming non-UTF8 strings to UTF8 using ISO using iconv is in place
-set +e
-zypper -n install -l php53-mbstring
-set -e
+# Install PHP mbstring
+apt-get -y install php7.2-mbstring
 
 # Ensure the log file is writable by the webserver
 chown "${apacheUser}" "${installationRoot}"/bob-gui/controlpanel/logfile.txt

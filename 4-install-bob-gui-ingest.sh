@@ -5,9 +5,6 @@
 # Installation of the GUI ingesting (config transfer) component
 
 
-# Install prerequisites
-zypper -n install -l php53-openssl
-
 # Create a user account which will do the ingesting
 ingestUser=bobguiIngest
 id -u $ingestUser &>/dev/null || useradd $ingestUser

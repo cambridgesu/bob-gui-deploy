@@ -14,7 +14,7 @@ fi
 
 # MTA (mail sending)
 # Useful guides for Postfix at: http://www-uxsup.csx.cam.ac.uk/~fanf2/hermes/doc/misc/postfix.html and http://www-co.ch.cam.ac.uk/facilities/clusters/theory/heartofgold/heartofgold-postfix.html
-zypper -n install -l postfix
+sudo apt-get install -y postfix
 if [ "${mtaRelayhost}" ] ; then
 	if ! grep -qF "${mtaRelayhost}" /etc/postfix/main.cf ; then
 	        echo $'\nrelayhost = '"${mtaRelayhost}" >> /etc/postfix/main.cf
@@ -23,6 +23,7 @@ fi
 # The canonical config should be something like the following (uncommented) :
 # wwwrun         evote@example.com
 # @machinename   @example.com
+#!# Needs to check for existence of file also
 if ! grep -qF "${apacheUser}" /etc/postfix/canonical ; then
 	echo $'\n'"${apacheUser}	${emailTech}" >> /etc/postfix/canonical
 fi
@@ -31,6 +32,7 @@ if ! grep -qF "@${HOSTNAME}" /etc/postfix/canonical ; then
 fi
 postmap /etc/postfix/canonical
 postfix reload
+#? service postfix restart
 
 # Create the voting database
 ${mysql} -e "CREATE DATABASE IF NOT EXISTS ${dbDatabase} DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;"
@@ -41,7 +43,7 @@ ${mysql} -e "GRANT SELECT,INSERT,UPDATE ON ${dbDatabase}.* TO '${dbUsername}'@'l
 ${mysql} -e "GRANT SELECT,CREATE        ON ${dbDatabase}.* TO '${dbSetupUsername}'@'localhost' IDENTIFIED BY '${dbPassword}';"
 
 # Install (download) OpenSTV, the STV counting program
-zypper -n install -l python
+sudo apt-get install -y python
 if [ ! -d ${installationRoot}/openstv ] ; then
 	cd "${installationRoot}"
 	git clone https://github.com/cusu/openstv.git

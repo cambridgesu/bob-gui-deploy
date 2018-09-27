@@ -1,12 +1,8 @@
 #!/bin/bash
 # Script to install BOB and its delegated management GUI
-# Tested on SLES 11.4 with SDK installed
-# View SLES version using `less /etc/os-release`
+# For: Ubuntu 16.04 LTS Server
+# View OS version using `/etc/lsb-release`
 # This script is idempotent - it can be safely re-run without destroying existing data
-
-# SLES SDK is required; basically:
-# 1) Download the SDK DVD1 .iso to /tmp/
-# 2) Run yast (as root), and go to Software -> Add-On Products, then add the local path
 
 
 # Narrate

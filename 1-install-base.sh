@@ -5,14 +5,20 @@
 # Installation of the base system (LAMP stack with SSL, Auth)
 
 
+# Update system
+apt-get update
+apt-get -y upgrade
+apt-get -y dist-upgrade
+apt-get -y autoremove
+
 # Basic system software
-zypper -n install -l findutils-locate man wget
+apt-get -y install mlocate man wget
 
 # Ensure we have Git
-zypper -n install -l git-core
+apt-get -y install git-core
 
 # NTP
-zypper -n install -l ntp
+apt-get -y install ntp
 if ! grep -qF "${timeServer1}" /etc/ntp.conf ; then
 	echo "server ${timeServer1}" >> /etc/ntp.conf
 	echo "server ${timeServer2}" >> /etc/ntp.conf
@@ -20,21 +26,25 @@ if ! grep -qF "${timeServer1}" /etc/ntp.conf ; then
 fi
 service ntp restart
 
-# Install LAMP stack
-zypper -n install -l apache2 apache2-devel apache2-mod_macro mysql mysql-client php53 php53-suhosin php53-mysql apache2-mod_php53
+# Install Apache (2.4)
+apt-get -y install apache2 apache2-dev
+
+# Enable OpenSSL
+sudo a2enmod ssl
+
+# Install PHP 7.2; see: https://thishosting.rocks/install-php-on-ubuntu/
+apt-get -y install python-software-properties
+add-apt-repository -y ppa:ondrej/php
+apt-get update
+apt-get -y install php7.2
+
+# Install MySQL
+apt-get -y install mysql-server-5.7 mysql-client-5.7 php7.2-mysql
+
 # Check versions using:
-# /usr/sbin/httpd2 -v # 2.2.12
-# /usr/bin/mysql -V # 5.5.43
-# /usr/bin/php -v # 5.3.17
-
-# Start LAMP stack on boot
-chkconfig -a apache2
-chkconfig -a mysql
-
-# Start services
-#!# SUSE doesn't complain if they are already started, but ideally these should check first
-service apache2 start
-service mysql start
+# apache2 -v
+# mysql -V
+# php -v
 
 # Secure MySQL, by setting the root password if no password is currently set; see: http://linuxtitbits.blogspot.co.uk/2011/01/checking-mysql-connection-status.html
 set +e
@@ -46,40 +56,40 @@ if [ $dbstatus -eq 0 ]; then
 fi
 
 # Secure MySQL (other aspects); see: https://gist.github.com/Mins/4602864
-zypper -n install -l expect
-SECURE_MYSQL=$(expect -c "
-set timeout 10
-spawn mysql_secure_installation
-expect \"Enter current password for root (enter for none):\"
-send \"$mysqlRootPassword\r\"
-expect \"Change the root password?\"
-send \"n\r\"
-expect \"Remove anonymous users?\"
-send \"y\r\"
-expect \"Disallow root login remotely?\"
-send \"y\r\"
-expect \"Remove test database and access to it?\"
-send \"y\r\"
-expect \"Reload privilege tables now?\"
-send \"y\r\"
-expect eof
-")
-echo "$SECURE_MYSQL"
+apt-get -y install expect
+# SECURE_MYSQL=$(expect -c "
+# set timeout 10
+# spawn mysql_secure_installation
+# expect \"Enter current password for root (enter for none):\"
+# send \"$mysqlRootPassword\r\"
+# expect \"Change the root password?\"
+# send \"n\r\"
+# expect \"Remove anonymous users?\"
+# send \"y\r\"
+# expect \"Disallow root login remotely?\"
+# send \"y\r\"
+# expect \"Remove test database and access to it?\"
+# send \"y\r\"
+# expect \"Reload privilege tables now?\"
+# send \"y\r\"
+# expect eof
+# ")
+# echo "$SECURE_MYSQL"
 
 # Create a database binding for convenience
 mysql="mysql -u root -p${mysqlRootPassword} -h localhost"
 
 # Define the Apache layout norms for the distribution
 apacheConfDirectory=/etc/apache2
-apacheVhostsConfigDirectory=/etc/apache2/vhosts.d
-apacheDefaultDocumentRoot=/srv/www/htdocs
+apacheVhostsConfigDirectory=/etc/apache2/sites-available
+apacheDefaultDocumentRoot=/var/www/html
 apacheLogFilesDirectory=/var/log/apache2
-apacheVhostsRoot=/srv/www/vhosts
-apacheModulesDirectory=/usr/lib64/apache2
-apacheUser=wwwrun
-apacheGroup=www
-apacheSslKeyDirectory=/etc/apache2/ssl.key
-apacheSslCrtDirectory=/etc/apache2/ssl.crt
+apacheVhostsRoot=/var/www
+apacheModulesDirectory=/usr/lib/apache2/modules
+apacheUser=www-data
+apacheGroup=www-data
+apacheSslKeyDirectory=/etc/ssl/private
+apacheSslCrtDirectory=/etc/ssl/certs
 
 # Create a null vhost if it doesn't exist already
 nullVhostFile="${apacheVhostsConfigDirectory}/000-null-vhost.conf"
@@ -144,6 +154,7 @@ if [ "$ravenAuth" = true ] ; then
 	
 	# Compile the Ucam-webauth Apache module if required
 	if [ ! -f ${apacheModulesDirectory}/mod_ucam_webauth.so ]; then
+		apt-get -y install libssl-dev
 		cd /tmp
 		git clone https://github.com/cambridgeuniversity/mod_ucam_webauth
 		cd mod_ucam_webauth/
@@ -194,12 +205,6 @@ installationRoot="${apacheVhostsRoot}/${domainName}"
 if [ ! -r ${vhostFile} ]; then
 	cat > ${vhostFile} << EOF
 ## Voting website
-
-# Enable mod_rewrite
-LoadModule rewrite_module ${apacheModulesDirectory}/mod_rewrite.so
-
-# Enable mod_macro
-LoadModule macro_module ${apacheModulesDirectory}/mod_macro.so
 
 # General server configuration
 ${authModuleDirective}
@@ -307,6 +312,13 @@ NameVirtualHost *:80
 EOF
 fi
 
+# Enable modules
+a2enmod rewrite
+a2enmod macro
+
+# Enable the site and restart
+a2ensite www.vote.cusu.cam.ac.uk
+
 # Create a group for web editors, who can edit the files
 if ! grep -i "^${webEditorsGroup}\b" /etc/group > /dev/null 2>&1 ; then
 	groupadd "${webEditorsGroup}"
@@ -315,7 +327,7 @@ fi
 # Add the current user to the web editors' group, if not already in it
 currentActualUser=`who am i | awk '{print $1}'`
 if ! groups ${currentActualUser} | grep "\b${webEditorsGroup}\b" > /dev/null 2>&1 ; then
-	usermod -A "${webEditorsGroup}" "${currentActualUser}"
+	usermod -a "${webEditorsGroup}" "${currentActualUser}"
 fi
 
 # Create the document root and let the web group write to it
