@@ -179,6 +179,16 @@ if [ ! -r ${vhostFile} ]; then
 ## Voting website
 
 # General server configuration
+
+# Lock down main server configuration
+HostnameLookups Off
+UseCanonicalName Off
+ServerSignature Off
+<Directory />
+	Options -Indexes
+	AllowOverride None
+</Directory>
+
 ${authModuleDirective}
 
 # SSL hardening; based on: https://mozilla.github.io/server-side-tls/ssl-config-generator/ in modern profile mode; confirmed accessible to Win7/IE9
@@ -207,15 +217,6 @@ php_admin_value memory_limit 512M
 	DocumentRoot ${installationRoot}/bob-gui/public_html
 	CustomLog /var/log/apache2/${domainName}_SSL-access_log combined
 	ErrorLog /var/log/apache2/${domainName}_SSL-error_log
-	HostnameLookups Off
-	UseCanonicalName Off
-	ServerSignature Off
-	<Directory />
-		Options -Indexes
-		AllowOverride None
-		Order allow,deny
-		Allow from all
-	</Directory>
 	
 	# Enable PHP parsing
 	AddType application/x-httpd-php .php
@@ -265,15 +266,6 @@ php_admin_value memory_limit 512M
 	DocumentRoot ${installationRoot}/bob-gui/public_html
 	CustomLog /var/log/apache2/${domainName}-access_log combined
 	ErrorLog /var/log/apache2/${domainName}-error_log
-	HostnameLookups Off
-	UseCanonicalName Off
-	ServerSignature Off
-	<Location />
-		Options -Indexes
-		AllowOverride None
-		Order allow,deny
-		Allow from all
-	</Location>
 	
 	# Redirect all traffic to the SSL vhost (at which point authentication will occur)
 	Redirect permanent / https://${domainName}/
