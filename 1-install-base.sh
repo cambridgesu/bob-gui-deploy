@@ -230,28 +230,28 @@ php_admin_value memory_limit 512M
 	${apacheSslCertificateChainDirective}
 	
 	# Authentication
-	<Directory />
+	<Location />
 		${authConfig}
 		Require valid-user
-	</Directory>
+	</Location>
 
 	# Logout page
 	<Files logout.html>
 		SetHandler AALogout
 		AALogoutMsg /loggedout.html
 	</Files>
-	<Directory ${installationRoot}/bob-gui/public_html/style/>
+	<Location /style/>
 		Allow from all
 		Satisfy Any
-	</Directory>
+	</Location>
 	
 	# Load directives for BOB GUI control panel (may later be disabled at application level); NB Currently this must come before the listing directives
 	Include ${installationRoot}/bob-gui/controlpanel/apache.conf
 	#Use MacroVotingControlpanel "/controlpanel" "Managed voting system - control panel"
-	<Directory ${installationRoot}/bob-gui/public_html/controlpanel/>
+	<Location /controlpanel/>
 		# Allow use of "Require user XXX YYY" in .htaccess file to limit access further
 		AllowOverride AuthConfig
-	</Directory>
+	</Location>
 	
 	# Load directives for BOB GUI listing
 	Include ${installationRoot}/bob-gui/listing/apache.conf
@@ -268,12 +268,12 @@ php_admin_value memory_limit 512M
 	HostnameLookups Off
 	UseCanonicalName Off
 	ServerSignature Off
-	<Directory ${apacheVhostsRoot}/${domainName}>
+	<Location />
 		Options -Indexes
 		AllowOverride None
 		Order allow,deny
 		Allow from all
-	</Directory>
+	</Location>
 	
 	# Redirect all traffic to the SSL vhost (at which point authentication will occur)
 	Redirect permanent / https://${domainName}/
