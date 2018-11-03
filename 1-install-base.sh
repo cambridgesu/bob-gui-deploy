@@ -264,6 +264,11 @@ php_admin_value memory_limit 512M
 		AllowOverride AuthConfig
 	</Location>
 	
+	# Remove fbclid=... from URLs; for now this will remove the full query string; see: https://stackoverflow.com/questions/52847475/what-is-fbclid-the-new-facebook-parameter
+	RewriteEngine On
+	RewriteCond %{QUERY_STRING} "fbclid="
+	RewriteRule /(.*) /$1? [R=301,L]
+	
 	# Load directives for BOB GUI listing
 	Include ${installationRoot}/bob-gui/listing/apache.conf
 	
