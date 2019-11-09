@@ -134,6 +134,7 @@ CREATE TABLE IF NOT EXISTS ${databaseLive}.instances (
    electionInfo text COLLATE utf8_unicode_ci NOT NULL COMMENT 'Election info: Number of positions being elected; Position title; Names of candidates; each block separated by one line break',
    electionInfoAsEntered text COLLATE utf8_unicode_ci NOT NULL COMMENT 'Election info',
    referendumThresholdPercent int(2) DEFAULT '10' COMMENT 'Percentage of voters who must cast a vote in a referendum for the referendum to be countable',
+   referendumThresholdIsYesVoters int(1) DEFAULT NULL COMMENT 'Whether the threshold refers to yes-vote level (rather than all voter turnout)',
    ballotStart datetime NOT NULL COMMENT 'Start date/time of the ballot',
    ballotEnd datetime NOT NULL COMMENT 'End date/time of the ballot',
    paperVotingEnd datetime DEFAULT NULL COMMENT 'End time of paper voting, if paper voting is also taking place',
